@@ -1,25 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
+import pic from './Pictures/img1.webp';
+import pic2 from './Pictures/img2.webp';
 import './App.scss';
+import ListingBox from "./ListingBox";
+import NavBar from "./NavBar";
 
 function App() {
   return (
+      <>
+        {/*<ListingBox title={"1"} distance={"1"} availability={"1"} price={12} rating={1} pictures={[pic, pic2]}></ListingBox>*/}
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <NavBar />
     </div>
+      </>
   );
 }
 

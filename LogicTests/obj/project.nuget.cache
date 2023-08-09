@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "pRnqQzT0blaStojD419r9cs80bxJDI+EMz8v4SrCjtDF6VTxb31Dv9jnWyO2kOVnA/XJbbY4w/psZ0PI4eIeEw==",
+  "dgSpecHash": "6yN8UHM6WEW65vBytPb8nq8SLTFTrWk0mBmLPxlprnRE08iYrAAs8ywD9sZj2rhgvPmTZwceHuAs0CHEJZPqsA==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/LogicTests/LogicTests.csproj",
   "expectedPackageFiles": [

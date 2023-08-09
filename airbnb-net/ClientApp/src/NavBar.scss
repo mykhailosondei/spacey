@@ -1,0 +1,169 @@
+$brand-color : #551A8B;
+
+// NavBar.scss
+.navbar {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  padding: 0 40px;
+  font-size: 16px;
+  background-color: #f0f0f0;
+}
+
+.left,
+.right {
+  flex: 1 0 140px;
+  width: 140px;
+  height: 100%;
+  
+  .item {
+    display: inline-flex;
+    height: 80px;
+    align-items: center;
+    vertical-align: middle;
+  }
+}
+
+.middle {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.middle-item{
+  display: inline-flex;
+  align-items: center;
+  flex: 1 0 auto;
+  min-width: 348px;
+  background-color: white;
+  vertical-align: middle;
+  border: 1px solid lightgray;
+  border-radius: 40px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+  &:hover{
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+  }
+}
+
+.nav-btn{
+  display: flex;
+  border: none;
+  background-color: transparent;
+  height: 48px;
+  font-size: 14px;
+  padding: 0 0 0 0;
+  cursor: pointer;
+  flex: 0 1 auto;
+  position: relative;
+  align-items: center;
+  
+  .word{
+    min-width: 80px;
+    font-weight: 600;
+    flex: 1 1 auto;
+    line-height: 22px;
+    padding: 0 12px;
+  }
+  
+  .grayword{
+    font-weight: normal;
+    color: dimgray;
+  }
+}
+
+.search-icon{
+  background-color: $brand-color;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 7px 7px 7px 0;
+}
+
+.divider-bar{
+  height: 24px;
+  width: 1px;
+  flex: 0 0 1px;
+  background-color: lightgray;
+}
+
+.lens-icon{
+   display: block; fill: none; color:white; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333px; overflow: visible;
+}
+
+.right{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.host-options{
+  display: flex;
+  white-space: nowrap;
+  margin-right: 8px;
+  justify-content: flex-end;
+  -moz-box-pack: end;
+  flex: 1 1 auto;
+  .hosting{
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: currentColor;
+    height: 42px;
+    display: inline-flex;
+    border-radius: 22px;
+    align-items: center;
+    padding: 0 12px;
+    &:hover{
+      background-color: lightgray;
+    }
+  }
+  .lan-button{
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+    color: currentColor;
+    height: 42px;
+    display: inline-flex;
+    border-radius: 22px;
+    align-items: center;
+    padding: 0 12px;
+    &:hover{
+      background-color: lightgray;
+    }
+  }
+}
+
+
+
+.userButton{
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex: 1 0 auto;
+  background-color: white;
+  max-width: 77px;
+  min-width: 77px;
+  height: 42px;
+  vertical-align: middle;
+  border: 1px solid lightgray;
+  border-radius: 40px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+  &:hover{
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+  }
+}
+
+.globe-logo{
+  display: block; height: 16px; width: 16px; fill: currentcolor;
+}
+
+.three-lines{
+  display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3px; overflow: visible;
+}
+
+.user-avatar{
+  margin-left: 12px;
+}
