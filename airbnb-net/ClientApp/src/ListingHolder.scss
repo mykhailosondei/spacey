@@ -1,0 +1,12 @@
+$grid-gap-vertical : 40px;
+$grid-gap-horizontal : 24px;
+
+.listing-holder
+{
+  display: grid;
+  grid-auto-flow: row dense;
+  //grid-template-columns: 1fr 1fr;
+  grid-gap: $grid-gap-vertical $grid-gap-horizontal;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0 40px 0 40px;
+}
