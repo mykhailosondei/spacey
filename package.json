@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@tweenjs/tween.js": "^21.0.0",
     "sass": "^1.63.6"
   }
 }

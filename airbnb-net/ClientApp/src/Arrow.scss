@@ -1,0 +1,29 @@
+.isVisible-true{
+  visibility: visible;
+  opacity: 1;
+}
+
+.isVisible-false{
+  visibility: hidden;
+}
+
+.arrow-button{
+  background-color: rgb(255, 255, 255, 0.9);
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  padding: 0;
+  margin: 0;
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+  position: relative;
+  pointer-events: auto;
+  z-index: 1000;
+  &:hover {
+    background-color: white;
+    transform: scale(1.04);
+  }
+}

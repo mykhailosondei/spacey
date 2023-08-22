@@ -42,7 +42,7 @@ $picture-bottom-margin:12px;
 .like-grid{
   flex: 1 0;
   display: grid;
-  grid-column-gap: var(--jaa-ni-h);
+  grid-column-gap: 16px;
   grid-template-columns: repeat(2,minmax(min-content,auto));
 }
 
@@ -54,6 +54,9 @@ $picture-bottom-margin:12px;
 }
 
 .like{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 32px;
   width: 32px;
 }
@@ -67,11 +70,29 @@ $picture-bottom-margin:12px;
   margin: -2px 0 0;
   padding: 2px 0 0 0;
   color: #222222;
+  
+  &:active{
+    transform: scale(.92);
+  }
 }
 
+
+
 .arrows-grid{
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(2, minmax(min-content, auto));
+  grid-column-gap: 16px;
   flex: 1 0;
   margin-bottom: 12px;
+}
+
+.left-arrow{
+  justify-self: flex-start;
+}
+
+.right-arrow{
+  justify-self: flex-end;
 }
 
 .bottom-points{
@@ -111,7 +132,7 @@ $picture-bottom-margin:12px;
 }
 
 .picture-container {
-  contain: layout paint size style;
+  contain: layout size style;
   box-sizing: border-box;
   display: grid;
   grid-auto-flow: column;
