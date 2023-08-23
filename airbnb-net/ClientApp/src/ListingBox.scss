@@ -97,8 +97,74 @@ $picture-bottom-margin:12px;
 
 .bottom-points{
   flex: 1 0;
-  
+  display: grid;
+  align-items: flex-end;
+  grid-column-gap: 16px;
+  grid-template-columns: repeat(3, minmax(min-content, 1fr));
 }
+
+.justify-self-start{
+  justify-self: flex-start;
+}
+
+.justify-self-end{
+  justify-self: flex-end;
+}
+
+.justify-self-center{
+  justify-self: center;
+}
+
+.bullets-holder{
+  height: 100%;
+  display: flex;
+  max-width: 55px;
+  overflow: clip;
+}
+
+.bullets-container{
+  padding-bottom: 12px;
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+}
+
+.bullets{
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.bullet{
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  margin-right: 2.5px;
+  margin-left: 2.5px;
+}
+
+.opacity-low{
+  opacity: 0.6;
+}
+
+.opacity-high{
+  opacity: 1;
+}
+
+.scale-high{
+  transform: scale(1);
+}
+
+.scale-mid{
+   transform: scale(calc(5/6));
+ }
+
+.scale-low{
+    transform: scale(calc(2/3));
+  }
 
 .picture-controls{
   grid-area: header;
