@@ -140,6 +140,7 @@ $picture-bottom-margin:12px;
 .bullet{
   width: 6px;
   height: 6px;
+  box-sizing: border-box;
   background: white;
   border-radius: 50%;
   margin-right: 2.5px;

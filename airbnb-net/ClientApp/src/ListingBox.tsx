@@ -1,6 +1,7 @@
 import React, {MouseEventHandler, useEffect, useRef, useState} from 'react';
 import './ListingBox.scss';
-import {ReactComponent as Like} from './like.svg'
+//import {ReactComponent as Like} from './like.svg'
+import Like from "./Like";
 import Arrow from "./Arrow";
 import {ReactComponent as LeftArrow} from './left-arrow.svg'
 import {ReactComponent as RightArrow} from './right-arrow.svg'
@@ -130,43 +131,47 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         setIsLeftArrowVisible(false);
     }
     
-    const animate = (t: any = 0) => {
-        update(t);
+    const animate = () => {
+        update();
         window.requestAnimationFrame(animate);
     };
     
     
     function leftArrowOnClickFunction(){
-        //movePreviousBullet();
+        movePreviousBullet();
         movePreviousSlide();
     }
 
     function rightArrowOnClickFunction(){
-        //moveNextBullet();
+        moveNextBullet();
         moveNextSlide();
     }
 
     function moveNextBullet(){
-        if(currentPictureIndex >= pictures.length-1){
+        if(currentPictureIndex < 2){
+            return;
+        }
+        if(currentPictureIndex>=pictures.length-3){
             return;
         }
         animate();
-        const fromValue = {margin: -11*(currentPictureIndex)}
-        const toValue = {margin: -11*(currentPictureIndex+1)}
-        const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, bulletsRef);
-        setCurrentPictureIndex((currentPictureIndex)=>currentPictureIndex+1);
+        const fromValue = {margin: -11*(currentPictureIndex) + 22}
+        const toValue = {margin: -11*(currentPictureIndex+1) + 22}
+        const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, bulletsRef, 'px');
         tween.start();
     }
     
     function movePreviousBullet(){
-        if(currentPictureIndex >= pictures.length-1){
+        if(currentPictureIndex <= 2){
+            return;
+        }
+        if(currentPictureIndex>pictures.length-3){
             return;
         }
         animate();
-        const fromValue = {margin: -11*(currentPictureIndex)}
-        const toValue = {margin: -11*(currentPictureIndex-1)}
-        const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, bulletsRef);
-        setCurrentPictureIndex((currentPictureIndex)=>currentPictureIndex+1);
+        const fromValue = {margin: -11*(currentPictureIndex) + 22}
+        const toValue = {margin: -11*(currentPictureIndex-1) +22}
+        const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, bulletsRef, 'px');
         tween.start();
     }
     
@@ -177,7 +182,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         animate();
         const fromValue = {margin: -100*(currentPictureIndex)}
         const toValue = {margin: -100*(currentPictureIndex+1)}
-        const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, pictureContainer)
+        const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, pictureContainer, '%')
         setCurrentPictureIndex((currentPictureIndex)=>currentPictureIndex+1);
         tween.start();
     }
@@ -189,18 +194,18 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         animate();
         const fromValue = {margin: -100*(currentPictureIndex)}
         const toValue = {margin: -100*(currentPictureIndex-1)}
-        const tween = slidingTween(fromValue,toValue, Easing.Cubic.Out , pictureContainer)
+        const tween = slidingTween(fromValue,toValue, Easing.Cubic.Out , pictureContainer, '%')
         setCurrentPictureIndex((currentPictureIndex)=>currentPictureIndex-1);
         tween.start();
     }
     
     
     
-    function slidingTween(fromValue:{margin:number}, toValue : {margin:number}, easing:any, ref:React.RefObject<HTMLDivElement>){
+    function slidingTween(fromValue:{margin:number}, toValue : {margin:number}, easing:any, ref:React.RefObject<HTMLDivElement>, translateType:string){
         return new Tween(fromValue).to(toValue, 300)
             .onUpdate((value)=>{
                 if(ref.current){
-                    ref.current.style.transform = `translate(${value.margin}%)`
+                    ref.current.style.transform = `translate(${value.margin}${translateType})`
                 }
             })
             .easing(easing);
@@ -209,6 +214,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
     
     function changeLikeStatus(){
         setLiked(!liked);
+        console.log(liked);
     }
 
     return (
@@ -221,7 +227,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
                                 <div className="empty-part"></div>
                                 <div className="like-holder">
                                     <div className="like"><button className="like-button" onClick={changeLikeStatus}>
-                                        <Like></Like>    
+                                        <Like liked={liked}></Like>    
                                     </button></div>
                                 </div>
                             </div>
