@@ -1,14 +1,9 @@
-import React, {MouseEventHandler, useEffect, useRef, useState} from 'react';
-import './ListingBox.scss';
-//import {ReactComponent as Like} from './like.svg'
-import Like from "./Like";
+import React, {useEffect, useRef, useState} from 'react';
+import '../styles/ListingBox.scss';
 import Arrow from "./Arrow";
-import {ReactComponent as LeftArrow} from './left-arrow.svg'
-import {ReactComponent as RightArrow} from './right-arrow.svg'
-import {Easing, Group, Tween, update} from "@tweenjs/tween.js";
-
-import {calculateNewValue, wait} from "@testing-library/user-event/dist/utils";
-import {ReactComponent} from "*.svg";
+import {ReactComponent as LeftArrow} from '../left-arrow.svg'
+import {ReactComponent as RightArrow} from '../right-arrow.svg'
+import {Easing, Tween, update} from "@tweenjs/tween.js";
 
 interface ListingBoxProps {
     title: string;
@@ -28,13 +23,26 @@ const ListingBox: React.FC<ListingBoxProps> = ({
                                                    pictures,
                                                }) => {
     const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
-    const pictureArray  = [];
     const [liked, setLiked] = useState(false);
     const [isLeftArrowVisible, setIsLeftArrowVisible] = useState(false);
     const [isRightArrowVisible, setIsRightArrowVisible] = useState(false);
-    const pictureContainer = useRef<HTMLDivElement>(null);
-    const bulletsRef = useRef<HTMLDivElement>(null);
     const bulletsArrayInitialState : {id:number, scale:number, opacity:0.6|1}[]= [];
+    const [bulletsArrayState, setBulletsArrayState] = useState<{id:number, scale:number, opacity:0.6|1}[]>(bulletsArrayInitialState);
+    const [htmlBulletsArrayState, setHtmlBulletsArrayState] = useState<JSX.Element[]>(()=>{
+        const htmlBulletsArrayInitValue = [];
+        for (let i: number = 0; i<pictures.length; i++){
+            htmlBulletsArrayInitValue.push(
+                <span className={"bullet"}></span>
+            )
+        }
+        
+        return htmlBulletsArrayInitValue;
+    });
+    
+    const pictureArray  = [];
+    
+    const bulletsRef = useRef<HTMLDivElement>(null);
+    const pictureContainer = useRef<HTMLDivElement>(null);
     
     
     for(let i: number = 0; i<pictures.length; i++){
@@ -47,19 +55,6 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         </a>)
         bulletsArrayInitialState.push({id:i, scale: 2/3, opacity: 0.6});
     }
-    
-    const [bulletsArrayState, setBulletsArrayState] = useState<{id:number, scale:number, opacity:0.6|1}[]>(bulletsArrayInitialState);
-    
-    const [htmlBulletsArrayState, setHtmlBulletsArrayState] = useState<JSX.Element[]>(()=>{
-        const htmlBulletsArrayInitValue = [];
-        for (let i: number = 0; i<pictures.length; i++){
-            htmlBulletsArrayInitValue.push(
-                <span className={"bullet"}></span>
-            )
-        }
-        
-        return htmlBulletsArrayInitValue;
-    });
     
     function renderBullets(){
         const htmlBulletsArrayValue = [];
@@ -102,19 +97,23 @@ const ListingBox: React.FC<ListingBoxProps> = ({
     
     
     function ValidateArrowsVisibilityDependingOnIndex(){
+        let rightArrowResult : boolean;
+        let leftArrowResult : boolean;
         switch (currentPictureIndex){
             case 0: 
-                setIsRightArrowVisible(true);
-                setIsLeftArrowVisible(false);
+                rightArrowResult = pictures.length != 1;
+                leftArrowResult = false;
                 break;
             case pictures.length-1:
-                setIsLeftArrowVisible(true);
-                setIsRightArrowVisible(false);
+                rightArrowResult = false;
+                leftArrowResult = true;
                 break;
             default:
-                setIsRightArrowVisible(true);
-                setIsLeftArrowVisible(true);
+                rightArrowResult = true;
+                leftArrowResult = true;
         }
+        setIsRightArrowVisible(rightArrowResult);
+        setIsLeftArrowVisible(leftArrowResult);
     }
 
     useEffect(() => {
@@ -155,8 +154,8 @@ const ListingBox: React.FC<ListingBoxProps> = ({
             return;
         }
         animate();
-        const fromValue = {margin: -11*(currentPictureIndex) + 22}
-        const toValue = {margin: -11*(currentPictureIndex+1) + 22}
+        const fromValue = {margin: -11*(currentPictureIndex - 2)}
+        const toValue = {margin: -11*(currentPictureIndex - 1)}
         const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, bulletsRef, 'px');
         tween.start();
     }
@@ -169,8 +168,8 @@ const ListingBox: React.FC<ListingBoxProps> = ({
             return;
         }
         animate();
-        const fromValue = {margin: -11*(currentPictureIndex) + 22}
-        const toValue = {margin: -11*(currentPictureIndex-1) +22}
+        const fromValue = {margin: -11*(currentPictureIndex - 2)}
+        const toValue = {margin: -11*(currentPictureIndex - 3)}
         const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, bulletsRef, 'px');
         tween.start();
     }
@@ -181,31 +180,31 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         }
         animate();
         const fromValue = {margin: -100*(currentPictureIndex)}
-        const toValue = {margin: -100*(currentPictureIndex+1)}
+        const toValue = {margin: -100*(currentPictureIndex + 1)}
         const tween = slidingTween(fromValue, toValue, Easing.Cubic.Out, pictureContainer, '%')
         setCurrentPictureIndex((currentPictureIndex)=>currentPictureIndex+1);
         tween.start();
     }
     
+       
     function movePreviousSlide(){
         if(currentPictureIndex <= 0){
             return;
         }
         animate();
         const fromValue = {margin: -100*(currentPictureIndex)}
-        const toValue = {margin: -100*(currentPictureIndex-1)}
+        const toValue = {margin: -100*(currentPictureIndex - 1)}
         const tween = slidingTween(fromValue,toValue, Easing.Cubic.Out , pictureContainer, '%')
         setCurrentPictureIndex((currentPictureIndex)=>currentPictureIndex-1);
         tween.start();
     }
     
     
-    
-    function slidingTween(fromValue:{margin:number}, toValue : {margin:number}, easing:any, ref:React.RefObject<HTMLDivElement>, translateType:string){
+    function slidingTween(fromValue:{margin:number}, toValue : {margin:number}, easing:any, ref:React.RefObject<HTMLDivElement>, translateMetric:string){
         return new Tween(fromValue).to(toValue, 300)
             .onUpdate((value)=>{
                 if(ref.current){
-                    ref.current.style.transform = `translate(${value.margin}${translateType})`
+                    ref.current.style.transform = `translate(${value.margin}${translateMetric})`
                 }
             })
             .easing(easing);
@@ -214,7 +213,6 @@ const ListingBox: React.FC<ListingBoxProps> = ({
     
     function changeLikeStatus(){
         setLiked(!liked);
-        console.log(liked);
     }
 
     return (
@@ -227,7 +225,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
                                 <div className="empty-part"></div>
                                 <div className="like-holder">
                                     <div className="like"><button className="like-button" onClick={changeLikeStatus}>
-                                        <Like liked={liked}></Like>    
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style={{display: 'block', fill: (liked ? 'rgb(85, 26, 139)' : 'rgba(0,0,0,0.5)'), height: '24px' ,width: '24px' ,stroke: 'white' ,strokeWidth: '2px' ,overflow: 'visible'}} aria-hidden="true" role="presentation" focusable="false"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>   
                                     </button></div>
                                 </div>
                             </div>

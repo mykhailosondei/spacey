@@ -1,6 +1,6 @@
 // NavBar.tsx
 import React from 'react';
-import './NavBar.scss';
+import '../styles/NavBar.scss';
 import logo from './logo.svg'
 
 function bop() {

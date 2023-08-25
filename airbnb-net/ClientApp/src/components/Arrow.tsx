@@ -1,5 +1,5 @@
 import React, {ReactComponentElement, ReactSVGElement, useState} from "react";
-import './Arrow.scss'
+import '../styles/Arrow.scss'
 
 interface ArrowProps{
     svg : ReactComponentElement<any>;

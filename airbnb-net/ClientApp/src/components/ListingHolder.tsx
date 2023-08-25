@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './ListingHolder.scss';
+import '../styles/ListingHolder.scss';
 import ListingBox from "./ListingBox";
 
 const ListingHolder : React.FC = () => {

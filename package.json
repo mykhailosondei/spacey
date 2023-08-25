@@ -2,5 +2,8 @@
   "dependencies": {
     "@tweenjs/tween.js": "^21.0.0",
     "sass": "^1.63.6"
+  },
+  "devDependencies": {
+    "run-script-os": "^1.1.6"
   }
 }

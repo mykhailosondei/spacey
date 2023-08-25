@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import pic from './Pictures/img1.webp';
 import pic2 from './Pictures/img2.webp';
 import './App.scss';
-import ListingBox from "./ListingBox";
-import NavBar from "./NavBar";
+import NavBar from "./components/NavBar";
 import {wait} from "@testing-library/user-event/dist/utils";
-import ListingHolder from "./ListingHolder";
+import ListingHolder from "./components/ListingHolder";
 
 function App() {
     const [imageUrlArray, setImageUrlArray] = useState([''])
