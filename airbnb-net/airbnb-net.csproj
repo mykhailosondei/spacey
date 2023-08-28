@@ -34,7 +34,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Airbnb Clone\ApplicationDataAccess\ApplicationDataAccess.csproj" />
+      <ProjectReference Include="..\ApplicationLogic\ApplicationLogic.csproj" />
     </ItemGroup>
+
 
 
 

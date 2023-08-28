@@ -8,7 +8,10 @@
 
     <ItemGroup>
       <Folder Include="DTOs\" />
-      <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Airbnb Clone\ApplicationDataAccess\ApplicationDataAccess.csproj" />
     </ItemGroup>
 
 </Project>

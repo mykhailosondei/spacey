@@ -4,6 +4,69 @@
     "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/ApplicationLogic.csproj": {}
   },
   "projects": {
+    "/home/mykhailo/RiderProjects/Airbnb Clone/ApplicationDataAccess/ApplicationDataAccess.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mykhailo/RiderProjects/Airbnb Clone/ApplicationDataAccess/ApplicationDataAccess.csproj",
+        "projectName": "ApplicationDataAccess",
+        "projectPath": "/home/mykhailo/RiderProjects/Airbnb Clone/ApplicationDataAccess/ApplicationDataAccess.csproj",
+        "packagesPath": "/home/mykhailo/.nuget/packages/",
+        "outputPath": "/home/mykhailo/RiderProjects/Airbnb Clone/ApplicationDataAccess/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mykhailo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.20.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.20.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.110/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/ApplicationLogic.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -25,7 +88,11 @@
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/home/mykhailo/RiderProjects/Airbnb Clone/ApplicationDataAccess/ApplicationDataAccess.csproj": {
+                "projectPath": "/home/mykhailo/RiderProjects/Airbnb Clone/ApplicationDataAccess/ApplicationDataAccess.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
