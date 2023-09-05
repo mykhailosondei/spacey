@@ -5,11 +5,15 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var config = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 builder.Services.AddSingleton<DataAccessManager>();
 builder.Services.RegisterCustomServices();
+builder.Services.ConfigureJwt(config);
 
 var app = builder.Build();
 
@@ -23,6 +27,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapControllerRoute(

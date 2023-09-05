@@ -12,48 +12,48 @@ namespace airbnb_net.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GuestController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly GuestService _guestService;
+        private readonly UserService _userService;
 
-        public GuestController(GuestService guestService)
+        public UserController(UserService userService)
         {
-            _guestService = guestService;
+            _userService = userService;
         }
-        // GET: api/Guest
+        // GET: api/User
         [HttpGet]
-        public async Task<List<GuestModel>> GetAllGuests()
+        public async Task<List<UserModel>> GetAllUsers()
         {
-            var result = await _guestService.GetAllGuestsAsync();
+            var result = await _userService.GetAllUsersAsync();
             return result;
         }
 
-        // GET: api/Guest/5
+        // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<GuestModel> GetGuest(string id)
+        public async Task<UserModel> GetUser(string id)
         {
-            return await _guestService.GetGuestAsync(id);
+            return await _userService.GetUserAsync(id);
         }
 
-        // POST: api/Guest
+        // POST: api/User
         [HttpPost]
-        public async void PostGuest([FromBody] GuestModel guest)
+        public async void PostUser([FromBody] UserModel user)
         {
-            await _guestService.CreateGuestAsync(guest);
+            await _userService.CreateUserAsync(user);
         }
 
-        // PUT: api/Guest/5
+        // PUT: api/User/5
         [HttpPut("{id}")]
-        public async void PutGuest(string id, [FromBody] GuestModel guest)
+        public async void PutUser(string id, [FromBody] UserModel user)
         {
-            await _guestService.UpdateGuestAsync(id, guest);
+            await _userService.UpdateUserAsync(id, user);
         }
 
-        // DELETE: api/Guest/5
+        // DELETE: api/User/5
         [HttpDelete("{id}")]
-        public async void DeleteGuest(string id)
+        public async void DeleteUser(string id)
         {
-            await _guestService.DeleteGuestAsync(id);
+            await _userService.DeleteUserAsync(id);
         }
     }
 }

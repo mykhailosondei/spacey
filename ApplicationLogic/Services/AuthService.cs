@@ -15,6 +15,17 @@ public class AuthService : BaseService
 
     public async Task Authorize(UserLoginDTO userLoginDto)
     {
-        
+        var userEntities = await _dataAccessManager.GetAllUsersAsync();
+        var userEntity = userEntities.FirstOrDefault(u => u.Email == userLoginDto.Email);
+
+        if (userEntity == null)
+        {
+            throw new NotFoundException(nameof(UserModel));
+        }
+
+        if (userEntity.Password != userLoginDto.Password)
+        {
+            throw new Exception("wrong password");
+        }
     }
 }
