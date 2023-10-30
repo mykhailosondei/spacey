@@ -2,7 +2,6 @@ using System.Configuration;
 using System.Text;
 using Amazon.Runtime.Internal.Util;
 using ApplicationLogic.Jwt;
-using ApplicationLogic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -14,12 +13,7 @@ public static class ServiceExtensions
 {
     public static void RegisterCustomServices(this IServiceCollection services)
     {
-        services.AddScoped<BookingService>();
-        services.AddScoped<UserService>();
-        services.AddScoped<AuthService>();
-        services.AddScoped<ReviewService>();
-        services.AddScoped<HostService>();
-        services.AddScoped<ListingService>();
+        
     }
 
     public static void ConfigureJwt(this IServiceCollection services, ConfigurationManager config)

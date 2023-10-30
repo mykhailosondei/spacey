@@ -1,5 +1,4 @@
 using airbnb_net.Extensions;
-using ApplicationDataAccess.DataAccess;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-builder.Services.AddSingleton<DataAccessManager>();
 builder.Services.RegisterCustomServices();
 builder.Services.ConfigureJwt(config);
 
