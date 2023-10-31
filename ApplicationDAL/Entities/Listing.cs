@@ -27,7 +27,7 @@ public class Listing
 
     public int NumberOfGuests { get; set; }
 
-    public List<Image> ImageUrl { get; set; }
+    public List<Image> ImagesUrls { get; set; }
 
     public Host Host { get; set; }
 
@@ -36,5 +36,4 @@ public class Listing
     public List<Review> Reviews { get; set; }
 
     public Amenities Amenities { get; set; }
-
 }
