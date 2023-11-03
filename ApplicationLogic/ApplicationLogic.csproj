@@ -17,5 +17,11 @@
     </ItemGroup>
 
 
+    <ItemGroup>
+      <ProjectReference Include="..\ApplicationCommon\ApplicationCommon.csproj" />
+      <ProjectReference Include="..\ApplicationDAL\ApplicationDAL.csproj" />
+    </ItemGroup>
+
+
 
 </Project>

@@ -10,3 +10,8 @@
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/obj/Debug/net7.0/refint/ApplicationLogic.dll
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/obj/Debug/net7.0/ApplicationLogic.pdb
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/obj/Debug/net7.0/ref/ApplicationLogic.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/ApplicationCommon.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/ApplicationDAL.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/ApplicationCommon.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/ApplicationDAL.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/obj/Debug/net7.0/ApplicationLogic.csproj.CopyComplete

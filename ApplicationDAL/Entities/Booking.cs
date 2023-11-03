@@ -5,7 +5,7 @@ namespace ApplicationDAL.Entities;
 
 public class Booking
 {
-    [BsonRepresentation(BsonType.ObjectId)]
+    [BsonId]
     public Guid Id { get; set; }
     
     public DateTime CheckIn { get; set; }

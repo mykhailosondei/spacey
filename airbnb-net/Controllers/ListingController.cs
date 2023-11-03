@@ -31,7 +31,7 @@ namespace airbnb_net.Controllers
         }
         
         // GET: api/Listing/5
-        [HttpGet("{id:guid}", Name = "Get")]
+        [HttpGet("{id:guid}")]
         public async Task<Listing> Get(Guid id)
         {
             return await _listingQueryRepository.GetListingById(id);

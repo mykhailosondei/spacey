@@ -5,7 +5,7 @@ namespace ApplicationDAL.Entities;
 
 public class User
 {
-    [BsonRepresentation(BsonType.ObjectId)]
+    [BsonId]
     public Guid Id { get; set; }
     
     public string Name { get; set; }

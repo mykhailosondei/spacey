@@ -1,6 +1,8 @@
 using System.Configuration;
 using System.Text;
 using Amazon.Runtime.Internal.Util;
+using ApplicationDAL.DataCommandAccess;
+using ApplicationDAL.DataQueryAccess;
 using ApplicationLogic.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +15,16 @@ public static class ServiceExtensions
 {
     public static void RegisterCustomServices(this IServiceCollection services)
     {
-        
+        services.AddScoped<BookingCommandAccess>();
+        services.AddScoped<BookingQueryRepository>();
+        services.AddScoped<HostCommandAccess>();
+        services.AddScoped<HostQueryRepository>();
+        services.AddScoped<UserCommandAccess>();
+        services.AddScoped<UserQueryRepository>();
+        services.AddScoped<ReviewQueryRepository>();
+        services.AddScoped<ReviewCommandAccess>();
+        services.AddScoped<ListingCommandAccess>();
+        services.AddScoped<ListingQueryRepository>();
     }
 
     public static void ConfigureJwt(this IServiceCollection services, ConfigurationManager config)

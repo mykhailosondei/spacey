@@ -5,7 +5,7 @@ namespace ApplicationDAL.Entities;
 
 public class Host
 {
-    [BsonRepresentation(BsonType.ObjectId)]
+    [BsonId]
     public Guid Id { get; set; }
     
     public DateTime CreatedAt { get; set; }
