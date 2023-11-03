@@ -16,6 +16,8 @@ public class Booking
     
     public Guid ListingId { get; set; }
     
+    public Review Review { get; set; }
+    
     public int NumberOfGuests { get; set; }
     
     public int TotalPrice { get; set; }

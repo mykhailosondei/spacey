@@ -29,7 +29,7 @@ public class Listing
 
     public List<Image> ImagesUrls { get; set; }
 
-    public Host Host { get; set; }
+    public Guid HostId { get; set; }
 
     public List<Booking> Bookings { get; set; }
 

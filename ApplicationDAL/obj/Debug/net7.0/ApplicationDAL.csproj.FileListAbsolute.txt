@@ -1,0 +1,15 @@
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/bin/Debug/net7.0/ApplicationDAL.deps.json
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/bin/Debug/net7.0/ApplicationDAL.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/bin/Debug/net7.0/ApplicationDAL.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/bin/Debug/net7.0/ApplicationCommon.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/bin/Debug/net7.0/ApplicationCommon.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.csproj.AssemblyReference.cache
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.GeneratedMSBuildEditorConfig.editorconfig
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.AssemblyInfoInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.AssemblyInfo.cs
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.csproj.CoreCompileInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.csproj.CopyComplete
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/refint/ApplicationDAL.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ref/ApplicationDAL.dll
