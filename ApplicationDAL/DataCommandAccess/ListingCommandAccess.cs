@@ -10,12 +10,14 @@ public class ListingCommandAccess : BaseAccessHandler
     
     public async Task AddListing(Listing listing)
     {
+        listing.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(listing);
     }
     
     public async Task UpdateListing(Guid id, Listing listing)
     {
         var filter = Builders<Listing>.Filter.Eq("Id", id);
+        listing.Id = id;
         await _collection.ReplaceOneAsync(filter, listing);
     }
     

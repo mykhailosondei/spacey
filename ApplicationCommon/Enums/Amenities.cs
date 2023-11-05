@@ -1,3 +1,6 @@
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
+
 namespace ApplicationCommon.Enums;
 
 [Flags]

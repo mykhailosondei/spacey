@@ -7,6 +7,7 @@ namespace ApplicationDAL.Entities;
 public class Review
 {
     [BsonId]
+    [BsonIgnoreIfNull]
     public Guid Id { get; set; }
     
     public string Comment { get; set; }

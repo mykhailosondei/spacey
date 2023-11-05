@@ -16,8 +16,9 @@ public class Listing
 
     public Address Address { get; set; }
 
+    [BsonRepresentation(BsonType.String)]
     public PropertyType PropertyType { get; set; }
-
+    
     public int PricePerNight { get; set; }
 
     public int NumberOfRooms { get; set; }
@@ -28,11 +29,11 @@ public class Listing
 
     public List<Image> ImagesUrls { get; set; }
 
-    public Guid HostId { get; set; }
+    public Host Host { get; set; }
 
-    public List<Booking> Bookings { get; set; }
+    public List<Guid> BookingsIds { get; set; }
 
-    public List<Review> Reviews { get; set; }
+    public List<Guid> ReviewsIds { get; set; }
 
     public Amenities Amenities { get; set; }
 }

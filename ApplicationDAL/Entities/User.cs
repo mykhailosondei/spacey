@@ -24,7 +24,7 @@ public class User
     
     public string ProfilePictureUrl { get; set; }
     
-    public List<Booking> Bookings { get; set; }
+    public List<Guid> BookingsIds { get; set; }
     
-    public List<Review> Reviews { get; set; }
+    public List<Guid> ReviewsIds { get; set; }
 }

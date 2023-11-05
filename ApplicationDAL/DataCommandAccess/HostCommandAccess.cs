@@ -10,12 +10,14 @@ public class HostCommandAccess : BaseAccessHandler
     
     public async Task AddHost(Host host)
     {
+        host.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(host);
     }
     
     public async Task UpdateHost(Guid id, Host host)
     {
         var filter = Builders<Host>.Filter.Eq("Id", id);
+        host.Id = id;
         await _collection.ReplaceOneAsync(filter, host);
     }
     

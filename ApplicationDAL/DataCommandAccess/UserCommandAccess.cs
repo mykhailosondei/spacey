@@ -10,12 +10,14 @@ public class UserCommandAccess : BaseAccessHandler
 
     public async Task AddUser(User user)
     {
+        user.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(user);
     }
 
     public async Task UpdateUser(Guid id, User user)
     {
         var filter = Builders<User>.Filter.Eq("Id", id);
+        user.Id = id;
         await _collection.ReplaceOneAsync(filter, user);
     }
 

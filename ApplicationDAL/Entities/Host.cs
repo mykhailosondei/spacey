@@ -16,7 +16,7 @@ public class Host
     
     public double Rating { get; set; }
     
-    public List<Listing> Listings { get; set; }
+    public List<Guid> ListingsIds { get; set; }
     
-    List<Review> Reviews { get; set; }
+    List<Guid> ReviewsIds { get; set; }
 }

@@ -19,7 +19,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DTOs\" />
+      <Reference Include="MongoDB.Bson">
+        <HintPath>..\..\..\.nuget\packages\mongodb.bson\2.22.0\lib\netstandard2.1\MongoDB.Bson.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Serialization\" />
     </ItemGroup>
 
 </Project>

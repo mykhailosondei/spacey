@@ -10,12 +10,14 @@ public class BookingCommandAccess : BaseAccessHandler
     
     public async Task AddBooking(Booking booking)
     {
+        booking.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(booking);
     }
     
     public async Task UpdateBooking(Guid id, Booking booking)
     {
         var filter = Builders<Booking>.Filter.Eq("Id", id);
+        booking.Id = id;
         await _collection.ReplaceOneAsync(filter, booking);
     }
     
