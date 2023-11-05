@@ -12,6 +12,9 @@
 
 # Build results
 [Dd]ebug/
+*/*/[Dd]ebug/
+*/*/[Rr]elease/
+*/obj/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
