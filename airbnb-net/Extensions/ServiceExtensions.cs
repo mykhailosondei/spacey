@@ -1,9 +1,11 @@
 using System.Configuration;
+using System.Reflection;
 using System.Text;
 using Amazon.Runtime.Internal.Util;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationLogic.Jwt;
+using ApplicationLogic.MappingProfiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -25,6 +27,7 @@ public static class ServiceExtensions
         services.AddScoped<ReviewCommandAccess>();
         services.AddScoped<ListingCommandAccess>();
         services.AddScoped<ListingQueryRepository>();
+        services.AddAutoMapper(ApplicationLogic.AssemblyMarker.Assembly);
     }
 
     public static void ConfigureJwt(this IServiceCollection services, ConfigurationManager config)

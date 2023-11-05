@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,32 +18,36 @@ namespace airbnb_net.Controllers
     {
         private readonly ListingQueryRepository _listingQueryRepository;
         private readonly ListingCommandAccess _listingCommandAccess;
+        private readonly IMapper _mapper; 
         
-        public ListingController(ListingQueryRepository listingQueryRepository, ListingCommandAccess listingCommandAccess)
+        public ListingController(ListingQueryRepository listingQueryRepository, ListingCommandAccess listingCommandAccess, IMapper mapper)
         {
             _listingQueryRepository = listingQueryRepository;
             _listingCommandAccess = listingCommandAccess;
+            _mapper = mapper;
         }
         
         // GET: api/Listing
         [HttpGet]
-        public async Task<IEnumerable<Listing>> Get()
+        public async Task<IEnumerable<ListingDTO>> Get()
         {
-            return await _listingQueryRepository.GetAllListings();
+            var result = await _listingQueryRepository.GetAllListings();
+            return _mapper.Map<IEnumerable<ListingDTO>>(result);
         }
         
         // GET: api/Listing/5
         [HttpGet("{id:guid}")]
-        public async Task<Listing> Get(Guid id)
+        public async Task<ListingDTO> Get(Guid id)
         {
-            return await _listingQueryRepository.GetListingById(id);
+            return _mapper.Map<ListingDTO>(await _listingQueryRepository.GetListingById(id));
         }
         
         // POST: api/Listing
         [HttpPost]
-        public async Task Post([FromBody] Listing listing)
+        public async Task Post([FromBody] ListingCreateDTO listing)
         {
-            await _listingCommandAccess.AddListing(listing);
+            var listingEntity = _mapper.Map<Listing>(listing);
+            await _listingCommandAccess.AddListing(listingEntity);
         }
         
         // PUT: api/Listing/5
