@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class BookingCommandAccess : BaseAccessHandler
+public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor
 {
     private readonly IMongoCollection<Booking> _collection = GetCollection<Booking>("bookings");
     private readonly IReviewDeletor _reviewDeletor;
