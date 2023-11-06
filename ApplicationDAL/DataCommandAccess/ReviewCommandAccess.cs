@@ -1,10 +1,11 @@
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class ReviewCommandAccess : BaseAccessHandler
+public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor
 {
     private readonly IMongoCollection<Review> _collection = GetCollection<Review>("reviews");
     
@@ -26,5 +27,37 @@ public class ReviewCommandAccess : BaseAccessHandler
     {
         var filter = Builders<Review>.Filter.Eq("Id", id);
         await _collection.DeleteOneAsync(filter);
+        await DeleteBookingReviewOnReviewDelete(id);
+        await UpdateHostReviewsIdsOnReviewDelete(id);
+        await UpdateUserReviewsIdsOnReviewDelete(id);
+        await UpdateListingReviewsIdsOnReviewDelete(id);
+    }
+    
+    private async Task UpdateListingReviewsIdsOnReviewDelete(Guid id)
+    {
+        var listingFilter = Builders<Listing>.Filter.In("ReviewsIds", new[]{id});
+        var listingUpdate = Builders<Listing>.Update.Pull("ReviewsIds", id);
+        await GetCollection<Listing>("listings").UpdateOneAsync(listingFilter, listingUpdate);
+    }
+    
+    private async Task UpdateUserReviewsIdsOnReviewDelete(Guid id)
+    {
+        var userFilter = Builders<User>.Filter.In("ReviewsIds", new[]{id});
+        var userUpdate = Builders<User>.Update.Pull("ReviewsIds", id);
+        await GetCollection<User>("users").UpdateOneAsync(userFilter, userUpdate);
+    }
+    
+    private async Task UpdateHostReviewsIdsOnReviewDelete(Guid id)
+    {
+        var hostFilter = Builders<Host>.Filter.In("ReviewsIds", new[]{id});
+        var hostUpdate = Builders<Host>.Update.Pull("ReviewsIds", id);
+        await GetCollection<Host>("hosts").UpdateOneAsync(hostFilter, hostUpdate);
+    }
+
+    private async Task DeleteBookingReviewOnReviewDelete(Guid id)
+    {
+        var bookingFilter = Builders<Booking>.Filter.Eq("Review.Id", id);
+        var bookingUpdate = Builders<Booking>.Update.Set("Review", (Review?) null);
+        await GetCollection<Booking>("bookings").UpdateOneAsync(bookingFilter, bookingUpdate);
     }
 }
