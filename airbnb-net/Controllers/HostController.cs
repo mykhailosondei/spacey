@@ -32,9 +32,9 @@ namespace airbnb_net.Controllers
         
         // POST: api/Host
         [HttpPost]
-        public async Task Post([FromBody] Host host)
+        public async Task<Guid> Post([FromBody] Host host)
         {
-            await _hostCommandAccess.AddHost(host);
+            return await _hostCommandAccess.AddHost(host);
         }
         
         // PUT: api/Host/5

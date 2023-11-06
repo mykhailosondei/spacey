@@ -8,6 +8,7 @@ namespace ApplicationDAL.Entities;
 public class Listing
 {
     [BsonId]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
 
     public string Title { get; set; }

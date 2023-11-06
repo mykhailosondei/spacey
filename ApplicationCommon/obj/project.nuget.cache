@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "5jFGJPha9v59934oBpPwY+tHTcOWwYggcEPYOLt/WqOIsqGFuOrPLsxBrOvIjocalPsZxkcDPhTGaHEDcOtNzg==",
+  "dgSpecHash": "BhXMv0t/9EX5TcfdyPNUGxRnTpaAutUswiqVh9EXRLP5iOdd85bOUF9s42DyCBDL6nU1p3dEnTy5LGFEBCde9A==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/mykhailo/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/newtonsoft.json.bson/1.0.2/newtonsoft.json.bson.1.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

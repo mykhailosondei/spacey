@@ -39,9 +39,9 @@ namespace airbnb_net.Controllers
 
         // POST: api/User
         [HttpPost]
-        public async Task Post([FromBody] User user)
+        public async Task<Guid> Post([FromBody] User user)
         {
-            await _userCommandAccess.AddUser(user);
+            return await _userCommandAccess.AddUser(user);
         }
 
         // PUT: api/User/5

@@ -8,10 +8,11 @@ public class BookingCommandAccess : BaseAccessHandler
 {
     private readonly IMongoCollection<Booking> _collection = GetCollection<Booking>("bookings");
     
-    public async Task AddBooking(Booking booking)
+    public async Task<Guid> AddBooking(Booking booking)
     {
         booking.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(booking);
+        return booking.Id;
     }
     
     public async Task UpdateBooking(Guid id, Booking booking)

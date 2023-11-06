@@ -1,6 +1,8 @@
 using airbnb_net.Extensions;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.RegisterCustomServices();
 builder.Services.ConfigureJwt(config);
+BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
 var app = builder.Build();
 

@@ -27,6 +27,8 @@ public class ListingCreateDTO
 
     public int NumberOfGuests { get; set; }
 
+    public Guid HostId { get; set; }
+    
     public List<ImageDTO> ImagesUrls { get; set; }
 
     public List<Guid> BookingsIds { get; set; }

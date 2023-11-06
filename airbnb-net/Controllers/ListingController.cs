@@ -44,10 +44,10 @@ namespace airbnb_net.Controllers
         
         // POST: api/Listing
         [HttpPost]
-        public async Task Post([FromBody] ListingCreateDTO listing)
+        public async Task<Guid> Post([FromBody] ListingCreateDTO listing)
         {
             var listingEntity = _mapper.Map<Listing>(listing);
-            await _listingCommandAccess.AddListing(listingEntity);
+            return await _listingCommandAccess.AddListing(listingEntity);
         }
         
         // PUT: api/Listing/5

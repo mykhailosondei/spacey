@@ -1,0 +1,291 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj": {}
+  },
+  "projects": {
+    "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj",
+        "projectName": "ApplicationCommon",
+        "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj",
+        "packagesPath": "/home/mykhailo/.nuget/packages/",
+        "outputPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mykhailo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Newtonsoft.Json.Bson": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.113/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/ApplicationDAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/ApplicationDAL.csproj",
+        "projectName": "ApplicationDAL",
+        "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/ApplicationDAL.csproj",
+        "packagesPath": "/home/mykhailo/.nuget/packages/",
+        "outputPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mykhailo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj": {
+                "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.22.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.22.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.113/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj",
+        "projectName": "ApplicationLogic.Tests.Static",
+        "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj",
+        "packagesPath": "/home/mykhailo/.nuget/packages/",
+        "outputPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mykhailo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/ApplicationLogic.csproj": {
+                "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/ApplicationLogic.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.3.2, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.13.3, )"
+            },
+            "NUnit.Analyzers": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.2.1, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.113/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/ApplicationLogic.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/ApplicationLogic.csproj",
+        "projectName": "ApplicationLogic",
+        "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/ApplicationLogic.csproj",
+        "packagesPath": "/home/mykhailo/.nuget/packages/",
+        "outputPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mykhailo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj": {
+                "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj"
+              },
+              "/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/ApplicationDAL.csproj": {
+                "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/ApplicationDAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.113/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

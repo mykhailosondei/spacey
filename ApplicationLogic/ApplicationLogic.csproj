@@ -17,6 +17,10 @@
     <ItemGroup>
       <Folder Include="Services\" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <InternalsVisibleTo Include="ApplicationLogic.Tests.Static" />
+    </ItemGroup>
 
 
     <ItemGroup>

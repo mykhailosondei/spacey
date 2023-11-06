@@ -8,10 +8,11 @@ public class UserCommandAccess : BaseAccessHandler
 {
     private readonly IMongoCollection<User> _collection = GetCollection<User>("users");
 
-    public async Task AddUser(User user)
+    public async Task<Guid> AddUser(User user)
     {
         user.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(user);
+        return user.Id;
     }
 
     public async Task UpdateUser(Guid id, User user)

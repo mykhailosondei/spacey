@@ -8,10 +8,11 @@ public class HostCommandAccess : BaseAccessHandler
 {
     private readonly IMongoCollection<Host> _collection = GetCollection<Host>("hosts");
     
-    public async Task AddHost(Host host)
+    public async Task<Guid> AddHost(Host host)
     {
         host.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(host);
+        return host.Id;
     }
     
     public async Task UpdateHost(Guid id, Host host)
@@ -19,6 +20,13 @@ public class HostCommandAccess : BaseAccessHandler
         var filter = Builders<Host>.Filter.Eq("Id", id);
         host.Id = id;
         await _collection.ReplaceOneAsync(filter, host);
+        foreach (var listingId in host.ListingsIds)
+        {
+            Console.WriteLine(host.Rating);
+            var filterListing = Builders<Listing>.Filter.Eq("Id", listingId);
+            var update = Builders<Listing>.Update.Set("Host", host);
+           await GetCollection<Listing>("listings").UpdateOneAsync(filterListing, update);
+        }
     }
     
     public async Task DeleteHost(Guid id)

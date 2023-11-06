@@ -8,10 +8,11 @@ public class ListingCommandAccess : BaseAccessHandler
 {
     private readonly IMongoCollection<Listing> _collection = GetCollection<Listing>("listings");
     
-    public async Task AddListing(Listing listing)
+    public async Task<Guid> AddListing(Listing listing)
     {
         listing.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(listing);
+        return listing.Id;
     }
     
     public async Task UpdateListing(Guid id, Listing listing)
