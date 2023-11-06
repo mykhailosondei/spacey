@@ -20,7 +20,7 @@ public class Booking
     public Guid ListingId { get; set; }
     
     [BsonIgnoreIfNull]
-    public Guid ReviewId { get; set; }
+    public Review? Review { get; set; }
     
     [BsonIgnoreIfNull]
     public int NumberOfGuests { get; set; }
