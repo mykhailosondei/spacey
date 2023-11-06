@@ -21,6 +21,14 @@ public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor
         var filter = Builders<Review>.Filter.Eq("Id", id);
         review.Id = id;
         await _collection.ReplaceOneAsync(filter, review);
+        await UpdateBookingReviewOnReviewUpdate(id, review);
+    }
+    
+    private async Task UpdateBookingReviewOnReviewUpdate(Guid id, Review review)
+    {
+        var bookingFilter = Builders<Booking>.Filter.Eq("Review.Id", id);
+        var bookingUpdate = Builders<Booking>.Update.Set("Review", review);
+        await GetCollection<Booking>("bookings").UpdateOneAsync(bookingFilter, bookingUpdate);
     }
     
     public async Task DeleteReview(Guid id)

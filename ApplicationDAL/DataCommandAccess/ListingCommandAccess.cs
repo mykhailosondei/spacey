@@ -8,7 +8,13 @@ namespace ApplicationDAL.DataCommandAccess;
 public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
 {
     private readonly IMongoCollection<Listing> _collection = GetCollection<Listing>("listings");
-    
+    private readonly IBookingDeletor _bookingDeletor;
+
+    public ListingCommandAccess(IBookingDeletor bookingDeletor)
+    {
+        _bookingDeletor = bookingDeletor;
+    }
+
     public async Task<Guid> AddListing(Listing listing)
     {
         listing.Id = Guid.NewGuid();
@@ -26,6 +32,24 @@ public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
     public async Task DeleteListing(Guid id)
     {
         var filter = Builders<Listing>.Filter.Eq("Id", id);
+        await DeleteBookingsOnListingDelete(filter);
+        await UpdateHostListingsIdsOnListingDelete(id);
         await _collection.DeleteOneAsync(filter);
+    }
+    
+    private async Task DeleteBookingsOnListingDelete(FilterDefinition<Listing> filter)
+    {
+        List<Guid> bookingsIds = (await GetCollection<Listing>("listings").Find(filter).FirstOrDefaultAsync()).BookingsIds;
+        foreach (var bookingId in bookingsIds)
+        {
+            await _bookingDeletor.DeleteBooking(bookingId);
+        }
+    }
+
+    private async Task UpdateHostListingsIdsOnListingDelete(Guid id)
+    {
+        var hostFilter = Builders<Host>.Filter.In("ListingsIds", new[]{id});
+        var hostUpdate = Builders<Host>.Update.Pull("ListingsIds", id);
+        await GetCollection<Host>("hosts").UpdateOneAsync(hostFilter, hostUpdate);
     }
 }
