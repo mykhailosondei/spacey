@@ -28,7 +28,6 @@ public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor
         var filter = Builders<Review>.Filter.Eq("Id", id);
         await _collection.DeleteOneAsync(filter);
         await DeleteBookingReviewOnReviewDelete(id);
-        await UpdateHostReviewsIdsOnReviewDelete(id);
         await UpdateUserReviewsIdsOnReviewDelete(id);
         await UpdateListingReviewsIdsOnReviewDelete(id);
     }
@@ -45,13 +44,6 @@ public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor
         var userFilter = Builders<User>.Filter.In("ReviewsIds", new[]{id});
         var userUpdate = Builders<User>.Update.Pull("ReviewsIds", id);
         await GetCollection<User>("users").UpdateOneAsync(userFilter, userUpdate);
-    }
-    
-    private async Task UpdateHostReviewsIdsOnReviewDelete(Guid id)
-    {
-        var hostFilter = Builders<Host>.Filter.In("ReviewsIds", new[]{id});
-        var hostUpdate = Builders<Host>.Update.Pull("ReviewsIds", id);
-        await GetCollection<Host>("hosts").UpdateOneAsync(hostFilter, hostUpdate);
     }
 
     private async Task DeleteBookingReviewOnReviewDelete(Guid id)
