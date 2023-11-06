@@ -22,7 +22,7 @@ public class ListingQueryRepository : BaseQueryRepository
     
     public async Task<IEnumerable<Listing>> GetListingsByHostId(Guid hostId)
     {
-        var filter = Builders<Listing>.Filter.Eq("HostId", hostId);
+        var filter = Builders<Listing>.Filter.Eq("Host.Id", hostId);
         return await _collection.Find(filter).ToListAsync();
     }
 }
