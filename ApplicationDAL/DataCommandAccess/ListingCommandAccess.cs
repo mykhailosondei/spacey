@@ -1,10 +1,11 @@
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class ListingCommandAccess : BaseAccessHandler
+public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
 {
     private readonly IMongoCollection<Listing> _collection = GetCollection<Listing>("listings");
     

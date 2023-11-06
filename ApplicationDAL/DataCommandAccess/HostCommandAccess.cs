@@ -1,5 +1,6 @@
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
@@ -7,7 +8,13 @@ namespace ApplicationDAL.DataCommandAccess;
 public class HostCommandAccess : BaseAccessHandler
 {
     private readonly IMongoCollection<Host> _collection = GetCollection<Host>("hosts");
-    
+    private readonly IListingDeletor _listingDeletor;
+
+    public HostCommandAccess(IListingDeletor listingDeletor)
+    {
+        _listingDeletor = listingDeletor;
+    }
+
     public async Task<Guid> AddHost(Host host)
     {
         host.Id = Guid.NewGuid();
@@ -32,6 +39,24 @@ public class HostCommandAccess : BaseAccessHandler
     public async Task DeleteHost(Guid id)
     {
         var filter = Builders<Host>.Filter.Eq("Id", id);
+        await DeleteListingsOnHostDelete(filter);
         await _collection.DeleteOneAsync(filter);
+        await UpdateHostInUserOnHostDelete(id);
+    }
+    
+    private async Task UpdateHostInUserOnHostDelete(Guid id)
+    {
+        var userFilter = Builders<User>.Filter.Eq("Host.Id", id);
+        var userUpdate = Builders<User>.Update.Set("Host", (Host?) null);
+        await GetCollection<User>("users").UpdateOneAsync(userFilter, userUpdate);
+    }
+
+    private async Task DeleteListingsOnHostDelete(FilterDefinition<Host> filter)
+    {
+        List<Guid> listingsIds = (await GetCollection<Host>("hosts").Find(filter).FirstOrDefaultAsync()).ListingsIds;
+        foreach (var listingId in listingsIds)
+        {
+            await _listingDeletor.DeleteListing(listingId);
+        }
     }
 }

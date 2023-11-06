@@ -24,6 +24,8 @@ public class User
     
     public string ProfilePictureUrl { get; set; }
     
+    public Host Host { get; set; }
+    
     public List<Guid> BookingsIds { get; set; }
     
     public List<Guid> ReviewsIds { get; set; }
