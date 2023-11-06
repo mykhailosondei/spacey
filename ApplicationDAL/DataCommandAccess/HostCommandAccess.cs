@@ -34,6 +34,8 @@ public class HostCommandAccess : BaseAccessHandler
             var update = Builders<Listing>.Update.Set("Host", host);
            await GetCollection<Listing>("listings").UpdateOneAsync(filterListing, update);
         }
+
+        await UpdateHostInUserOnHostModify(id, host);
     }
     
     public async Task DeleteHost(Guid id)
@@ -41,13 +43,13 @@ public class HostCommandAccess : BaseAccessHandler
         var filter = Builders<Host>.Filter.Eq("Id", id);
         await DeleteListingsOnHostDelete(filter);
         await _collection.DeleteOneAsync(filter);
-        await UpdateHostInUserOnHostDelete(id);
+        await UpdateHostInUserOnHostModify(id, null);
     }
     
-    private async Task UpdateHostInUserOnHostDelete(Guid id)
+    private async Task UpdateHostInUserOnHostModify(Guid id, Host? host)
     {
         var userFilter = Builders<User>.Filter.Eq("Host.Id", id);
-        var userUpdate = Builders<User>.Update.Set("Host", (Host?) null);
+        var userUpdate = Builders<User>.Update.Set("Host", host);
         await GetCollection<User>("users").UpdateOneAsync(userFilter, userUpdate);
     }
 
