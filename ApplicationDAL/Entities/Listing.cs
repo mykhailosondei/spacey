@@ -34,7 +34,5 @@ public class Listing
 
     public List<Guid> BookingsIds { get; set; }
 
-    public List<Guid> ReviewsIds { get; set; }
-
     public Amenities Amenities { get; set; }
 }
