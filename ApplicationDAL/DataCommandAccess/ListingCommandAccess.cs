@@ -19,7 +19,15 @@ public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
     {
         listing.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(listing);
+        await UpdateHostListingIdsOnListingAdd(listing.Host.Id, listing);
         return listing.Id;
+    }
+    
+    private async Task UpdateHostListingIdsOnListingAdd(Guid id, Listing listing)
+    {
+        var hostFilter = Builders<Host>.Filter.Eq("Id", id);
+        var hostUpdate = Builders<Host>.Update.Push("ListingsIds", listing.Id);
+        await GetCollection<Host>("hosts").UpdateOneAsync(hostFilter, hostUpdate);
     }
     
     public async Task UpdateListing(Guid id, Listing listing)

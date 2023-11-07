@@ -4,6 +4,7 @@ using System.Text;
 using Amazon.Runtime.Internal.Util;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
+using ApplicationDAL.Interfaces;
 using ApplicationLogic.Jwt;
 using ApplicationLogic.MappingProfiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,6 +28,9 @@ public static class ServiceExtensions
         services.AddScoped<ReviewCommandAccess>();
         services.AddScoped<ListingCommandAccess>();
         services.AddScoped<ListingQueryRepository>();
+        services.AddScoped<IListingDeletor, ListingCommandAccess>();
+        services.AddScoped<IBookingDeletor, BookingCommandAccess>();
+        services.AddScoped<IReviewDeletor, ReviewCommandAccess>();
         services.AddAutoMapper(ApplicationLogic.AssemblyMarker.Assembly);
     }
 

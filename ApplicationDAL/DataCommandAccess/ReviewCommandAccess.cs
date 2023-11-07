@@ -13,7 +13,23 @@ public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor
     {
         review.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(review);
+        await UpdateUserReviewsIdsOnReviewAdd(review.UserId, review);
+        await UpdateBookingReviewOnReviewAdd(review.BookingId, review);
         return review.Id;
+    }
+    
+    private async Task UpdateBookingReviewOnReviewAdd(Guid id, Review review)
+    {
+        var bookingFilter = Builders<Booking>.Filter.Eq("Id", id);
+        var bookingUpdate = Builders<Booking>.Update.Set("Review", review);
+        await GetCollection<Booking>("bookings").UpdateOneAsync(bookingFilter, bookingUpdate);
+    }
+    
+    private async Task UpdateUserReviewsIdsOnReviewAdd(Guid id, Review review)
+    {
+        var userFilter = Builders<User>.Filter.Eq("Id", id);
+        var userUpdate = Builders<User>.Update.Push("ReviewsIds", review.Id);
+        await GetCollection<User>("users").UpdateOneAsync(userFilter, userUpdate);
     }
     
     public async Task UpdateReview(Guid id, Review review)
