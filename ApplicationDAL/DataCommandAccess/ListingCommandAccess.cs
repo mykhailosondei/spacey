@@ -18,9 +18,16 @@ public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
     public async Task<Guid> AddListing(Listing listing)
     {
         listing.Id = Guid.NewGuid();
+        await RetrieveHostOnListingAdd(listing.Host.Id, listing);
         await _collection.InsertOneAsync(listing);
         await UpdateHostListingIdsOnListingAdd(listing.Host.Id, listing);
         return listing.Id;
+    }
+    
+    private async Task RetrieveHostOnListingAdd(Guid id, Listing listing)
+    {
+        var hostFilter = Builders<Host>.Filter.Eq("Id", id);
+        listing.Host = await GetCollection<Host>("hosts").Find(hostFilter).FirstOrDefaultAsync();
     }
     
     private async Task UpdateHostListingIdsOnListingAdd(Guid id, Listing listing)
