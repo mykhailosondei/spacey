@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using airbnb_net.Controllers.Abstract;
+using ApplicationCommon.DTOs.Host;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Host = ApplicationDAL.Entities.Host;
@@ -12,12 +15,14 @@ namespace airbnb_net.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HostController : ControllerBase
+    public class HostController : InternalControllerBase
     {
         private readonly HostQueryRepository _hostQueryRepository;
         private readonly HostCommandAccess _hostCommandAccess;
         
-        public HostController(HostQueryRepository hostQueryRepository, HostCommandAccess hostCommandAccess)
+        
+        public HostController(HostQueryRepository hostQueryRepository, HostCommandAccess hostCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) 
+            : base(logger, mapper)
         {
             _hostQueryRepository = hostQueryRepository;
             _hostCommandAccess = hostCommandAccess;
@@ -25,22 +30,26 @@ namespace airbnb_net.Controllers
         
         // GET: api/Host/5
         [HttpGet("{id:guid}")]
-        public async Task<Host> Get(Guid id)
+        public async Task<HostDTO> Get(Guid id)
         {
-            return await _hostQueryRepository.GetHostById(id);
+            return _mapper.Map<HostDTO>(await _hostQueryRepository.GetHostById(id));
         }
         
         // POST: api/Host
         [HttpPost]
-        public async Task<Guid> Post([FromBody] Host host)
+        public async Task<Guid> Post([FromBody] HostCreateDTO hostCreate)
         {
+            var hostDTO = _mapper.Map<HostDTO>(hostCreate);
+            var host = _mapper.Map<Host>(hostDTO);
             return await _hostCommandAccess.AddHost(host);
         }
         
         // PUT: api/Host/5
         [HttpPut("{id:guid}")]
-        public async Task Put(Guid id, [FromBody] Host host)
+        public async Task Put(Guid id, [FromBody] HostUpdateDTO hostUpdate)
         {
+            var hostDTO = _mapper.Map<HostDTO>(hostUpdate);
+            var host = _mapper.Map<Host>(hostDTO);
             await _hostCommandAccess.UpdateHost(id, host);
         }
         

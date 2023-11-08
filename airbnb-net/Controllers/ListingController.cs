@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
@@ -14,17 +15,16 @@ namespace airbnb_net.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ListingController : ControllerBase
+    public class ListingController : InternalControllerBase
     {
         private readonly ListingQueryRepository _listingQueryRepository;
         private readonly ListingCommandAccess _listingCommandAccess;
-        private readonly IMapper _mapper; 
-        
-        public ListingController(ListingQueryRepository listingQueryRepository, ListingCommandAccess listingCommandAccess, IMapper mapper)
+
+        public ListingController(ListingQueryRepository listingQueryRepository,
+            ListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) : base(logger,mapper)
         {
             _listingQueryRepository = listingQueryRepository;
             _listingCommandAccess = listingCommandAccess;
-            _mapper = mapper;
         }
         
         // GET: api/Listing
@@ -44,16 +44,18 @@ namespace airbnb_net.Controllers
         
         // POST: api/Listing
         [HttpPost]
-        public async Task<Guid> Post([FromBody] ListingCreateDTO listing)
+        public async Task<Guid> Post([FromBody] ListingCreateDTO listingCreate)
         {
-            var listingEntity = _mapper.Map<Listing>(listing);
-            return await _listingCommandAccess.AddListing(listingEntity);
+            var listing = _mapper.Map<Listing>(listingCreate);
+            return await _listingCommandAccess.AddListing(listing);
         }
         
         // PUT: api/Listing/5
         [HttpPut("{id:guid}")]
-        public async Task Put(Guid id, [FromBody] Listing listing)
+        public async Task Put(Guid id, [FromBody] ListingUpdateDTO listingUpdate)
         {
+            var listingDTO = _mapper.Map<ListingDTO>(listingUpdate);
+            var listing = _mapper.Map<Listing>(listingDTO);
             await _listingCommandAccess.UpdateListing(id, listing);
         }
         
