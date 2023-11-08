@@ -8,7 +8,8 @@ public class HostProfile : Profile
 {
     public HostProfile()
     {
-        CreateMap<HostDTO, Host>();
-        CreateMap<Host, HostDTO>();
+        CreateMap<HostDTO, Host>().ReverseMap();
+        CreateMap<HostCreateDTO, HostDTO>();
+        CreateMap<HostUpdateDTO, HostDTO>();
     }
 }

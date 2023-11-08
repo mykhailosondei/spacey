@@ -22,7 +22,7 @@ public class User
     
     public string Description { get; set; }
     
-    public string ProfilePictureUrl { get; set; }
+    public Image Avatar { get; set; }
     
     public Host Host { get; set; }
     
