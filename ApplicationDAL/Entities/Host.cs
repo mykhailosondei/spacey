@@ -10,6 +10,8 @@ public class Host
     
     public DateTime CreatedAt { get; set; }
     
+    public Guid UserId { get; set; }
+    
     public int NumberOfListings { get; set; }
     
     public int NumberOfReviews { get; set; }

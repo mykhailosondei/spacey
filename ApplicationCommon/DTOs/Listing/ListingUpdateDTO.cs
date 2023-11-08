@@ -1,4 +1,3 @@
-using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.Enums;
 using ApplicationCommon.Structs;
@@ -7,10 +6,10 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.Listing;
 
-public class ListingDTO
+public class ListingUpdateDTO
 {
-    public Guid Id { get; set; }
-
+    public Guid? Id { get; set; }
+    
     public string Title { get; set; }
 
     public string Description { get; set; }
@@ -28,11 +27,9 @@ public class ListingDTO
 
     public int NumberOfGuests { get; set; }
 
+    public Guid HostId { get; set; }
+    
     public List<ImageDTO> ImagesUrls { get; set; }
-
-    public HostDTO Host { get; set; }
-
-    public List<Guid> BookingsIds { get; set; }
 
     public string[] Amenities { get; set; }
 }

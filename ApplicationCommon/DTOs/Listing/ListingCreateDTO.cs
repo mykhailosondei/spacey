@@ -10,6 +10,8 @@ namespace ApplicationCommon.DTOs.Listing;
 
 public class ListingCreateDTO
 {
+    public Guid? Id { get; set; }
+    
     public string Title { get; set; }
 
     public string Description { get; set; }
@@ -30,10 +32,6 @@ public class ListingCreateDTO
     public Guid HostId { get; set; }
     
     public List<ImageDTO> ImagesUrls { get; set; }
-
-    public List<Guid> BookingsIds { get; set; }
-
-    public List<Guid> ReviewsIds { get; set; }
 
     public string[] Amenities { get; set; }
 }

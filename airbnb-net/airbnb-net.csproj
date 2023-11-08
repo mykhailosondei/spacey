@@ -39,7 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+        <InternalsVisibleTo Include="Application.API.IntegrationTests" />
     </ItemGroup>
 
 
