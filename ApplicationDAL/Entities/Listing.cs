@@ -1,5 +1,6 @@
 using ApplicationCommon.Enums;
 using ApplicationCommon.Structs;
+using ApplicationDAL.Attributes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -28,10 +29,13 @@ public class Listing
 
     public int NumberOfGuests { get; set; }
 
+    [RestrictUpdate]
     public List<Image> ImagesUrls { get; set; }
 
+    [RestrictUpdate]
     public Host Host { get; set; }
 
+    [RestrictUpdate]
     public List<Guid> BookingsIds { get; set; }
 
     public Amenities Amenities { get; set; }
