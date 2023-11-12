@@ -46,7 +46,8 @@ namespace airbnb_net.Controllers
         [HttpPost]
         public async Task<Guid> Post([FromBody] ListingCreateDTO listingCreate)
         {
-            var listing = _mapper.Map<Listing>(listingCreate);
+            var listingDTO = _mapper.Map<ListingDTO>(listingCreate);
+            var listing = _mapper.Map<Listing>(listingDTO);
             return await _listingCommandAccess.AddListing(listing);
         }
         

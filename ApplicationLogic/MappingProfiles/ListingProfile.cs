@@ -2,7 +2,7 @@ using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.Enums;
 using ApplicationDAL.Entities;
-using ApplicationLogic.Utilities;
+using ApplicationCommon.Utilities;
 using AutoMapper;
 
 namespace ApplicationLogic.MappingProfiles;

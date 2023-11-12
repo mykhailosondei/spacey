@@ -28,8 +28,7 @@ public class Listing
     public int NumberOfBathrooms { get; set; }
 
     public int NumberOfGuests { get; set; }
-
-    [RestrictUpdate]
+    
     public List<Image> ImagesUrls { get; set; }
 
     [RestrictUpdate]
