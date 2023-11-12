@@ -1,6 +1,9 @@
+using ApplicationCommon.Utilities;
+using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
@@ -19,6 +22,7 @@ public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
     {
         listing.Id = Guid.NewGuid();
         await RetrieveHostOnListingAdd(listing.Host.Id, listing);
+        listing.Host.ListingsIds.Add(listing.Id);
         await _collection.InsertOneAsync(listing);
         await UpdateHostListingIdsOnListingAdd(listing.Host.Id, listing);
         return listing.Id;
@@ -34,14 +38,24 @@ public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
     {
         var hostFilter = Builders<Host>.Filter.Eq("Id", id);
         var hostUpdate = Builders<Host>.Update.Push("ListingsIds", listing.Id);
-        await GetCollection<Host>("hosts").UpdateOneAsync(hostFilter, hostUpdate);
+        Console.WriteLine
+        ((await GetCollection<Host>("hosts").UpdateOneAsync(hostFilter, hostUpdate)).ModifiedCount);
+        
     }
     
     public async Task UpdateListing(Guid id, Listing listing)
     {
         var filter = Builders<Listing>.Filter.Eq("Id", id);
         listing.Id = id;
-        await _collection.ReplaceOneAsync(filter, listing);
+        var documentToSet = listing.ToBsonDocument();
+        //TODO: for all entities
+        foreach (var name in ReflectionUtilities.GetPropertyNamesThatAreMarkedWithAttribute<RestrictUpdateAttribute>(typeof(Listing)))
+        {
+            Console.WriteLine(name);
+            documentToSet.Remove(name);
+        }
+        var update = new BsonDocument("$set", documentToSet);
+        await _collection.UpdateOneAsync(filter, update);
     }
     
     public async Task DeleteListing(Guid id)

@@ -1,6 +1,7 @@
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
@@ -34,7 +35,9 @@ public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor
     {
         var filter = Builders<Booking>.Filter.Eq("Id", id);
         booking.Id = id;
-        await _collection.ReplaceOneAsync(filter, booking);
+        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<Booking, RestrictUpdateAttribute>(booking)));
+        var doc = booking.ToBsonDocument();
+        await _collection.UpdateOneAsync(filter, update);
     }
     
     public async Task DeleteBooking(Guid id)

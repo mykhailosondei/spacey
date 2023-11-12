@@ -1,6 +1,9 @@
+using ApplicationCommon.Utilities;
+using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
@@ -26,16 +29,22 @@ public class HostCommandAccess : BaseAccessHandler
     {
         var filter = Builders<Host>.Filter.Eq("Id", id);
         host.Id = id;
-        await _collection.ReplaceOneAsync(filter, host);
+        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<Host, RestrictUpdateAttribute>(host)));
+        await _collection.UpdateOneAsync(filter, update);
+        host = await GetCollection<Host>("hosts").Find(filter).FirstOrDefaultAsync();
+        await UpdateHostsInAllListingsOnHostUpdate(host);
+        await UpdateHostInUserOnHostModify(id, host);
+    }
+
+    private async Task UpdateHostsInAllListingsOnHostUpdate(Host host)
+    {
         foreach (var listingId in host.ListingsIds)
         {
             Console.WriteLine(host.Rating);
             var filterListing = Builders<Listing>.Filter.Eq("Id", listingId);
             var update = Builders<Listing>.Update.Set("Host", host);
-           await GetCollection<Listing>("listings").UpdateOneAsync(filterListing, update);
+            await GetCollection<Listing>("listings").UpdateOneAsync(filterListing, update);
         }
-
-        await UpdateHostInUserOnHostModify(id, host);
     }
     
     public async Task DeleteHost(Guid id)

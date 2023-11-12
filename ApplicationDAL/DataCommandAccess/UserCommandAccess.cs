@@ -1,5 +1,8 @@
+using ApplicationCommon.Utilities;
+using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
@@ -19,7 +22,8 @@ public class UserCommandAccess : BaseAccessHandler
     {
         var filter = Builders<User>.Filter.Eq("Id", id);
         user.Id = id;
-        await _collection.ReplaceOneAsync(filter, user);
+        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<User, RestrictUpdateAttribute>(user)));
+        await _collection.UpdateOneAsync(filter, update);
     }
 
     public async Task DeleteUser(Guid id)

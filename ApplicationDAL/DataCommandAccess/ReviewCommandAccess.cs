@@ -1,6 +1,9 @@
+using ApplicationCommon.Utilities;
+using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
@@ -36,7 +39,8 @@ public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor
     {
         var filter = Builders<Review>.Filter.Eq("Id", id);
         review.Id = id;
-        await _collection.ReplaceOneAsync(filter, review);
+        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<Review, RestrictUpdateAttribute>(review)));
+        await _collection.UpdateOneAsync(filter, update);
         await UpdateBookingReviewOnReviewUpdate(id, review);
     }
     
