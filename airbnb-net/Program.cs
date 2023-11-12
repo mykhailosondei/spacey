@@ -15,7 +15,6 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.RegisterCustomServices();
 builder.Services.ConfigureJwt(config);
-BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
 var app = builder.Build();
 
