@@ -1,5 +1,5 @@
 using ApplicationCommon.Enums;
-using ApplicationLogic.Utilities;
+using ApplicationCommon.Utilities;
 
 namespace ApplicationLogic.Tests.Static;
 

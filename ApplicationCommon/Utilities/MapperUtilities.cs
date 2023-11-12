@@ -1,10 +1,10 @@
 using ApplicationCommon.Enums;
 
-namespace ApplicationLogic.Utilities;
+namespace ApplicationCommon.Utilities;
 
-internal static class MapperUtilities
+public static class MapperUtilities
 {
-    internal static Amenities ConstructAmenitiesFromStringArray(string[] amenities)
+    public static Amenities ConstructAmenitiesFromStringArray(string[] amenities)
     {
         return (Amenities)amenities.Aggregate(0, (current, amenity) =>
         {
