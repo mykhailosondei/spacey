@@ -1,3 +1,6 @@
+using System.Reflection;
+using ApplicationCommon.Utilities;
+using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
@@ -47,8 +50,9 @@ public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor
         await UpdateListingBookingsIdsOnBookingDelete(id);
         await UpdateUserBookingsIdsOnBookingDelete(id);
         var reviewFilter = Builders<Review>.Filter.Eq("BookingId", id);
-        Guid reviewId = (await GetCollection<Review>("reviews").Find(reviewFilter).FirstOrDefaultAsync()).Id;
-        await _reviewDeletor.DeleteReview(reviewId);
+        Guid? reviewId = (await GetCollection<Review>("reviews").Find(reviewFilter).FirstOrDefaultAsync())?.Id;
+        if(reviewId != null)
+        await _reviewDeletor.DeleteReview(reviewId.Value);
     }
     
     private async Task UpdateListingBookingsIdsOnBookingDelete(Guid id)
