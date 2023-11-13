@@ -3,12 +3,13 @@ using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
+using ApplicationDAL.Interfaces.CommandAccess;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class HostCommandAccess : BaseAccessHandler
+public class HostCommandAccess : BaseAccessHandler, IHostCommandAccess
 {
     private readonly IMongoCollection<Host> _collection = GetCollection<Host>("hosts");
     private readonly IListingDeletor _listingDeletor;

@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor
+public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor, IReviewCommandAccess
 {
     private readonly IMongoCollection<Review> _collection = GetCollection<Review>("reviews");
     

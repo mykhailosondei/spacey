@@ -4,12 +4,13 @@ using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
+using ApplicationDAL.Interfaces.CommandAccess;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor
+public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor, IBookingCommandAccess
 {
     private readonly IMongoCollection<Booking> _collection = GetCollection<Booking>("bookings");
     private readonly IReviewDeletor _reviewDeletor;
@@ -51,8 +52,7 @@ public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor
         await UpdateUserBookingsIdsOnBookingDelete(id);
         var reviewFilter = Builders<Review>.Filter.Eq("BookingId", id);
         Guid? reviewId = (await GetCollection<Review>("reviews").Find(reviewFilter).FirstOrDefaultAsync())?.Id;
-        if(reviewId != null)
-        await _reviewDeletor.DeleteReview(reviewId.Value);
+        if(reviewId != null) await _reviewDeletor.DeleteReview(reviewId.Value);
     }
     
     private async Task UpdateListingBookingsIdsOnBookingDelete(Guid id)

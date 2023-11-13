@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class UserCommandAccess : BaseAccessHandler
+public class UserCommandAccess : BaseAccessHandler, IUserCommandAccess
 {
     private readonly IMongoCollection<User> _collection = GetCollection<User>("users");
 
@@ -32,5 +32,3 @@ public class UserCommandAccess : BaseAccessHandler
         await _collection.DeleteOneAsync(filter);
     }
 }
-
-    

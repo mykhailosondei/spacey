@@ -1,11 +1,12 @@
 using ApplicationDAL.DataQueryAccess.Abstract;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataQueryAccess;
 
-public class ReviewQueryRepository : BaseQueryRepository
+public class ReviewQueryRepository : BaseQueryRepository, IReviewQueryRepository
 {
     private readonly IMongoCollection<Review> _collection = GetCollection<Review>("reviews");
     

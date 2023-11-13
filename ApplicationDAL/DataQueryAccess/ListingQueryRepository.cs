@@ -1,11 +1,12 @@
 using ApplicationDAL.DataQueryAccess.Abstract;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataQueryAccess;
 
-public class ListingQueryRepository : BaseQueryRepository
+public class ListingQueryRepository : BaseQueryRepository, IListingQueryRepository
 {
     private readonly IMongoCollection<Listing> _collection = GetCollection<Listing>("listings");
     

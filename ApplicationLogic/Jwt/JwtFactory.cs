@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ApplicationLogic.Jwt;
 
-public sealed class JwtFactory
+public sealed class JwtFactory : ITokenGenerator
     {
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
@@ -20,7 +20,7 @@ public sealed class JwtFactory
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         }
 
-        public async Task<AccessToken> GenerateAccessToken(int id, string userName, string email)
+        public async Task<AccessToken> GenerateAccessToken(Guid id, string userName, string email)
         {
             var identity = GenerateClaimsIdentity(id, userName);
 
@@ -95,7 +95,7 @@ public sealed class JwtFactory
             }
         }
 
-        private static ClaimsIdentity GenerateClaimsIdentity(int id, string userName)
+        private static ClaimsIdentity GenerateClaimsIdentity(Guid id, string userName)
         {
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {

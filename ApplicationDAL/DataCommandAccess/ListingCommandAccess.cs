@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace ApplicationDAL.DataCommandAccess;
 
-public class ListingCommandAccess : BaseAccessHandler, IListingDeletor
+public class ListingCommandAccess : BaseAccessHandler, IListingDeletor, IListingCommandAccess
 {
     private readonly IMongoCollection<Listing> _collection = GetCollection<Listing>("listings");
     private readonly IBookingDeletor _bookingDeletor;

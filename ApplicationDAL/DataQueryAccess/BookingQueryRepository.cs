@@ -1,11 +1,12 @@
 using ApplicationDAL.DataQueryAccess.Abstract;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataQueryAccess;
 
-public class BookingQueryRepository : BaseQueryRepository
+public class BookingQueryRepository : BaseQueryRepository, IBookingQueryRepository
 {
     private readonly IMongoCollection<Booking> _collection = GetCollection<Booking>("bookings");
     

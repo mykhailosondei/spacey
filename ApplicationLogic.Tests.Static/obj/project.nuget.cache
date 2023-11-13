@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "o+PLiXeQY0j4MjyLno2dfiz6S4hNl5T0csY+ujPiJ03u50E0nmX/+KNErn70AnDfRU9YKQ19pAYSPf3habcHnQ==",
+  "dgSpecHash": "kiLNqGJHFXP3R+KRtvb6Qpo6LNg0YmGGeUiZY/LeP6M5NV4fHvHQ4lho6QcdcH/bPhiKgiE8P5OCHMwvo7hPIg==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "/home/mykhailo/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/awssdk.core/3.7.100.14/awssdk.core.3.7.100.14.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/awssdk.securitytoken/3.7.100.14/awssdk.securitytoken.3.7.100.14.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/coverlet.collector/3.1.2/coverlet.collector.3.1.2.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/dnsclient/1.6.1/dnsclient.1.6.1.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/7.0.10/microsoft.aspnetcore.authentication.jwtbearer.7.0.10.nupkg.sha512",

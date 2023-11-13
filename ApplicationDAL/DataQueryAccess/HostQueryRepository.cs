@@ -1,10 +1,11 @@
 using ApplicationDAL.DataQueryAccess.Abstract;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.DataQueryAccess;
 
-public class HostQueryRepository : BaseQueryRepository
+public class HostQueryRepository : BaseQueryRepository, IHostQueryRepository
 {
     private readonly IMongoCollection<Host> _collection = GetCollection<Host>("hosts");
     
