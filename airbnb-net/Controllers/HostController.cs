@@ -6,6 +6,8 @@ using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.Host;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
+using ApplicationDAL.Interfaces.CommandAccess;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +19,11 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class HostController : InternalControllerBase
     {
-        private readonly HostQueryRepository _hostQueryRepository;
-        private readonly HostCommandAccess _hostCommandAccess;
+        private readonly IHostQueryRepository _hostQueryRepository;
+        private readonly IHostCommandAccess _hostCommandAccess;
         
         
-        public HostController(HostQueryRepository hostQueryRepository, HostCommandAccess hostCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) 
+        public HostController(IHostQueryRepository hostQueryRepository, IHostCommandAccess hostCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) 
             : base(logger, mapper)
         {
             _hostQueryRepository = hostQueryRepository;

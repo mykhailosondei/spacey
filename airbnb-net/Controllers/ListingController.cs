@@ -7,6 +7,7 @@ using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,11 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class ListingController : InternalControllerBase
     {
-        private readonly ListingQueryRepository _listingQueryRepository;
-        private readonly ListingCommandAccess _listingCommandAccess;
+        private readonly IListingQueryRepository _listingQueryRepository;
+        private readonly IListingCommandAccess _listingCommandAccess;
 
-        public ListingController(ListingQueryRepository listingQueryRepository,
-            ListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) : base(logger,mapper)
+        public ListingController(IListingQueryRepository listingQueryRepository,
+            IListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) : base(logger,mapper)
         {
             _listingQueryRepository = listingQueryRepository;
             _listingCommandAccess = listingCommandAccess;

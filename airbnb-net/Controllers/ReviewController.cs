@@ -7,6 +7,7 @@ using ApplicationCommon.DTOs.Review;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,10 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class ReviewController : InternalControllerBase
     {
-        private readonly ReviewQueryRepository _reviewQueryRepository;
-        private readonly ReviewCommandAccess _reviewCommandAccess;
+        private readonly IReviewQueryRepository _reviewQueryRepository;
+        private readonly IReviewCommandAccess _reviewCommandAccess;
         
-        public ReviewController(ReviewQueryRepository reviewQueryRepository, ReviewCommandAccess reviewCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper)
+        public ReviewController(IReviewQueryRepository reviewQueryRepository, IReviewCommandAccess reviewCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper)
         : base(logger, mapper)
         {
             _reviewQueryRepository = reviewQueryRepository;

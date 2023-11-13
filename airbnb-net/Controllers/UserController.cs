@@ -7,6 +7,7 @@ using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,10 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class UserController : InternalControllerBase
     {
-        private readonly UserQueryRepository _userQueryRepository;
-        private readonly UserCommandAccess _userCommandAccess;
+        private readonly IUserQueryRepository _userQueryRepository;
+        private readonly IUserCommandAccess _userCommandAccess;
         
-        public UserController(UserQueryRepository userQueryRepository, UserCommandAccess userCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper)
+        public UserController(IUserQueryRepository userQueryRepository, IUserCommandAccess userCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper)
         : base(logger, mapper)
         {
             _userQueryRepository = userQueryRepository;

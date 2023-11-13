@@ -7,6 +7,8 @@ using ApplicationCommon.DTOs.Booking;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
+using ApplicationDAL.Interfaces.CommandAccess;
+using ApplicationDAL.Interfaces.QueryRepositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +19,11 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class BookingController : InternalControllerBase
     {
-        private readonly BookingQueryRepository _bookingQueryRepository;
-        private readonly BookingCommandAccess _bookingCommandAccess;
+        private readonly IBookingQueryRepository _bookingQueryRepository;
+        private readonly IBookingCommandAccess _bookingCommandAccess;
 
-        public BookingController(BookingQueryRepository bookingQueryRepository,
-            BookingCommandAccess bookingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) : base(logger,mapper)
+        public BookingController(IBookingQueryRepository bookingQueryRepository,
+            IBookingCommandAccess bookingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) : base(logger,mapper)
         {
             _bookingQueryRepository = bookingQueryRepository;
             _bookingCommandAccess = bookingCommandAccess;
