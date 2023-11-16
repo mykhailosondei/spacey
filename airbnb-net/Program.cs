@@ -1,5 +1,6 @@
 using airbnb_net.Extensions;
 using airbnb_net.Middlewares;
+using ApplicationLogic;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -16,6 +17,12 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.RegisterCustomServices();
 builder.Services.ConfigureJwt(config);
+builder.Services.AddMediatR(x =>
+{
+    x.Lifetime = ServiceLifetime.Scoped;
+    // ReSharper disable once RedundantNameQualifier
+    x.RegisterServicesFromAssemblyContaining<ApplicationLogic.AssemblyMarker>();
+});
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
 var app = builder.Build();

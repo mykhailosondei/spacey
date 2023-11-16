@@ -7,8 +7,10 @@ using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
-using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.Commanding.Commands.UserCommands;
+using ApplicationLogic.Querying.Queries.UserQueries;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,44 +20,40 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class UserController : InternalControllerBase
     {
-        private readonly IUserQueryRepository _userQueryRepository;
-        private readonly IUserCommandAccess _userCommandAccess;
+        private readonly IMediator _mediator;
         
-        public UserController(IUserQueryRepository userQueryRepository, IUserCommandAccess userCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper)
+        public UserController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator)
         : base(logger, mapper)
         {
-            _userQueryRepository = userQueryRepository;
-            _userCommandAccess = userCommandAccess;
+            _mediator = mediator;
         }
         
         // GET: api/User
         [HttpGet]
         public async Task<IEnumerable<UserDTO>> Get()
         {
-            return _mapper.Map<IEnumerable<UserDTO>>(await _userQueryRepository.GetAllUsers());
+            return await _mediator.Send(new GetAllUsersQuery());
         }
 
         // GET: api/User/5
         [HttpGet("{id:guid}")]
         public async Task<UserDTO> Get(Guid id)
         {
-            return _mapper.Map<UserDTO>(await _userQueryRepository.GetUserById(id));
+            return await _mediator.Send(new GetUserByIdQuery(id));
         }
 
         // PUT: api/User/5
         [HttpPut("{id:guid}")]
         public async Task Put(Guid id, [FromBody] UserUpdateDTO userUpdate)
         {
-            var userDTO = _mapper.Map<User>(userUpdate);
-            var user = _mapper.Map<User>(userDTO);
-            await _userCommandAccess.UpdateUser(id, user);
+            await _mediator.Send(new UpdateUserCommand(id, userUpdate));
         }
 
         // DELETE: api/User/5
         [HttpDelete("{id:guid}")]
         public async Task Delete(Guid id)
         {
-            await _userCommandAccess.DeleteUser(id);
+            await _mediator.Send(new DeleteUserCommand(id));
         }
     }
 }
