@@ -1,5 +1,5 @@
 using System.Reflection;
-using ApplicationCommon.Utilities;
+using ApplicationDAL.Utilities;
 using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
@@ -39,8 +39,13 @@ public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor, IBooking
     {
         var filter = Builders<Booking>.Filter.Eq("Id", id);
         booking.Id = id;
-        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<Booking, RestrictUpdateAttribute>(booking)));
-        var doc = booking.ToBsonDocument();
+        var documentToSet = booking.ToBsonDocument();
+        foreach (var name in ReflectionUtilities.GetPropertyNamesThatAreMarkedWithAttribute<RestrictUpdateAttribute>(typeof(Booking)))
+        {
+            Console.WriteLine(name);
+            documentToSet.Remove(name);
+        }
+        var update = new BsonDocument("$set", documentToSet);
         await _collection.UpdateOneAsync(filter, update);
     }
     

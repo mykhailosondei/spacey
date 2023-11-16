@@ -9,7 +9,9 @@ using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.UserIdLogic;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,12 +23,14 @@ namespace airbnb_net.Controllers
     {
         private readonly IBookingQueryRepository _bookingQueryRepository;
         private readonly IBookingCommandAccess _bookingCommandAccess;
+        private readonly IUserIdGetter _userIdGetter;
 
         public BookingController(IBookingQueryRepository bookingQueryRepository,
-            IBookingCommandAccess bookingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) : base(logger,mapper)
+            IBookingCommandAccess bookingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter) : base(logger,mapper)
         {
             _bookingQueryRepository = bookingQueryRepository;
             _bookingCommandAccess = bookingCommandAccess;
+            _userIdGetter = userIdGetter;
         }
         
         // GET: api/Booking
@@ -45,10 +49,12 @@ namespace airbnb_net.Controllers
         
         // POST: api/Booking
         [HttpPost]
+        [Authorize]
         public async Task<Guid> Post([FromBody] BookingCreateDTO bookingCreate)
         {
             var bookingDTO = _mapper.Map<BookingDTO>(bookingCreate);
             var booking = _mapper.Map<Booking>(bookingDTO);
+            booking.UserId = _userIdGetter.UserId;
             return await _bookingCommandAccess.AddBooking(booking);
         }
         

@@ -1,4 +1,5 @@
-using ApplicationCommon.Utilities;
+
+using ApplicationDAL.Utilities;
 using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;

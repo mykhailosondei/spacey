@@ -15,16 +15,19 @@ public class Booking
     
     [BsonRepresentation(BsonType.DateTime)]
     [BsonSerializer(typeof(DateTimeSerializer))]
+    [BsonRequired]
     public DateTime CheckIn { get; set; }
 
     [BsonRepresentation(BsonType.DateTime)]
     [BsonSerializer(typeof(DateTimeSerializer))]
+    [BsonRequired]
     public DateTime CheckOut { get; set; }
     
     [RestrictUpdate]
     public Guid UserId { get; set; }
     
     [RestrictUpdate]
+    [BsonRequired]
     public Guid ListingId { get; set; }
     
     [BsonIgnoreIfNull]

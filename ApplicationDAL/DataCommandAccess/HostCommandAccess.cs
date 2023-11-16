@@ -1,4 +1,5 @@
-using ApplicationCommon.Utilities;
+
+using ApplicationDAL.Utilities;
 using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
@@ -30,7 +31,13 @@ public class HostCommandAccess : BaseAccessHandler, IHostCommandAccess
     {
         var filter = Builders<Host>.Filter.Eq("Id", id);
         host.Id = id;
-        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<Host, RestrictUpdateAttribute>(host)));
+        var documentToSet = host.ToBsonDocument();
+        foreach (var name in ReflectionUtilities.GetPropertyNamesThatAreMarkedWithAttribute<RestrictUpdateAttribute>(typeof(Host)))
+        {
+            Console.WriteLine(name);
+            documentToSet.Remove(name);
+        }
+        var update = new BsonDocument("$set", documentToSet);
         await _collection.UpdateOneAsync(filter, update);
         host = await GetCollection<Host>("hosts").Find(filter).FirstOrDefaultAsync();
         await UpdateHostsInAllListingsOnHostUpdate(host);

@@ -8,6 +8,7 @@ using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,15 @@ namespace airbnb_net.Controllers
     {
         private readonly IHostQueryRepository _hostQueryRepository;
         private readonly IHostCommandAccess _hostCommandAccess;
-        
-        
-        public HostController(IHostQueryRepository hostQueryRepository, IHostCommandAccess hostCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) 
+        private readonly IUserIdGetter _userIdGetter;
+
+
+        public HostController(IHostQueryRepository hostQueryRepository, IHostCommandAccess hostCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter) 
             : base(logger, mapper)
         {
             _hostQueryRepository = hostQueryRepository;
             _hostCommandAccess = hostCommandAccess;
+            _userIdGetter = userIdGetter;
         }
         
         // GET: api/Host/5
@@ -43,6 +46,7 @@ namespace airbnb_net.Controllers
         {
             var hostDTO = _mapper.Map<HostDTO>(hostCreate);
             var host = _mapper.Map<Host>(hostDTO);
+            host.UserId = _userIdGetter.UserId;
             return await _hostCommandAccess.AddHost(host);
         }
         

@@ -1,6 +1,7 @@
 using System.Configuration;
 using System.Reflection;
 using System.Text;
+using airbnb_net.Middlewares;
 using Amazon.Runtime.Internal.Util;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DataCommandAccess;
@@ -11,6 +12,7 @@ using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Jwt;
 using ApplicationLogic.MappingProfiles;
 using ApplicationLogic.Services;
+using ApplicationLogic.UserIdLogic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -38,6 +40,9 @@ public static class ServiceExtensions
         services.AddScoped<IReviewDeletor, ReviewCommandAccess>();
         services.AddScoped<JwtFactory>();
         services.AddScoped<ITokenGenerator>(s => s.GetService<JwtFactory>()!);
+        services.AddScoped<UserIdStorageProvider>();
+        services.AddScoped<IUserIdSetter>(s => s.GetService<UserIdStorageProvider>()!);
+        services.AddScoped<IUserIdGetter>(s => s.GetService<UserIdStorageProvider>()!);
         services.AddAutoMapper(ApplicationLogic.AssemblyMarker.Assembly);
     }
 

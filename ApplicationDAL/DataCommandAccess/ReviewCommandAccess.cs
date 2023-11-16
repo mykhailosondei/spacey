@@ -1,4 +1,5 @@
-using ApplicationCommon.Utilities;
+
+using ApplicationDAL.Utilities;
 using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
@@ -39,8 +40,13 @@ public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor, IReviewCom
     {
         var filter = Builders<Review>.Filter.Eq("Id", id);
         review.Id = id;
-        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<Review, RestrictUpdateAttribute>(review)));
-        await _collection.UpdateOneAsync(filter, update);
+        var documentToSet = review.ToBsonDocument();
+        foreach (var name in ReflectionUtilities.GetPropertyNamesThatAreMarkedWithAttribute<RestrictUpdateAttribute>(typeof(Review)))
+        {
+            Console.WriteLine(name);
+            documentToSet.Remove(name);
+        }
+        var update = new BsonDocument("$set", documentToSet);await _collection.UpdateOneAsync(filter, update);
         await UpdateBookingReviewOnReviewUpdate(id, review);
     }
     

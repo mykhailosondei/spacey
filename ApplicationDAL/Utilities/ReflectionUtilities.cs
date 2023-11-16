@@ -1,7 +1,7 @@
 using System.Reflection;
 using MongoDB.Bson;
 
-namespace ApplicationCommon.Utilities;
+namespace ApplicationDAL.Utilities;
 
 public static class ReflectionUtilities
 {

@@ -1,4 +1,5 @@
 using airbnb_net.Extensions;
+using airbnb_net.Middlewares;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -15,6 +16,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.RegisterCustomServices();
 builder.Services.ConfigureJwt(config);
+BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
 var app = builder.Build();
 
@@ -31,6 +33,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<UserIdMiddleware>();
 
 
 app.MapControllerRoute(

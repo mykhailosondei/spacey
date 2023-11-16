@@ -8,6 +8,7 @@ using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,14 @@ namespace airbnb_net.Controllers
     {
         private readonly IListingQueryRepository _listingQueryRepository;
         private readonly IListingCommandAccess _listingCommandAccess;
+        private readonly IUserIdGetter _userIdGetter;
 
         public ListingController(IListingQueryRepository listingQueryRepository,
-            IListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper) : base(logger,mapper)
+            IListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter) : base(logger,mapper)
         {
             _listingQueryRepository = listingQueryRepository;
             _listingCommandAccess = listingCommandAccess;
+            _userIdGetter = userIdGetter;
         }
         
         // GET: api/Listing
@@ -49,6 +52,7 @@ namespace airbnb_net.Controllers
         {
             var listingDTO = _mapper.Map<ListingDTO>(listingCreate);
             var listing = _mapper.Map<Listing>(listingDTO);
+            
             return await _listingCommandAccess.AddListing(listing);
         }
         

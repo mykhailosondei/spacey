@@ -1,4 +1,5 @@
-using ApplicationCommon.Utilities;
+
+using ApplicationDAL.Utilities;
 using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
 using ApplicationDAL.Entities;
@@ -22,7 +23,13 @@ public class UserCommandAccess : BaseAccessHandler, IUserCommandAccess
     {
         var filter = Builders<User>.Filter.Eq("Id", id);
         user.Id = id;
-        var update = new BsonDocument("$set", new BsonDocument(ReflectionUtilities.GetPropertiesThatAreNotMarkedWithAttribute<User, RestrictUpdateAttribute>(user)));
+        var documentToSet = user.ToBsonDocument();
+        foreach (var name in ReflectionUtilities.GetPropertyNamesThatAreMarkedWithAttribute<RestrictUpdateAttribute>(typeof(User)))
+        {
+            Console.WriteLine(name);
+            documentToSet.Remove(name);
+        }
+        var update = new BsonDocument("$set", documentToSet);
         await _collection.UpdateOneAsync(filter, update);
     }
 
