@@ -13,11 +13,9 @@ namespace Application.API.IntegrationTests;
 
 public class ReviewControllerTests : IntegrationTest
 {
-    private readonly ITestOutputHelper _output;
-    
-    public ReviewControllerTests(ITestOutputHelper output)
+    public ReviewControllerTests(ITestOutputHelper output) : base(output)
     {
-        _output = output;
+        
     }
     
     //review is a part of the booking, so we need to create a booking first
