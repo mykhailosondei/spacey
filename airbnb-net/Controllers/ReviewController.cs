@@ -21,15 +21,11 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class ReviewController : InternalControllerBase
     {
-        private readonly IReviewQueryRepository _reviewQueryRepository;
-        private readonly IReviewCommandAccess _reviewCommandAccess;
         private readonly IMediator _mediator;
         
-        public ReviewController(IReviewQueryRepository reviewQueryRepository, IReviewCommandAccess reviewCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator)
+        public ReviewController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator)
         : base(logger, mapper)
         {
-            _reviewQueryRepository = reviewQueryRepository;
-            _reviewCommandAccess = reviewCommandAccess;
             _mediator = mediator;
         }
 

@@ -22,16 +22,11 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class ListingController : InternalControllerBase
     {
-        private readonly IListingQueryRepository _listingQueryRepository;
-        private readonly IListingCommandAccess _listingCommandAccess;
         private readonly IUserIdGetter _userIdGetter;
         private readonly IMediator _mediator;
 
-        public ListingController(IListingQueryRepository listingQueryRepository,
-            IListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator) : base(logger,mapper)
+        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator) : base(logger,mapper)
         {
-            _listingQueryRepository = listingQueryRepository;
-            _listingCommandAccess = listingCommandAccess;
             _userIdGetter = userIdGetter;
             _mediator = mediator;
         }
