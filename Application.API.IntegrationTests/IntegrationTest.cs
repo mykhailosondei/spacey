@@ -9,8 +9,10 @@ namespace Application.API.IntegrationTests;
 
 public class IntegrationTest
 {
+    
     protected readonly HttpClient TestClient;
     protected readonly ITestOutputHelper _output;
+    protected const string BaseUrl = "http://localhost:5241/api/";
     
     public IntegrationTest(ITestOutputHelper output)
     {
@@ -26,10 +28,29 @@ public class IntegrationTest
         TestClient = appFactory.CreateClient();
         TestClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + GetJwtToken().Result);
     }
+    
+    protected async Task<T> Get<T>(string endpoint)
+    {
+        return await TestClient.GetFromJsonAsync<T>(BaseUrl + endpoint);
+    }
+    
+    protected async Task<Guid> Post<T>(string endpoint, object body)
+    {
+        return new Guid((await TestClient.PostAsJsonAsync(BaseUrl + endpoint, body).Result.Content.ReadAsStringAsync()).Trim('"'));
+    }
+    
+    protected async Task Put<T>(string endpoint, object body)
+    {
+        await TestClient.PutAsJsonAsync(BaseUrl + endpoint, body);
+    }
+    
+    protected async Task Delete(string endpoint)
+    {
+        await TestClient.DeleteAsync(BaseUrl + endpoint);
+    }
 
     protected async Task<Guid> GetUserId()
     {
-        _output.WriteLine(TestClient.DefaultRequestHeaders.Authorization.Parameter);
         var response = await TestClient.GetFromJsonAsync<UserDTO>("http://localhost:5241/api/User/fromToken");
         return response.Id;
     }
