@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kiLNqGJHFXP3R+KRtvb6Qpo6LNg0YmGGeUiZY/LeP6M5NV4fHvHQ4lho6QcdcH/bPhiKgiE8P5OCHMwvo7hPIg==",
+  "dgSpecHash": "NDAzgDGtlc8Iggc3yhbV8QNNL5f+TekHQGgbBzf0+tHjefje87l0C0O9D3XJjbRX359yiROlXXW0HZxXAd1Rgg==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,8 @@
     "/home/mykhailo/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/coverlet.collector/3.1.2/coverlet.collector.3.1.2.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/dnsclient/1.6.1/dnsclient.1.6.1.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/mediatr/12.1.1/mediatr.12.1.1.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/7.0.10/microsoft.aspnetcore.authentication.jwtbearer.7.0.10.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/microsoft.codecoverage/17.3.2/microsoft.codecoverage.17.3.2.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
