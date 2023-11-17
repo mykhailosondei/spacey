@@ -12,11 +12,9 @@ namespace Application.API.IntegrationTests;
 public class ListingControllerTests : IntegrationTest
 {
 
-    private readonly ITestOutputHelper _output;
-
-    public ListingControllerTests(ITestOutputHelper output)
+    public ListingControllerTests(ITestOutputHelper output) : base(output)
     {
-        _output = output;
+        
     }
 
 

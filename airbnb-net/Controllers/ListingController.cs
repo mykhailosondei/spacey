@@ -8,8 +8,11 @@ using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.Commanding.Commands.ListingCommands;
+using ApplicationLogic.Querying.Queries.ListingQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,54 +25,50 @@ namespace airbnb_net.Controllers
         private readonly IListingQueryRepository _listingQueryRepository;
         private readonly IListingCommandAccess _listingCommandAccess;
         private readonly IUserIdGetter _userIdGetter;
+        private readonly IMediator _mediator;
 
         public ListingController(IListingQueryRepository listingQueryRepository,
-            IListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter) : base(logger,mapper)
+            IListingCommandAccess listingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator) : base(logger,mapper)
         {
             _listingQueryRepository = listingQueryRepository;
             _listingCommandAccess = listingCommandAccess;
             _userIdGetter = userIdGetter;
+            _mediator = mediator;
         }
         
         // GET: api/Listing
         [HttpGet]
         public async Task<IEnumerable<ListingDTO>> Get()
         {
-            var result = await _listingQueryRepository.GetAllListings();
-            return _mapper.Map<IEnumerable<ListingDTO>>(result);
+            return await _mediator.Send(new GetAllListingsQuery());
         }
         
         // GET: api/Listing/5
         [HttpGet("{id:guid}")]
         public async Task<ListingDTO> Get(Guid id)
         {
-            return _mapper.Map<ListingDTO>(await _listingQueryRepository.GetListingById(id));
+            return await _mediator.Send(new GetListingByIdQuery(id));
         }
         
         // POST: api/Listing
         [HttpPost]
         public async Task<Guid> Post([FromBody] ListingCreateDTO listingCreate)
         {
-            var listingDTO = _mapper.Map<ListingDTO>(listingCreate);
-            var listing = _mapper.Map<Listing>(listingDTO);
-            
-            return await _listingCommandAccess.AddListing(listing);
+            return await _mediator.Send(new CreateListingCommand(listingCreate));
         }
         
         // PUT: api/Listing/5
         [HttpPut("{id:guid}")]
         public async Task Put(Guid id, [FromBody] ListingUpdateDTO listingUpdate)
         {
-            var listingDTO = _mapper.Map<ListingDTO>(listingUpdate);
-            var listing = _mapper.Map<Listing>(listingDTO);
-            await _listingCommandAccess.UpdateListing(id, listing);
+            await _mediator.Send(new UpdateListingCommand(id, listingUpdate));
         }
         
         // DELETE: api/Listing/5
         [HttpDelete("{id:guid}")]
         public async Task Delete(Guid id)
         {
-            await _listingCommandAccess.DeleteListing(id);
+            await _mediator.Send(new DeleteListingCommand(id));
         }
     }
 }
