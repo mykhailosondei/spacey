@@ -6,7 +6,7 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.UserHandlers;
 
-public class DeleteUserCommandHandler : BaseHandler, IRequestHandler<DeleteUserCommand, Unit>
+public class DeleteUserCommandHandler : BaseHandler, IRequestHandler<DeleteUserCommand>
 {
     private readonly IUserCommandAccess _userCommandAccess;
     
@@ -15,10 +15,8 @@ public class DeleteUserCommandHandler : BaseHandler, IRequestHandler<DeleteUserC
         _userCommandAccess = userCommandAccess;
     }
 
-    public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         await _userCommandAccess.DeleteUser(request.Id);
-        
-        return Unit.Value;
     }
 }

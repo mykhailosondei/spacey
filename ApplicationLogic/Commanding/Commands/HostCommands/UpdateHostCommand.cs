@@ -3,4 +3,4 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.Commands.HostCommands;
 
-public record UpdateHostCommand(Guid Id, HostUpdateDTO Host) : IRequest<Unit>;
+public record UpdateHostCommand(Guid Id, HostUpdateDTO Host) : IRequest;

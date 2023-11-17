@@ -13,6 +13,7 @@ using ApplicationLogic.Querying.Queries.HostQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Host = ApplicationDAL.Entities.Host;
@@ -45,6 +46,7 @@ namespace airbnb_net.Controllers
         
         // POST: api/Host
         [HttpPost]
+        [Authorize]
         public async Task<Guid> Post([FromBody] HostCreateDTO hostCreate)
         {
             hostCreate.UserId = _userIdGetter.UserId;
@@ -53,6 +55,7 @@ namespace airbnb_net.Controllers
         
         // PUT: api/Host/5
         [HttpPut("{id:guid}")]
+        [Authorize]
         public async Task Put(Guid id, [FromBody] HostUpdateDTO hostUpdate)
         {
             hostUpdate.UserId = _userIdGetter.UserId;
@@ -61,6 +64,7 @@ namespace airbnb_net.Controllers
         
         // DELETE: api/Host/5
         [HttpDelete("{id:guid}")]
+        [Authorize]
         public async Task Delete(Guid id)
         {
             await _hostCommandAccess.DeleteHost(id);

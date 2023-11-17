@@ -13,11 +13,9 @@ namespace Application.API.IntegrationTests;
 
 public class HostControllerTests : IntegrationTest
 {
-    private readonly ITestOutputHelper _output;
-
-    public HostControllerTests(ITestOutputHelper output)
+    public HostControllerTests(ITestOutputHelper output) : base(output)
     {
-        _output = output;
+        
     }
 
     [Fact]
@@ -26,7 +24,7 @@ public class HostControllerTests : IntegrationTest
         //Arrange
         var host = new HostCreateDTO()
         {
-            UserId = Guid.NewGuid()
+            UserId = await GetUserId()
         };
         //Act
         var response = await TestClient.PostAsJsonAsync("http://localhost:5241/api/Host", host);
@@ -41,7 +39,7 @@ public class HostControllerTests : IntegrationTest
         //Arrange
         var host = new HostCreateDTO()
         {
-            UserId = Guid.NewGuid()
+            UserId = await GetUserId()
         };
         //Act
         var response = await TestClient.PostAsJsonAsync("http://localhost:5241/api/Host", host);
@@ -72,7 +70,7 @@ public class HostControllerTests : IntegrationTest
         //Arrange
         var hostCreate = new HostCreateDTO()
         {
-            UserId = Guid.NewGuid()
+            UserId = await GetUserId()
         };
         var hostUpdate = new HostUpdateDTO()
         {
@@ -92,7 +90,7 @@ public class HostControllerTests : IntegrationTest
         //Arrange
         var hostCreate = new HostCreateDTO()
         {
-            UserId = Guid.NewGuid()
+            UserId = await GetUserId()
         };
         var hostUpdate = new HostUpdateDTO()
         {

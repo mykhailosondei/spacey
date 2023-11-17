@@ -8,6 +8,7 @@ public class User
 {
     [BsonId]
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
     
     public string Name { get; set; }

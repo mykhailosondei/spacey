@@ -23,7 +23,6 @@ builder.Services.AddMediatR(x =>
     // ReSharper disable once RedundantNameQualifier
     x.RegisterServicesFromAssemblyContaining<ApplicationLogic.AssemblyMarker>();
 });
-BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 
 var app = builder.Build();
 

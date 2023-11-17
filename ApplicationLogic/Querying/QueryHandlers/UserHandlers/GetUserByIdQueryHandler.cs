@@ -16,8 +16,8 @@ public class GetUserByIdQueryHandler : BaseHandler, IRequestHandler<GetUserByIdQ
         _userQueryRepository = userQueryRepository;
     }
 
-    public Task<UserDTO> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public async Task<UserDTO> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<Task<UserDTO>>(_userQueryRepository.GetUserById(request.id));
+        return _mapper.Map<UserDTO>(await _userQueryRepository.GetUserById(request.id));
     }
 }

@@ -9,7 +9,7 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.UserHandlers;
 
-public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserCommand, Unit>
+public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserCommand>
 {
     private readonly  IUserCommandAccess _userCommandAccess;
     
@@ -18,12 +18,10 @@ public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserC
         _userCommandAccess = userCommandAccess;
     }
 
-    public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var userDTO = _mapper.Map<UserDTO>(request.User);
         var user = _mapper.Map<User>(userDTO);
         await _userCommandAccess.UpdateUser(request.Id, user);
-
-        return Unit.Value;
     }
 }

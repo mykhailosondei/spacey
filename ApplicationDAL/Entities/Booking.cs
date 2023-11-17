@@ -10,6 +10,7 @@ public class Booking
 {
     [BsonIgnoreIfNull]
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     [BsonId]
     public Guid Id { get; set; }
     

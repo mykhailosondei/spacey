@@ -9,6 +9,7 @@ namespace ApplicationDAL.Entities;
 public class Listing
 {
     [BsonId]
+    [RestrictUpdate]
     [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
 

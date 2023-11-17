@@ -9,8 +9,10 @@ using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationLogic.Commanding.Commands.UserCommands;
 using ApplicationLogic.Querying.Queries.UserQueries;
+using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +23,13 @@ namespace airbnb_net.Controllers
     public class UserController : InternalControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IUserIdGetter _userIdGetter;
         
-        public UserController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator)
+        public UserController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator, IUserIdGetter userIdGetter)
         : base(logger, mapper)
         {
             _mediator = mediator;
+            _userIdGetter = userIdGetter;
         }
         
         // GET: api/User
@@ -40,6 +44,14 @@ namespace airbnb_net.Controllers
         public async Task<UserDTO> Get(Guid id)
         {
             return await _mediator.Send(new GetUserByIdQuery(id));
+        }
+        
+        // GET: api/User/fromToken
+        [HttpGet("fromToken")]
+        [Authorize]
+        public async Task<UserDTO> GetFromToken()
+        {
+            return await _mediator.Send(new GetUserByIdQuery(_userIdGetter.UserId));
         }
 
         // PUT: api/User/5

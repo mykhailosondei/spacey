@@ -8,6 +8,7 @@ public class Image
 {
     [BsonId]
     [RestrictUpdate]
-    public int Id { get; set; }
+    [BsonRepresentation(BsonType.String)]
+    public Guid Id { get; set; }
     public string Url { get; set; }
 }

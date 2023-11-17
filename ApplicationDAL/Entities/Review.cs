@@ -10,6 +10,7 @@ public class Review
     [BsonId]
     [BsonIgnoreIfNull]
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
     
     public string Comment { get; set; }

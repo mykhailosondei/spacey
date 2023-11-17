@@ -8,6 +8,7 @@ public class Host
 {
     [BsonId]
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
     
     public DateTime CreatedAt { get; set; }

@@ -3,4 +3,4 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.Commands.UserCommands;
 
-public record UpdateUserCommand(Guid Id,UserUpdateDTO User) : IRequest<Unit>;
+public record UpdateUserCommand(Guid Id,UserUpdateDTO User) : IRequest;

@@ -19,7 +19,6 @@ namespace airbnb_net.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class AuthController : InternalControllerBase
     {
         private readonly JwtFactory _jwtFactory;
@@ -37,6 +36,7 @@ namespace airbnb_net.Controllers
         
         // POST: api/Auth/login
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<AuthUser> Login([FromBody] LoginUserDTO loginUserDTO)
         {
             return await _authService.Authorize(loginUserDTO);
