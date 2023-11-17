@@ -12,11 +12,10 @@ namespace Application.API.IntegrationTests;
 
 public class BookingControllerTests : IntegrationTest
 {
-    private readonly ITestOutputHelper _output;
     
-    public BookingControllerTests(ITestOutputHelper output)
+    public BookingControllerTests(ITestOutputHelper output) : base(output)
     {
-        _output = output;
+        
     }
     
     [Fact]

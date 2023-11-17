@@ -9,8 +9,11 @@ using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.Commanding.Commands.BookingCommands;
+using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,27 +27,29 @@ namespace airbnb_net.Controllers
         private readonly IBookingQueryRepository _bookingQueryRepository;
         private readonly IBookingCommandAccess _bookingCommandAccess;
         private readonly IUserIdGetter _userIdGetter;
+        private readonly IMediator _mediator;
 
         public BookingController(IBookingQueryRepository bookingQueryRepository,
-            IBookingCommandAccess bookingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter) : base(logger,mapper)
+            IBookingCommandAccess bookingCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator) : base(logger,mapper)
         {
             _bookingQueryRepository = bookingQueryRepository;
             _bookingCommandAccess = bookingCommandAccess;
             _userIdGetter = userIdGetter;
+            _mediator = mediator;
         }
         
         // GET: api/Booking
         [HttpGet]
         public async Task<IEnumerable<BookingDTO>> Get()
         {
-            return _mapper.Map<IEnumerable<BookingDTO>>(await _bookingQueryRepository.GetAllBookings());
+            return await _mediator.Send(new GetAllBookingsQuery());
         }
         
         // GET: api/Booking/5
         [HttpGet("{id:guid}")]
         public async Task<BookingDTO> Get(Guid id)
         {
-            return _mapper.Map<BookingDTO>(await _bookingQueryRepository.GetBookingById(id));
+            return await _mediator.Send(new GetBookingByIdQuery(id));
         }
         
         // POST: api/Booking
@@ -52,26 +57,24 @@ namespace airbnb_net.Controllers
         [Authorize]
         public async Task<Guid> Post([FromBody] BookingCreateDTO bookingCreate)
         {
-            var bookingDTO = _mapper.Map<BookingDTO>(bookingCreate);
-            var booking = _mapper.Map<Booking>(bookingDTO);
-            booking.UserId = _userIdGetter.UserId;
-            return await _bookingCommandAccess.AddBooking(booking);
+            bookingCreate.UserId = _userIdGetter.UserId;
+            return await _mediator.Send(new CreateBookingCommand(bookingCreate));
         }
         
         // PUT: api/Booking/5
         [HttpPut("{id:guid}")]
+        [Authorize]
         public async Task Put(Guid id, [FromBody] BookingUpdateDTO bookingUpdate)
         {
-            var bookingDTO = _mapper.Map<BookingDTO>(bookingUpdate);
-            var booking = _mapper.Map<Booking>(bookingDTO);
-            await _bookingCommandAccess.UpdateBooking(id, booking);
+            await _mediator.Send(new UpdateBookingCommand(id, bookingUpdate));
         }
         
         // DELETE: api/Booking/5
         [HttpDelete("{id:guid}")]
+        [Authorize]
         public async Task Delete(Guid id)
         {
-            await _bookingCommandAccess.DeleteBooking(id);
+            await _mediator.Send(new DeleteBookingCommand(id));
         }
     }
 }
