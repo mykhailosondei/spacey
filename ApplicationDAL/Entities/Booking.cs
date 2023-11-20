@@ -25,10 +25,12 @@ public class Booking
     public DateTime CheckOut { get; set; }
     
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public Guid UserId { get; set; }
     
     [RestrictUpdate]
     [BsonRequired]
+    [BsonRepresentation(BsonType.String)]
     public Guid ListingId { get; set; }
     
     [BsonIgnoreIfNull]

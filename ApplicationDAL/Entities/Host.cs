@@ -14,6 +14,7 @@ public class Host
     public DateTime CreatedAt { get; set; }
     
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public Guid UserId { get; set; }
     
     [RestrictUpdate]
@@ -23,7 +24,7 @@ public class Host
     public int NumberOfReviews { get; set; }
     
     public double Rating { get; set; }
-    
+
     [RestrictUpdate]
-    public List<Guid> ListingsIds { get; set; }
+    public List<Guid> ListingsIds { get; set; } = new();
 }

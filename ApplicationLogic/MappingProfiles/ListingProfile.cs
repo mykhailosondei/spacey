@@ -14,7 +14,11 @@ public class ListingProfile : Profile
         CreateMap<ListingCreateDTO, ListingDTO>()
             #region Mapping
             .ForMember(dest => dest.Host,
-                opt => opt.MapFrom(src => new HostDTO { Id = src.HostId }));
+                opt => opt.MapFrom(src => new HostDTO
+                {
+                    Id = src.HostId,
+                    ListingsIds = new List<Guid>()
+                }));
             #endregion
         CreateMap<ListingUpdateDTO, ListingDTO>()
             #region Mapping

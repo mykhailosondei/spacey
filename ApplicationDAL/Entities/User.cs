@@ -28,7 +28,6 @@ public class User
     
     public Image Avatar { get; set; }
     
-    [RestrictUpdate]
     public Host Host { get; set; }
     
     [RestrictUpdate]

@@ -18,8 +18,10 @@ public class Review
     public double[] Ratings { get; set; }
     
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public Guid BookingId { get; set; }
     
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public Guid UserId { get; set; }
 }
