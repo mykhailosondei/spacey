@@ -4,12 +4,15 @@ namespace ApplicationDAL.DbHelper;
 
 public abstract class CollectionGetter
 {
-    private static readonly IMongoClient _client = new MongoClient("mongodb+srv://compassuser:wBzZ4kD5ejcI1FWf@democluster.4nn3xhe.mongodb.net/?retryWrites=true&w=majority");
+    private static IMongoDbContext _mongoDbContext;
 
-    private static readonly IMongoDatabase _database = _client.GetDatabase("airbnb");
-    
+    public static void Initialize(IMongoDbContext mongoDbContext)
+    {
+        _mongoDbContext = mongoDbContext;
+    }
+
     protected static IMongoCollection<T> GetCollection<T>(string collectionName)
     {
-        return _database.GetCollection<T>(collectionName);
+        return _mongoDbContext.GetCollection<T>(collectionName);
     }
 }
