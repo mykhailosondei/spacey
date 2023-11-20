@@ -12,6 +12,7 @@ using ApplicationLogic.Commanding.Commands.ReviewCommands;
 using ApplicationLogic.Querying.Queries.ReviewQueries;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,6 +46,7 @@ namespace airbnb_net.Controllers
 
         // POST: api/Review
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<Guid> Post([FromBody] ReviewCreateDTO reviewCreate)
         { 
             return await _mediator.Send(new CreateReviewCommand(reviewCreate));
@@ -52,6 +54,7 @@ namespace airbnb_net.Controllers
 
         // PUT: api/Review/5
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "User")]
         public async Task Put(Guid id, [FromBody] ReviewUpdateDTO reviewUpdate)
         {
             await _mediator.Send(new UpdateReviewCommand(id, reviewUpdate));
@@ -59,6 +62,7 @@ namespace airbnb_net.Controllers
 
         // DELETE: api/Review/5
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "User")]
         public async Task Delete(Guid id)
         {
             await _mediator.Send(new DeleteReviewCommand(id));

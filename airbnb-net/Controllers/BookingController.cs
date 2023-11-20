@@ -49,7 +49,7 @@ namespace airbnb_net.Controllers
         
         // POST: api/Booking
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User")]
         public async Task<Guid> Post([FromBody] BookingCreateDTO bookingCreate)
         {
             bookingCreate.UserId = _userIdGetter.UserId;
@@ -58,7 +58,7 @@ namespace airbnb_net.Controllers
         
         // PUT: api/Booking/5
         [HttpPut("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "User")]
         public async Task Put(Guid id, [FromBody] BookingUpdateDTO bookingUpdate)
         {
             await _mediator.Send(new UpdateBookingCommand(id, bookingUpdate));
@@ -66,7 +66,7 @@ namespace airbnb_net.Controllers
         
         // DELETE: api/Booking/5
         [HttpDelete("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "User")]
         public async Task Delete(Guid id)
         {
             await _mediator.Send(new DeleteBookingCommand(id));

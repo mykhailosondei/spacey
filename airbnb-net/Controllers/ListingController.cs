@@ -9,10 +9,12 @@ using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Commanding.Commands.ListingCommands;
+using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Querying.Queries.ListingQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,13 +24,13 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class ListingController : InternalControllerBase
     {
-        private readonly IUserIdGetter _userIdGetter;
+        private readonly IHostIdGetter _hostIdGetter;
         private readonly IMediator _mediator;
 
-        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator) : base(logger,mapper)
+        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator, IHostIdGetter hostIdGetter) : base(logger,mapper)
         {
-            _userIdGetter = userIdGetter;
             _mediator = mediator;
+            _hostIdGetter = hostIdGetter;
         }
         
         // GET: api/Listing
@@ -47,13 +49,16 @@ namespace airbnb_net.Controllers
         
         // POST: api/Listing
         [HttpPost]
+        [Authorize(Roles = "Host")]
         public async Task<Guid> Post([FromBody] ListingCreateDTO listingCreate)
         {
+            listingCreate.HostId = _hostIdGetter.HostId;
             return await _mediator.Send(new CreateListingCommand(listingCreate));
         }
         
         // PUT: api/Listing/5
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Host")]
         public async Task Put(Guid id, [FromBody] ListingUpdateDTO listingUpdate)
         {
             await _mediator.Send(new UpdateListingCommand(id, listingUpdate));
@@ -61,6 +66,7 @@ namespace airbnb_net.Controllers
         
         // DELETE: api/Listing/5
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Host")]
         public async Task Delete(Guid id)
         {
             await _mediator.Send(new DeleteListingCommand(id));

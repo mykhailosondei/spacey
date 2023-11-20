@@ -9,6 +9,7 @@ using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Commanding.Commands.HostCommands;
+using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Querying.Queries.HostQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
@@ -27,14 +28,16 @@ namespace airbnb_net.Controllers
         private readonly IMediator _mediator;
         private readonly IHostCommandAccess _hostCommandAccess;
         private readonly IUserIdGetter _userIdGetter;
+        private readonly IHostIdGetter _hostIdGetter;
 
 
-        public HostController(IHostQueryRepository hostQueryRepository, IHostCommandAccess hostCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator) 
+        public HostController(IHostQueryRepository hostQueryRepository, IHostCommandAccess hostCommandAccess, ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator, IHostIdGetter hostIdGetter) 
             : base(logger, mapper)
         {
             _hostCommandAccess = hostCommandAccess;
             _userIdGetter = userIdGetter;
             _mediator = mediator;
+            _hostIdGetter = hostIdGetter;
         }
         
         // GET: api/Host/5
@@ -44,27 +47,29 @@ namespace airbnb_net.Controllers
             return await _mediator.Send(new GetHostByIdQuery(id));
         }
         
-        // POST: api/Host
-        [HttpPost]
-        [Authorize]
-        public async Task<Guid> Post([FromBody] HostCreateDTO hostCreate)
-        {
-            hostCreate.UserId = _userIdGetter.UserId;
-            return await _mediator.Send(new CreateHostCommand(hostCreate));
-        }
-        
         // PUT: api/Host/5
         [HttpPut("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "Host, User")]
         public async Task Put(Guid id, [FromBody] HostUpdateDTO hostUpdate)
         {
+            //TODO: check if id matches hostId
             hostUpdate.UserId = _userIdGetter.UserId;
+            hostUpdate.Id = _hostIdGetter.HostId;
             await _mediator.Send(new UpdateHostCommand(id, hostUpdate));
         }
         
+        // GET: api/Host
+        [HttpGet("fromToken")]
+        [Authorize(Roles = "Host")]
+        public async Task<HostDTO> Get()
+        {
+            return await _mediator.Send(new GetHostByIdQuery(_hostIdGetter.HostId));
+        }
+        
+        
         // DELETE: api/Host/5
         [HttpDelete("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "Host")]
         public async Task Delete(Guid id)
         {
             await _hostCommandAccess.DeleteHost(id);
