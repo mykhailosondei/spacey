@@ -17,6 +17,7 @@
 ../*/*/[Dd]ebug/
 */*/[Rr]elease/
 ../*/obj/
+ApplicationDAL/obj
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
