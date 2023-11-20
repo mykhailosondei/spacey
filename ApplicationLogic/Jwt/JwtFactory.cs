@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
+using ApplicationLogic.Querying.Queries.HostQueries;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -20,9 +21,9 @@ public sealed class JwtFactory : ITokenGenerator
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         }
 
-        public async Task<AccessToken> GenerateAccessToken(Guid id, string userName, string email)
+        public async Task<AccessToken> GenerateAccessToken(Guid id, Guid hostId, string userName, string email, bool isHost)
         {
-            var identity = GenerateClaimsIdentity(id, userName);
+            var identity = GenerateClaimsIdentity(id, hostId, userName);
 
             var claims = new[]
             {
@@ -30,7 +31,9 @@ public sealed class JwtFactory : ITokenGenerator
                  new Claim(JwtRegisteredClaimNames.Email, email),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-                 identity.FindFirst("id")
+                 identity.FindFirst("id"),
+                 identity.FindFirst("hostId"),
+                 new Claim(ClaimTypes.Role, isHost ? "Host" : "User")
              };
 
             // Create the JWT security token and encode it.
@@ -95,11 +98,12 @@ public sealed class JwtFactory : ITokenGenerator
             }
         }
 
-        private static ClaimsIdentity GenerateClaimsIdentity(Guid id, string userName)
+        private static ClaimsIdentity GenerateClaimsIdentity(Guid id, Guid hostId, string userName)
         {
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
-                new Claim("id", id.ToString())
+                new Claim("id", id.ToString()),
+                new Claim("hostId", hostId.ToString())
             });
         }
 

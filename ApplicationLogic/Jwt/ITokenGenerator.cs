@@ -2,5 +2,5 @@ namespace ApplicationLogic.Jwt;
 
 public interface ITokenGenerator
 {
-    Task<AccessToken> GenerateAccessToken(Guid id, string userName, string email);
+    Task<AccessToken> GenerateAccessToken(Guid id, Guid hostId, string userName, string email, bool isHost);
 }

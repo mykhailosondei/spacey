@@ -10,6 +10,7 @@ using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Jwt;
 using ApplicationLogic.Services;
+using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,17 +22,13 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class AuthController : InternalControllerBase
     {
-        private readonly JwtFactory _jwtFactory;
-        private readonly IUserCommandAccess _userCommandAccess;
-        private readonly IUserQueryRepository _userQueryRepository;
         private readonly AuthService _authService;
+        private readonly IUserIdGetter _userIdGetter;
         
-        public AuthController(ILogger<InternalControllerBase> logger, IMapper mapper, JwtFactory jwtFactory, IUserCommandAccess userCommandAccess, IUserQueryRepository userQueryRepository, AuthService authService) : base(logger, mapper)
+        public AuthController(ILogger<InternalControllerBase> logger, IMapper mapper, JwtFactory jwtFactory, IUserCommandAccess userCommandAccess, IUserQueryRepository userQueryRepository, AuthService authService, IUserIdGetter userIdGetter) : base(logger, mapper)
         {
-            _jwtFactory = jwtFactory;
-            _userCommandAccess = userCommandAccess;
-            _userQueryRepository = userQueryRepository;
             _authService = authService;
+            _userIdGetter = userIdGetter;
         }
         
         // POST: api/Auth/login
@@ -41,6 +38,15 @@ namespace airbnb_net.Controllers
         {
             return await _authService.Authorize(loginUserDTO);
         }
+
+        [HttpPost("switch-role-to-host/{toHost:bool}")]
+        [Authorize(Roles = "User, Host")]
+        public async Task<AuthUser> SwitchRole(bool toHost)
+        {
+            var userId = _userIdGetter.UserId;
+            return await _authService.SwitchRole(userId, toHost);
+        }
+        
         
         // POST: api/Auth/register
         [HttpPost("register")]
