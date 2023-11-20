@@ -22,7 +22,12 @@ public class ListingCommandAccess : BaseAccessHandler, IListingDeletor, IListing
     public async Task<Guid> AddListing(Listing listing)
     {
         listing.Id = Guid.NewGuid();
+        Console.WriteLine(listing.Host.ToBsonDocument());
         await RetrieveHostOnListingAdd(listing.Host.Id, listing);
+        if (listing.Host.ListingsIds == null)
+        {
+            listing.Host.ListingsIds = new List<Guid>();
+        }
         listing.Host.ListingsIds.Add(listing.Id);
         await _collection.InsertOneAsync(listing);
         await UpdateHostListingIdsOnListingAdd(listing.Host.Id, listing);
