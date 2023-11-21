@@ -1,6 +1,7 @@
 using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
+using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.ListingQueries;
 using AutoMapper;
 using MediatR;
@@ -19,6 +20,12 @@ public class GetAllListingsQueryHandler : BaseHandler, IRequestHandler<GetAllLis
     public async Task<IEnumerable<ListingDTO>> Handle(GetAllListingsQuery request, CancellationToken cancellationToken)
     {
         var result = await _listingQueryRepository.GetAllListings();
+
+        if (!result.Any())
+        {
+            throw new NotFoundException(nameof(IEnumerable<ListingDTO>));
+        }
+        
         return _mapper.Map<IEnumerable<ListingDTO>>(result);
     }
 }

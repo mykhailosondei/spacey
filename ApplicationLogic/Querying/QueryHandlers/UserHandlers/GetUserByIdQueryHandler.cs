@@ -1,6 +1,7 @@
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
+using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.UserQueries;
 using AutoMapper;
 using MediatR;
@@ -18,6 +19,13 @@ public class GetUserByIdQueryHandler : BaseHandler, IRequestHandler<GetUserByIdQ
 
     public async Task<UserDTO> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<UserDTO>(await _userQueryRepository.GetUserById(request.id));
+        var result = await _userQueryRepository.GetUserById(request.Id);
+        
+        if (result == null)
+        {
+            throw new NotFoundException(nameof(UserDTO));
+        }
+        
+        return _mapper.Map<UserDTO>(result);
     }
 }

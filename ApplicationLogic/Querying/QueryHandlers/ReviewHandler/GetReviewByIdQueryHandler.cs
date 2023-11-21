@@ -1,6 +1,7 @@
 using ApplicationCommon.DTOs.Review;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
+using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.ReviewQueries;
 using AutoMapper;
 using MediatR;
@@ -18,6 +19,13 @@ public class GetReviewByIdQueryHandler : BaseHandler, IRequestHandler<GetReviewB
 
     public async Task<ReviewDTO> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<ReviewDTO>(await _reviewQueryRepository.GetReviewById(request.Id));
+        var result = await _reviewQueryRepository.GetReviewById(request.Id);
+        
+        if (result == null)
+        {
+            throw new NotFoundException(nameof(ReviewDTO));
+        }
+        
+        return _mapper.Map<ReviewDTO>(result);
     }
 }

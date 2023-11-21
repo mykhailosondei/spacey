@@ -1,6 +1,7 @@
 using ApplicationCommon.DTOs.Host;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
+using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.HostQueries;
 using AutoMapper;
 using MediatR;
@@ -18,6 +19,13 @@ public class GetHostByIdQueryHandler : BaseHandler, IRequestHandler<GetHostByIdQ
 
     public async Task<HostDTO> Handle(GetHostByIdQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<HostDTO>(await _hostQueryRepository.GetHostById(request.Id));
+        var result = await _hostQueryRepository.GetHostById(request.Id);
+        
+        if (result == null)
+        {
+            throw new NotFoundException(nameof(HostDTO));
+        }
+        
+        return _mapper.Map<HostDTO>(result);
     }
 }

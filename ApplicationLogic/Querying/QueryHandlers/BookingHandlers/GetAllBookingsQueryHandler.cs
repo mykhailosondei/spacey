@@ -1,6 +1,7 @@
 using ApplicationCommon.DTOs.Booking;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
+using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.BookingQueries;
 using AutoMapper;
 using MediatR;
@@ -19,6 +20,12 @@ public class GetAllBookingsQueryHandler : BaseHandler, IRequestHandler<GetAllBoo
     public async Task<IEnumerable<BookingDTO>> Handle(GetAllBookingsQuery request, CancellationToken cancellationToken)
     {
         var result = await _bookingQueryRepository.GetAllBookings();
+
+        if (!result.Any())
+        {
+            throw new NotFoundException(nameof(IEnumerable<BookingDTO>));
+        }
+        
         return _mapper.Map<IEnumerable<BookingDTO>>(result);
     }
 }

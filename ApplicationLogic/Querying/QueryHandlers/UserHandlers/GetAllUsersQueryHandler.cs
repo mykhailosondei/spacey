@@ -2,6 +2,7 @@ using Amazon.Runtime.Internal;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
+using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.UserQueries;
 using AutoMapper;
 using MediatR;
@@ -19,6 +20,13 @@ public class GetAllUsersQueryHandler : BaseHandler, IRequestHandler<GetAllUsersQ
     
     public async Task<IEnumerable<UserDTO>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<IEnumerable<UserDTO>>(await _userQueryRepository.GetAllUsers());
+        var result = await _userQueryRepository.GetAllUsers();
+
+        if (!result.Any())
+        {
+            throw new NotFoundException(nameof(IEnumerable<UserDTO>));
+        }
+        
+        return _mapper.Map<IEnumerable<UserDTO>>(result);
     }
 }
