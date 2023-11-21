@@ -126,3 +126,12 @@
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/obj/Debug/net7.0/ApplicationLogic.Tests.Static.pdb
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/obj/Debug/net7.0/ApplicationLogic.Tests.Static.genruntimeconfig.cache
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/obj/Debug/net7.0/ref/ApplicationLogic.Tests.Static.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/BCrypt.Net-Next.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/FluentValidation.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/MediatR.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/MediatR.Contracts.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Mono.Cecil.Mdb.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Mono.Cecil.Pdb.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Mono.Cecil.Rocks.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Mono.Cecil.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/NetArchTest.Rules.dll
