@@ -8,7 +8,7 @@ public static class ReviewFixtures
     {
         BookingId = new Guid(),
         Comment = "Test",
-        Ratings = Array.Empty<double>()
+        Ratings = new []{1.0}
     };
     
     public static ReviewUpdateDTO ReviewUpdateDTO = new()

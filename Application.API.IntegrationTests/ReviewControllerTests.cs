@@ -67,6 +67,9 @@ public class ReviewControllerTests : IntegrationTest
         await SwitchRole(false);
         var bookingCreateResponse = await Post<Booking>("api/Booking", booking);
         review.BookingId = await GetIdFromResponse(bookingCreateResponse);
+        var currentUserResponse = await Get<User>("api/User/fromToken");
+        var currentUser = await GetObjectFromResponse<User>(currentUserResponse);
+        review.UserId = currentUser.Id;
         var reviewCreateResponse = await Post<Review>("api/Review", review);
         var reviewId = await GetIdFromResponse(reviewCreateResponse);
         var response = await Put<Review>("api/Review/"+reviewId, reviewUpdate);

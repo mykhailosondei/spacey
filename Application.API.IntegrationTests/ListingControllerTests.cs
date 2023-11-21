@@ -52,14 +52,14 @@ public class ListingControllerTests : IntegrationTest
         _output.WriteLine(response.Content.ReadAsStringAsync().Result);
         Assert.True(response.StatusCode == HttpStatusCode.OK);
     }
-
-    //TODO
+    
     [Fact]
     public async void PostListing_ReturnsBadRequestStatus_OnInvalidInput()
     {
         //Arrange
         var listing = ListingFixtures.ListingCreateDTOInvalid;
         //Act
+        await SwitchRole(true);
         var response = await Post<Listing>("api/Listing", listing);
         //Assert
         Assert.True(response.StatusCode == HttpStatusCode.BadRequest);
@@ -129,7 +129,7 @@ public class ListingControllerTests : IntegrationTest
         _output.WriteLine(response.Content.ReadAsStringAsync().Result);
         var hostGet = await GetObjectFromResponse<Host>(await Get<Host>("api/Host/fromToken"));
         
-        Assert.True(responseGet.StatusCode == HttpStatusCode.NoContent);
+        Assert.True(responseGet.StatusCode == HttpStatusCode.UnprocessableEntity);
         Assert.DoesNotContain(listingId, hostGet.ListingsIds);
     }
 }

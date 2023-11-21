@@ -15,6 +15,7 @@ using ApplicationLogic.Jwt;
 using ApplicationLogic.MappingProfiles;
 using ApplicationLogic.Services;
 using ApplicationLogic.UserIdLogic;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -66,6 +67,8 @@ public static class ServiceExtensions
             var databaseName = "airbnb";
             return new MongoDbContext(connectionString, databaseName);
         });
+        
+        services.AddValidatorsFromAssembly(ApplicationLogic.AssemblyMarker.Assembly);
         
         CollectionGetter.Initialize(services.BuildServiceProvider().GetService<IMongoDbContext>()!);
     }

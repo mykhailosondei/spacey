@@ -1,6 +1,7 @@
 using airbnb_net.Extensions;
 using airbnb_net.Middlewares;
 using ApplicationLogic;
+using ApplicationLogic.PipelineBehaviors;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -22,6 +23,7 @@ builder.Services.AddMediatR(x =>
     x.Lifetime = ServiceLifetime.Scoped;
     // ReSharper disable once RedundantNameQualifier
     x.RegisterServicesFromAssemblyContaining<ApplicationLogic.AssemblyMarker>();
+    x.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
 
 var app = builder.Build();
@@ -40,6 +42,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserIdMiddleware>();
+app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 
 app.MapControllerRoute(

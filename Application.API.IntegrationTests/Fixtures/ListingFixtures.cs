@@ -28,7 +28,6 @@ public static class ListingFixtures
     
     public static readonly ListingCreateDTO ListingCreateDTOInvalid = new()
     {
-        HostId = Guid.Empty,
         Title = "Test",
         Description = "Test",
         Address = new Address()
@@ -37,7 +36,7 @@ public static class ListingFixtures
             Country = "Test",
             Street = "Test"
         },
-        PricePerNight = 10,
+        PricePerNight = 0,
         NumberOfGuests = 10,
         NumberOfBathrooms = 10,
         NumberOfRooms = 10,

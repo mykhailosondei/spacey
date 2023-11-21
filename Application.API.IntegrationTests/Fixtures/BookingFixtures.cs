@@ -8,12 +8,14 @@ public static class BookingFixtures
     {
         ListingId = new Guid(),
         CheckIn = DateTime.Now,
-        CheckOut = DateTime.Now.AddDays(1)
+        CheckOut = DateTime.Now.AddDays(1),
+        NumberOfGuests = 1
     };
     
     public static BookingUpdateDTO BookingUpdateDTO = new()
     {
         CheckIn = DateTime.Now.AddDays(1),
-        CheckOut = DateTime.Now.AddDays(2)
+        CheckOut = DateTime.Now.AddDays(2),
+        NumberOfGuests = 1
     };
 }

@@ -48,31 +48,8 @@ public class BookingControllerTests : IntegrationTest
     public async void PostBooking_AddsIdToListingBookingIds_OnValidInput()
     {
         //Arrange
-        var listing = new ListingCreateDTO()
-        {
-            HostId = new Guid(),
-            Title = "Test",
-            Description = "Test",
-            Address = new Address()
-            {
-                City = "Test",
-                Country = "Test",
-                Street = "Test"
-            },
-            PricePerNight = 10,
-            NumberOfGuests = 10,
-            NumberOfBathrooms = 10,
-            NumberOfRooms = 10,
-            Amenities = new string[] { },
-            ImagesUrls = new List<ImageDTO>(),
-            PropertyType = PropertyType.Apartment
-        };
-        var booking = new BookingCreateDTO()
-        {
-            ListingId = new Guid(),
-            CheckIn = DateTime.Now,
-            CheckOut = DateTime.Now.AddDays(1)
-        };
+        var listing = ListingFixtures.ListingCreateDTO;
+        var booking = BookingFixtures.BookingCreateDTO;
         //Act
         await SwitchRole(true);
         var hostResponse = await Get<Host>("api/Host/fromToken");
@@ -118,31 +95,8 @@ public class BookingControllerTests : IntegrationTest
     [Fact]
     public async void DeleteBooking_DeletesBooking_OnValidInput()
     {
-        var listing = new ListingCreateDTO()
-        {
-            HostId = new Guid(),
-            Title = "Test",
-            Description = "Test",
-            Address = new Address()
-            {
-                City = "Test",
-                Country = "Test",
-                Street = "Test"
-            },
-            PricePerNight = 10,
-            NumberOfGuests = 10,
-            NumberOfBathrooms = 10,
-            NumberOfRooms = 10,
-            Amenities = new string[]{},
-            ImagesUrls = new List<ImageDTO>(),
-            PropertyType = PropertyType.Apartment
-        };
-        var booking = new BookingCreateDTO()
-        {
-            ListingId = new Guid(),
-            CheckIn = DateTime.Now,
-            CheckOut = DateTime.Now.AddDays(1)
-        };
+        var listing = ListingFixtures.ListingCreateDTO;
+        var booking = BookingFixtures.BookingCreateDTO;
         //Act
         await SwitchRole(true);
         var hostResponse = await Get<Host>("api/Host/fromToken");
@@ -158,37 +112,14 @@ public class BookingControllerTests : IntegrationTest
         var responseGet = await Get<string>($"api/Booking/{bookingCreateId}");
         //Assert
         _output.WriteLine(response.Content.ReadAsStringAsync().Result);
-        Assert.True(responseGet.StatusCode == HttpStatusCode.NoContent);
+        Assert.True(responseGet.StatusCode == HttpStatusCode.UnprocessableEntity);
     }
     
     [Fact]
     public async void DeleteBooking_DeletesIdFromListingBookingIds_OnValidInput()
     {
-        var listing = new ListingCreateDTO()
-        {
-            HostId = new Guid(),
-            Title = "Test",
-            Description = "Test",
-            Address = new Address()
-            {
-                City = "Test",
-                Country = "Test",
-                Street = "Test"
-            },
-            PricePerNight = 10,
-            NumberOfGuests = 10,
-            NumberOfBathrooms = 10,
-            NumberOfRooms = 10,
-            Amenities = new string[]{},
-            ImagesUrls = new List<ImageDTO>(),
-            PropertyType = PropertyType.Apartment
-        };
-        var booking = new BookingCreateDTO()
-        {
-            ListingId = new Guid(),
-            CheckIn = DateTime.Now,
-            CheckOut = DateTime.Now.AddDays(1)
-        };
+        var listing = ListingFixtures.ListingCreateDTO;
+        var booking = BookingFixtures.BookingCreateDTO;
         //Act
         await SwitchRole(true);
         var hostResponse = await Get<Host>("api/Host/fromToken");
