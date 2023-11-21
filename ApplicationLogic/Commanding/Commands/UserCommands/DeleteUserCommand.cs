@@ -2,4 +2,4 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.Commands.UserCommands;
 
-public record DeleteUserCommand(Guid Id) : IRequest;
+public record DeleteUserCommand(Guid Id) : IRequest, ICommand;

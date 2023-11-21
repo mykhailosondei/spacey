@@ -3,4 +3,4 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.Commands.BookingCommands;
 
-public record UpdateBookingCommand(Guid Id, BookingUpdateDTO Booking) : IRequest;
+public record UpdateBookingCommand(Guid Id, BookingUpdateDTO Booking) : IRequest, ICommand;

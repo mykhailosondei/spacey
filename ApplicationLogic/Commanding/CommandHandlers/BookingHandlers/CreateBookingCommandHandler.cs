@@ -4,6 +4,8 @@ using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationLogic.Abstract;
 using ApplicationLogic.Commanding.Commands.BookingCommands;
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.BookingHandlers;
@@ -21,6 +23,7 @@ public class CreateBookingCommandHandler : BaseHandler, IRequestHandler<CreateBo
     {
         var bookingDTO = _mapper.Map<BookingDTO>(request.Booking);
         var booking = _mapper.Map<Booking>(bookingDTO);
+        
         return await _bookingCommandAccess.AddBooking(booking);
     }
 }

@@ -3,4 +3,4 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.Commands.ReviewCommands;
 
-public record UpdateReviewCommand(Guid Id, ReviewUpdateDTO Review) : IRequest;
+public record UpdateReviewCommand(Guid Id, ReviewUpdateDTO Review) : IRequest, ICommand;

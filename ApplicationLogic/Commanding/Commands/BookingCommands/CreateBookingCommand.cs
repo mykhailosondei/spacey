@@ -3,4 +3,4 @@ using MediatR;
 
 namespace ApplicationLogic.Commanding.Commands.BookingCommands;
 
-public record CreateBookingCommand(BookingCreateDTO Booking) : IRequest<Guid>;
+public record CreateBookingCommand(BookingCreateDTO Booking) : IRequest<Guid>, ICommand;
