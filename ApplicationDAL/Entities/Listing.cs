@@ -39,4 +39,6 @@ public class Listing
     public List<Guid> BookingsIds { get; set; }
 
     public Amenities Amenities { get; set; }
+    
+    public double[] Ratings { get; set; }
 }

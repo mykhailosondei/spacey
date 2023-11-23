@@ -45,6 +45,8 @@ public class AuthService
         var userDTO = _mapper.Map<UserDTO>(registerUserDTO);
         var user = _mapper.Map<User>(userDTO);
         
+        user.CreatedAt = DateTime.UtcNow;
+        
         user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerUserDTO.Password);
         
         Guid userId = await _userCommandAccess.AddUser(user);
