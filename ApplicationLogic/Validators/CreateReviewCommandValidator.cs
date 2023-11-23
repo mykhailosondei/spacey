@@ -10,7 +10,7 @@ public class CreateReviewCommandValidator : AbstractValidator<CreateReviewComman
     {
         RuleFor(r => r.Review.BookingId).NotEmpty().Must((guid)=> guid != Guid.Empty);
         RuleFor(r => r.Review.UserId).NotEmpty().Must((guid)=> guid != Guid.Empty);
-        RuleFor(r => r.Review.Ratings).NotEmpty();
+        RuleFor(r => r.Review.Ratings).NotEmpty().Must(ratings => ratings.All(rating => rating is >= 0 and <= 5));
         RuleFor(r => r.Review.Comment).NotEmpty().MaximumLength(500);
     }
 }
