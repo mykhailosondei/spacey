@@ -25,9 +25,17 @@ public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor, IBooking
         booking.Id = Guid.NewGuid();
         await _collection.InsertOneAsync(booking);
         await UpdateListingBookingsIdsOnBookingAdd(booking.ListingId, booking);
+        await UpdateUserBookingsIdsOnBookingAdd(booking.UserId, booking);
         return booking.Id;
     }
-    
+
+    private async Task UpdateUserBookingsIdsOnBookingAdd(Guid userId, Booking booking)
+    {
+        var userFilter = Builders<User>.Filter.Eq("Id", userId);
+        var userUpdate = Builders<User>.Update.Push("BookingsIds", booking.Id);
+        await GetCollection<User>("users").UpdateOneAsync(userFilter, userUpdate);
+    }
+
     private async Task UpdateListingBookingsIdsOnBookingAdd(Guid id, Booking booking)
     {
         var listingFilter = Builders<Listing>.Filter.Eq("Id", id);
