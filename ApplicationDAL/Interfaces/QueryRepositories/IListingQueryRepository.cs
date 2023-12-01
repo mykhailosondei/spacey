@@ -9,4 +9,5 @@ public interface IListingQueryRepository
     public Task<IEnumerable<Listing>> GetAllListings();
 
     public Task<IEnumerable<Listing>> GetListingsByHostId(Guid hostId);
+    public Task<IEnumerable<Listing>> GetListingsByPropertyType(string requestPropertyType);
 }
