@@ -1,3 +1,4 @@
+using ApplicationCommon.Enums;
 using ApplicationDAL.DataQueryAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
@@ -24,6 +25,12 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
     public async Task<IEnumerable<Listing>> GetListingsByHostId(Guid hostId)
     {
         var filter = Builders<Listing>.Filter.Eq("Host.Id", hostId);
+        return await _collection.Find(filter).ToListAsync();
+    }
+    
+    public async Task<IEnumerable<Listing>> GetListingsByPropertyType(string propertyType)
+    {
+        var filter = Builders<Listing>.Filter.Eq("PropertyType", propertyType);
         return await _collection.Find(filter).ToListAsync();
     }
 }
