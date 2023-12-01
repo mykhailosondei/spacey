@@ -1,4 +1,5 @@
-using ApplicationCommon.DTOs.Booking;
+
+using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
 using ApplicationLogic.Exceptions;

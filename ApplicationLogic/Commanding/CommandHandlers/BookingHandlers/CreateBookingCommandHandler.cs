@@ -1,4 +1,4 @@
-using ApplicationCommon.DTOs.Booking;
+using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
@@ -42,12 +42,11 @@ public class CreateBookingCommandHandler : BaseHandler, IRequestHandler<CreateBo
         {
             throw new NotFoundException("Listing");
         }
+        
+        var bookings = await _bookingQueryRepository.GetBookingsByListingId(booking.ListingId);
 
-        var existingBookings = listingEntity.BookingsIds.Select(bookingId =>
-        {
-            var bookingEntity = _bookingQueryRepository.GetBookingById(bookingId).Result;
-            return (bookingEntity.CheckIn, bookingEntity.CheckOut);
-        });
+        (DateTime CheckIn, DateTime CheckOut)[] existingBookings =
+            bookings.Select(b => (b.CheckIn, b.CheckOut)).ToArray();
         
         if (BookingHelper.DateIntersects(booking.CheckIn, booking.CheckOut, existingBookings))
         {

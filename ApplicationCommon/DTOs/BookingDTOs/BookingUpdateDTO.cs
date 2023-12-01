@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ApplicationCommon.DTOs.Booking;
+namespace ApplicationCommon.DTOs.BookingDTOs;
 
 public class BookingUpdateDTO
 {

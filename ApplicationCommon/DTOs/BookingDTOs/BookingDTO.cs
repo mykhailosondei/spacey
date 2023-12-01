@@ -2,13 +2,13 @@ using ApplicationCommon.DTOs.Review;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ApplicationCommon.DTOs.Booking;
+namespace ApplicationCommon.DTOs.BookingDTOs;
 
-public class BookingCreateDTO
+public class BookingDTO
 {
     [BsonId]
     [BsonIgnoreIfNull]
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
     
     [BsonRepresentation(BsonType.DateTime)]
     public DateTime CheckIn { get; set; }
@@ -21,5 +21,14 @@ public class BookingCreateDTO
     public Guid ListingId { get; set; }
     
     [BsonIgnoreIfNull]
+    public ReviewDTO? Review { get; set; }
+    
+    [BsonIgnoreIfNull]
     public int NumberOfGuests { get; set; }
+    
+    [BsonIgnoreIfNull]
+    public int TotalPrice { get; set; }
+    
+    [BsonIgnoreIfNull]
+    public bool IsCancelled { get; set; }
 }

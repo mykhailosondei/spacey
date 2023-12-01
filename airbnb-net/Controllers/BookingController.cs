@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using airbnb_net.Controllers.Abstract;
-using ApplicationCommon.DTOs.Booking;
+using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;

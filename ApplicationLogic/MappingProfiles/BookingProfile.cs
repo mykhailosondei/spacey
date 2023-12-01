@@ -1,4 +1,4 @@
-using ApplicationCommon.DTOs.Booking;
+using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Review;
 using ApplicationDAL.Entities;

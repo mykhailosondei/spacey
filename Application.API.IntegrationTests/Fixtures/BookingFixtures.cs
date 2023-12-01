@@ -1,4 +1,5 @@
-using ApplicationCommon.DTOs.Booking;
+
+using ApplicationCommon.DTOs.BookingDTOs;
 
 namespace Application.API.IntegrationTests.Fixtures;
 
@@ -14,8 +15,8 @@ public static class BookingFixtures
     
     public static BookingUpdateDTO BookingUpdateDTO = new()
     {
-        CheckIn = DateTime.Now.AddDays(1),
-        CheckOut = DateTime.Now.AddDays(2),
+        CheckIn = DateTime.Now.AddDays(2),
+        CheckOut = DateTime.Now.AddDays(3),
         NumberOfGuests = 1
     };
 }

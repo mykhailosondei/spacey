@@ -1,4 +1,4 @@
-using ApplicationCommon.DTOs.Booking;
+using ApplicationCommon.DTOs.BookingDTOs;
 using MediatR;
 
 namespace ApplicationLogic.Querying.Queries.BookingQueries;

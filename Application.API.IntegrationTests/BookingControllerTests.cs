@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Application.API.IntegrationTests.Fixtures;
-using ApplicationCommon.DTOs.Booking;
+using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.DTOs.Listing;
@@ -138,4 +138,50 @@ public class BookingControllerTests : IntegrationTest
         _output.WriteLine(response.Content.ReadAsStringAsync().Result);
         Assert.DoesNotContain(await GetIdFromResponse(bookingCreateResponse), listingEntity.BookingsIds);
     }
+    
+    [Fact]
+    public async void GetBooking_ReturnsBooking_OnValidInput()
+    {
+        var listing = ListingFixtures.ListingCreateDTO;
+        var booking = BookingFixtures.BookingCreateDTO;
+        //Act
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        var host = await GetObjectFromResponse<Host>(hostResponse);
+        listing.HostId = host.Id;
+        _output.WriteLine(listing.ToBsonDocument().ToString());
+        var listingCreateResponse = await Post<Listing>("api/Listing", listing);
+        var listingCreateId = await GetIdFromResponse(listingCreateResponse);
+        booking.ListingId = listingCreateId;
+        await SwitchRole(false);
+        var bookingCreateResponse = await Post<Booking>("api/Booking", booking);
+        var bookingCreateId = await GetIdFromResponse(bookingCreateResponse);
+        var response = await Get<BookingDTO>($"api/Booking/{bookingCreateId}");
+        //Assert
+        _output.WriteLine(response.Content.ReadAsStringAsync().Result);
+        Assert.True(response.StatusCode == HttpStatusCode.OK);
+    }
+    
+    [Fact]
+    public async void GetBookings_ReturnsBookings_OnValidInput()
+    {
+        var listing = ListingFixtures.ListingCreateDTO;
+        var booking = BookingFixtures.BookingCreateDTO;
+        //Act
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        var host = await GetObjectFromResponse<Host>(hostResponse);
+        listing.HostId = host.Id;
+        _output.WriteLine(listing.ToBsonDocument().ToString());
+        var listingCreateResponse = await Post<Listing>("api/Listing", listing);
+        var listingCreateId = await GetIdFromResponse(listingCreateResponse);
+        booking.ListingId = listingCreateId;
+        await SwitchRole(false);
+        var bookingCreateResponse = await Post<Booking>("api/Booking", booking);
+        var response = await Get<IEnumerable<BookingDTO>>($"api/Booking");
+        //Assert
+        _output.WriteLine(response.Content.ReadAsStringAsync().Result);
+        Assert.True(response.StatusCode == HttpStatusCode.OK);
+    }
+    
 }

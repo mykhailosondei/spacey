@@ -1,4 +1,3 @@
-using ApplicationCommon.DTOs.Booking;
 using ApplicationLogic.Commanding.Commands.BookingCommands;
 using FluentValidation;
 
