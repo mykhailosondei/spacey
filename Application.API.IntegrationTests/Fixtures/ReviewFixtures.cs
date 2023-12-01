@@ -8,7 +8,7 @@ public static class ReviewFixtures
     {
         BookingId = new Guid(),
         Comment = "Test",
-        Ratings = new []{1.0}
+        Ratings = new []{1.0, 2.0, 3.0}
     };
     
     public static ReviewUpdateDTO ReviewUpdateDTO = new()

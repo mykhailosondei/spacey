@@ -48,7 +48,7 @@ public class IntegrationTest
         _output.WriteLine("GET  "+BaseUrl + endpoint);
         _output.WriteLine(response.StatusCode.ToString());
         _output.WriteLine("================body===============\n");
-        _output.WriteLine(await response.Content.ReadAsStringAsync());
+        _output.WriteLine((await response.Content.ReadAsStringAsync()));
         return response;
     }
     
@@ -64,7 +64,7 @@ public class IntegrationTest
         _output.WriteLine("POST  " + BaseUrl+ endpoint);
         _output.WriteLine(response.StatusCode.ToString());
         _output.WriteLine("================body===============\n");
-        _output.WriteLine(await response.Content.ReadAsStringAsync());
+        _output.WriteLine((await response.Content.ReadAsStringAsync()));
         return response;
     }
     
@@ -80,7 +80,7 @@ public class IntegrationTest
         _output.WriteLine("PUT  " + BaseUrl+ endpoint);
         _output.WriteLine(response.StatusCode.ToString());
         _output.WriteLine("================body===============\n");
-        _output.WriteLine(await response.Content.ReadAsStringAsync());
+        _output.WriteLine((await response.Content.ReadAsStringAsync()));
         return response;
     }
     
@@ -91,7 +91,7 @@ public class IntegrationTest
         _output.WriteLine("DELETE  " + BaseUrl+ endpoint);
         _output.WriteLine(response.StatusCode.ToString());
         _output.WriteLine("================body===============\n");
-        _output.WriteLine(await response.Content.ReadAsStringAsync());
+        _output.WriteLine((await response.Content.ReadAsStringAsync()));
         return response;
     }
 
@@ -127,9 +127,7 @@ public class IntegrationTest
             Email = email,
             Password = password
         }).Result;
-        _output.WriteLine(response.Content.ReadAsStringAsync().Result);
         var responseContent = response.Content.ReadFromJsonAsync<AuthUser>().Result;
-        _output.WriteLine(responseContent.ToBsonDocument().ToString());
         return responseContent.Token;
     }
 }

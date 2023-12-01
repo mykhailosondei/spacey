@@ -54,6 +54,24 @@ public class ListingControllerTests : IntegrationTest
     }
     
     [Fact]
+    public async void PostListing_ReturnsValidIdOfExistingEntity_OnValidInput()
+    {
+        //Arrange
+        var listing = ListingFixtures.ListingCreateDTO;
+        //Act
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        listing.HostId = (await GetObjectFromResponse<Host>(hostResponse)).Id;
+        var response = await Post<Listing>("api/Listing", listing);
+        //Assert
+        _output.WriteLine(response.Content.ReadAsStringAsync().Result);
+        var responseGet = await Get<ListingDTO>("api/Listing/"+await GetIdFromResponse(response));
+        var listingGet = await GetObjectFromResponse<ListingDTO>(responseGet);
+        //Assert
+        Assert.True(listingGet.Id == await GetIdFromResponse(response));
+    }
+    
+    [Fact]
     public async void PostListing_ReturnsBadRequestStatus_OnInvalidInput()
     {
         //Arrange
