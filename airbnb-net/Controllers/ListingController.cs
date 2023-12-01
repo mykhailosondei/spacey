@@ -71,5 +71,21 @@ namespace airbnb_net.Controllers
         {
             await _mediator.Send(new DeleteListingCommand(id));
         }
+        
+        // POST: api/Listing/123/like
+        [HttpPost("{id:guid}/like")]
+        [Authorize(Roles = "User")]
+        public async Task Like(Guid id)
+        {
+            await _mediator.Send(new LikeListingCommand(id));
+        }
+        
+        // POST: api/Listing/123/unlike
+        [HttpPost("{id:guid}/unlike")]
+        [Authorize(Roles = "User")]
+        public async Task Unlike(Guid id)
+        {
+            await _mediator.Send(new UnlikeListingCommand(id));
+        }
     }
 }
