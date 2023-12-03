@@ -1,13 +1,14 @@
 using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.Enums;
+using ApplicationCommon.Interfaces;
 using ApplicationCommon.Structs;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.Listing;
 
-public class ListingDTO
+public class ListingDTO : ILastAccessible
 {
     public Guid Id { get; set; }
 

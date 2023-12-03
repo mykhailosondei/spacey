@@ -1,10 +1,11 @@
 using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
+using ApplicationCommon.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.User;
 
-public class UserDTO
+public class UserDTO : ILastAccessible
 {
     [BsonId]
     public Guid Id { get; set; }

@@ -1,6 +1,8 @@
+using ApplicationCommon.Interfaces;
+
 namespace ApplicationCommon.DTOs.Host;
 
-public class HostDTO
+public class HostDTO : ILastAccessible
 {
     public Guid Id { get; set; }
     

@@ -1,10 +1,11 @@
 using ApplicationCommon.DTOs.Review;
+using ApplicationCommon.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.BookingDTOs;
 
-public class BookingDTO
+public class BookingDTO : ILastAccessible
 {
     [BsonId]
     [BsonIgnoreIfNull]
