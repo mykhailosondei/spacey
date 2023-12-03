@@ -10,6 +10,7 @@ using ApplicationDAL.DbHelper;
 using ApplicationDAL.Interfaces;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.BackgroundServices;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Jwt;
 using ApplicationLogic.MappingProfiles;
@@ -17,8 +18,10 @@ using ApplicationLogic.Services;
 using ApplicationLogic.UserIdLogic;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 namespace airbnb_net.Extensions;
@@ -78,6 +81,12 @@ public static class ServiceExtensions
                 EndPoints = { "redis-16876.c267.us-east-1-4.ec2.cloud.redislabs.com:16876" }
             };
         });
+        
+        services.AddSingleton<IConnectionMultiplexer>(
+            ConnectionMultiplexer.Connect("redis-16876.c267.us-east-1-4.ec2.cloud.redislabs.com:16876,password=MSmQBJVyE2LweeEFqKjYOOaJctkubqau")
+            );
+
+        services.AddHostedService<AccessBasedCacheInvalidator>();
         
         CollectionGetter.Initialize(services.BuildServiceProvider().GetService<IMongoDbContext>()!);
     }
