@@ -8,14 +8,17 @@
 
     <ItemGroup>
       <Compile Remove="DbHelpers\**" />
+      <Compile Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="DbHelpers\**" />
+      <EmbeddedResource Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="DbHelpers\**" />
+      <None Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
