@@ -49,4 +49,9 @@ public class Booking
     [BsonSerializer(typeof(BooleanSerializer))]
     public bool IsCancelled { get; set; }
     
+    [BsonIgnoreIfNull]
+    [BsonRepresentation(BsonType.DateTime)]
+    [BsonSerializer(typeof(DateTimeSerializer))]
+    [RestrictUpdate]
+    public DateTime LastAccess { get; set; }
 }

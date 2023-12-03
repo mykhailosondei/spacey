@@ -108,6 +108,7 @@ public class BookingControllerTests : IntegrationTest
         await SwitchRole(false);
         var bookingCreateResponse = await Post<Booking>("api/Booking", booking);
         var bookingCreateId = await GetIdFromResponse(bookingCreateResponse);
+        var responseGetInitial = await Get<string>($"api/Booking/{bookingCreateId}");
         var response = await Delete($"api/Booking/{bookingCreateId}");
         var responseGet = await Get<string>($"api/Booking/{bookingCreateId}");
         //Assert

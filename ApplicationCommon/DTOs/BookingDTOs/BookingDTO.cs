@@ -31,4 +31,7 @@ public class BookingDTO
     
     [BsonIgnoreIfNull]
     public bool IsCancelled { get; set; }
+    
+    [BsonIgnoreIfNull]
+    public DateTime LastAccess { get; set; }
 }
