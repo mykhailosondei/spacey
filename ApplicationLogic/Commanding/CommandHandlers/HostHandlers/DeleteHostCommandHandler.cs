@@ -14,15 +14,17 @@ public class DeleteHostCommandHandler :BaseHandler, IRequestHandler<DeleteHostCo
     private readonly IHostCommandAccess _hostCommandAccess;
     private readonly IHostQueryRepository _hostQueryRepository;
     private readonly IHostIdGetter _hostIdGetter;
+    private readonly IPublisher _publisher;
     
-    public DeleteHostCommandHandler(IMapper mapper, IHostCommandAccess hostCommandAccess, IHostQueryRepository hostQueryRepository, IHostIdGetter hostIdGetter) : base(mapper)
+    public DeleteHostCommandHandler(IMapper mapper, IHostCommandAccess hostCommandAccess, IHostQueryRepository hostQueryRepository, IHostIdGetter hostIdGetter, IPublisher publisher) : base(mapper)
     {
         _hostCommandAccess = hostCommandAccess;
         _hostQueryRepository = hostQueryRepository;
         _hostIdGetter = hostIdGetter;
+        _publisher = publisher;
     }
 
-    public Task Handle(DeleteHostCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteHostCommand request, CancellationToken cancellationToken)
     {
         var host = _hostQueryRepository.GetHostById(request.Id).Result;
         
@@ -36,6 +38,14 @@ public class DeleteHostCommandHandler :BaseHandler, IRequestHandler<DeleteHostCo
             throw new UnauthorizedAccessException("You are not authorized to delete this host.");
         }
         
-        return _hostCommandAccess.DeleteHost(request.Id);
+        await _publisher.Publish(new HostDeletedEvent()
+        {
+            HostId = host.Id,
+            UserId = host.UserId,
+            ListingsIds = host.ListingsIds,
+            DeletedAt = DateTime.UtcNow
+        });
+        
+        await _hostCommandAccess.DeleteHost(request.Id);
     }
 }

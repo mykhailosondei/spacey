@@ -1,6 +1,7 @@
 using ApplicationDAL.Attributes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace ApplicationDAL.Entities;
 
@@ -27,4 +28,10 @@ public class Host
 
     [RestrictUpdate]
     public List<Guid> ListingsIds { get; set; } = new();
+    
+    [BsonIgnoreIfNull]
+    [BsonRepresentation(BsonType.DateTime)]
+    [BsonSerializer(typeof(DateTimeSerializer))]
+    [RestrictUpdate]
+    public DateTime LastAccess { get; set; }
 }

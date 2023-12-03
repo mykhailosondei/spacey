@@ -15,4 +15,6 @@ public class HostDTO
     public double Rating { get; set; }
     
     public List<Guid> ListingsIds { get; set; }
+    
+    public DateTime LastAccess { get; set; }
 }
