@@ -47,6 +47,12 @@ namespace airbnb_net.Controllers
             return await _mediator.Send(new GetListingByIdQuery(id));
         }
         
+        [HttpGet("{propertyType}")]
+        public async Task<IEnumerable<ListingDTO>> Get(string propertyType)
+        {
+            return await _mediator.Send(new GetListingsByPropertyTypeQuery(propertyType));
+        }
+        
         // POST: api/Listing
         [HttpPost]
         [Authorize(Roles = "Host")]

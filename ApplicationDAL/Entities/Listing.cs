@@ -3,6 +3,7 @@ using ApplicationCommon.Structs;
 using ApplicationDAL.Attributes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace ApplicationDAL.Entities;
 
@@ -44,5 +45,9 @@ public class Listing
     
     public List<Guid> LikedUsersIds { get; set; }
     
-    
+    [BsonIgnoreIfNull]
+    [BsonRepresentation(BsonType.DateTime)]
+    [BsonSerializer(typeof(DateTimeSerializer))]
+    [RestrictUpdate]
+    public DateTime LastAccess { get; set; }
 }

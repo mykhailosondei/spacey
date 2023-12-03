@@ -17,14 +17,16 @@ public class LikeListingCommandHandler : BaseHandler, IRequestHandler<LikeListin
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IUserQueryRepository _userQueryRepository;
     private readonly IUserCommandAccess _userCommandAccess;
+    private readonly IPublisher _publisher;
     
-    public LikeListingCommandHandler(IMapper mapper, IListingQueryRepository listingQueryRepository, IUserIdGetter userIdGetter, IListingCommandAccess listingCommandAccess, IUserQueryRepository userQueryRepository, IUserCommandAccess userCommandAccess) : base(mapper)
+    public LikeListingCommandHandler(IMapper mapper, IListingQueryRepository listingQueryRepository, IUserIdGetter userIdGetter, IListingCommandAccess listingCommandAccess, IUserQueryRepository userQueryRepository, IUserCommandAccess userCommandAccess, IPublisher publisher) : base(mapper)
     {
         _listingQueryRepository = listingQueryRepository;
         _userIdGetter = userIdGetter;
         _listingCommandAccess = listingCommandAccess;
         _userQueryRepository = userQueryRepository;
         _userCommandAccess = userCommandAccess;
+        _publisher = publisher;
     }
 
     public async Task Handle(LikeListingCommand request, CancellationToken cancellationToken)
@@ -48,5 +50,12 @@ public class LikeListingCommandHandler : BaseHandler, IRequestHandler<LikeListin
         
         await _listingCommandAccess.UpdateListing(listing.Id ,listing);
         await _userCommandAccess.UpdateUser(user.Id, user);
+        
+        await _publisher.Publish(new ListingUpdatedEvent()
+        {
+            ListingId = listing.Id,
+            HostId = listing.Host.Id,
+            UpdatedAt = DateTime.UtcNow
+        });
     }
 }

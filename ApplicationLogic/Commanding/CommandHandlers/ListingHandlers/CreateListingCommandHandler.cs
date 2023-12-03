@@ -15,11 +15,13 @@ public class CreateListingCommandHandler : BaseHandler, IRequestHandler<CreateLi
 {
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IHostQueryRepository _hostQueryRepository;
+    private readonly IPublisher _publisher;
     
-    public CreateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IHostQueryRepository hostQueryRepository) : base(mapper)
+    public CreateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IHostQueryRepository hostQueryRepository, IPublisher publisher) : base(mapper)
     {
         _listingCommandAccess = listingCommandAccess;
         _hostQueryRepository = hostQueryRepository;
+        _publisher = publisher;
     }
 
     public async Task<Guid> Handle(CreateListingCommand request, CancellationToken cancellationToken)
@@ -33,6 +35,13 @@ public class CreateListingCommandHandler : BaseHandler, IRequestHandler<CreateLi
         {
             throw new NotFoundException("Host");
         }
+        
+        await _publisher.Publish(new ListingCreatedEvent()
+        {
+            ListingId = listing.Id,
+            HostId = listing.Host.Id,
+            CreatedAt = DateTime.UtcNow
+        });
         
         return await _listingCommandAccess.AddListing(listing);
     }

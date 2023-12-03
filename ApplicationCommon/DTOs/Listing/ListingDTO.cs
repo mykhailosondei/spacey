@@ -35,4 +35,9 @@ public class ListingDTO
     public List<Guid> BookingsIds { get; set; }
 
     public string[] Amenities { get; set; }
+    
+    public List<Guid> LikedUsersIds { get; set; }
+    
+    public DateTime LastAccess { get; set; }
+
 }

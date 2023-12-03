@@ -16,12 +16,14 @@ public class UpdateListingCommandHandler : BaseHandler, IRequestHandler<UpdateLi
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IHostIdGetter _hostIdGetter;
+    private readonly IPublisher _publisher;
     
-    public UpdateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter) : base(mapper)
+    public UpdateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter, IPublisher publisher) : base(mapper)
     {
         _listingCommandAccess = listingCommandAccess;
         _listingQueryRepository = listingQueryRepository;
         _hostIdGetter = hostIdGetter;
+        _publisher = publisher;
     }
 
     public async Task Handle(UpdateListingCommand request, CancellationToken cancellationToken)
@@ -42,5 +44,12 @@ public class UpdateListingCommandHandler : BaseHandler, IRequestHandler<UpdateLi
         }
         
         await _listingCommandAccess.UpdateListing(request.Id ,listing);
+        
+        await _publisher.Publish(new ListingUpdatedEvent()
+        {
+            ListingId = listing.Id,
+            HostId = listing.Host.Id,
+            UpdatedAt = DateTime.UtcNow
+        });
     }
 }

@@ -14,12 +14,14 @@ public class DeleteListingCommandHandler : BaseHandler, IRequestHandler<DeleteLi
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IHostIdGetter _hostIdGetter;
+    private readonly IPublisher _publisher;
     
-    public DeleteListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter) : base(mapper)
+    public DeleteListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter, IPublisher publisher) : base(mapper)
     {
         _listingCommandAccess = listingCommandAccess;
         _listingQueryRepository = listingQueryRepository;
         _hostIdGetter = hostIdGetter;
+        _publisher = publisher;
     }
 
     public async Task Handle(DeleteListingCommand request, CancellationToken cancellationToken)
@@ -36,6 +38,15 @@ public class DeleteListingCommandHandler : BaseHandler, IRequestHandler<DeleteLi
             throw new UnauthorizedAccessException("You are not authorized to delete this listing.");
         }
         
+        
         await _listingCommandAccess.DeleteListing(request.Id);
+        
+        await _publisher.Publish(new ListingDeletedEvent()
+        {
+            ListingId = listing.Id,
+            HostId = listing.Host.Id,
+            BookingsIds = listing.BookingsIds,
+            DeletedAt = DateTime.UtcNow
+        });
     }
 }
