@@ -1,6 +1,7 @@
 using ApplicationDAL.Attributes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace ApplicationDAL.Entities;
 
@@ -35,4 +36,13 @@ public class User
     
     [RestrictUpdate]
     public List<Guid> ReviewsIds { get; set; }
+    
+    [RestrictUpdate]
+    public List<Guid> LikedListingsIds { get; set; }
+    
+    [BsonIgnoreIfNull]
+    [BsonRepresentation(BsonType.DateTime)]
+    [BsonSerializer(typeof(DateTimeSerializer))]
+    [RestrictUpdate]
+    public DateTime LastAccess { get; set; }
 }

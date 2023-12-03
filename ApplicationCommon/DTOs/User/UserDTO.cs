@@ -30,4 +30,9 @@ public class UserDTO
     public List<Guid> BookingsIds { get; set; }
     
     public List<Guid> ReviewsIds { get; set; }
+    
+    public List<Guid> LikedListingsIds { get; set; }
+    
+    public DateTime LastAccess { get; set; }
+
 }
