@@ -70,6 +70,15 @@ public static class ServiceExtensions
         
         services.AddValidatorsFromAssembly(ApplicationLogic.AssemblyMarker.Assembly);
         
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.ConfigurationOptions = new()
+            {
+                Password = "MSmQBJVyE2LweeEFqKjYOOaJctkubqau",
+                EndPoints = { "redis-16876.c267.us-east-1-4.ec2.cloud.redislabs.com:16876" }
+            };
+        });
+        
         CollectionGetter.Initialize(services.BuildServiceProvider().GetService<IMongoDbContext>()!);
     }
 
