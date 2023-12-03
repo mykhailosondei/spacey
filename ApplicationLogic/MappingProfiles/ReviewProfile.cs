@@ -1,4 +1,3 @@
-using ApplicationCommon.DTOs.Booking;
 using ApplicationCommon.DTOs.Review;
 using ApplicationDAL.Entities;
 using AutoMapper;

@@ -31,6 +31,7 @@ public class ReviewCommandAccess : BaseAccessHandler, IReviewDeletor, IReviewCom
     
     private async Task UpdateUserReviewsIdsOnReviewAdd(Guid id, Review review)
     {
+        _ = new User().ReviewsIds; // This is a hack to make sure the property usages refer here.
         var userFilter = Builders<User>.Filter.Eq("Id", id);
         var userUpdate = Builders<User>.Update.Push("ReviewsIds", review.Id);
         await GetCollection<User>("users").UpdateOneAsync(userFilter, userUpdate);

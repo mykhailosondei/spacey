@@ -10,6 +10,7 @@ using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Commanding.Commands.ReviewCommands;
 using ApplicationLogic.Querying.Queries.ReviewQueries;
+using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,11 +24,13 @@ namespace airbnb_net.Controllers
     public class ReviewController : InternalControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IUserIdGetter _userIdGetter;
         
-        public ReviewController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator)
+        public ReviewController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator, IUserIdGetter userIdGetter)
         : base(logger, mapper)
         {
             _mediator = mediator;
+            _userIdGetter = userIdGetter;
         }
 
         // GET: api/Review
@@ -49,6 +52,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task<Guid> Post([FromBody] ReviewCreateDTO reviewCreate)
         { 
+            reviewCreate.UserId = _userIdGetter.UserId;
             return await _mediator.Send(new CreateReviewCommand(reviewCreate));
         }
 

@@ -5,6 +5,9 @@ using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.ReviewQueries;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 
 namespace ApplicationLogic.Querying.QueryHandlers.ReviewHandler;
 

@@ -15,12 +15,14 @@ public class DeleteReviewCommandHandler : BaseHandler,IRequestHandler<DeleteRevi
     private readonly IReviewCommandAccess _reviewCommandAccess;
     private readonly IReviewQueryRepository _reviewQueryRepository;
     private readonly IUserIdGetter _userIdGetter;
+    private readonly IPublisher _publisher;
     
-    public DeleteReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IUserIdGetter userIdGetter, IReviewQueryRepository reviewQueryRepository) : base(mapper)
+    public DeleteReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IUserIdGetter userIdGetter, IReviewQueryRepository reviewQueryRepository, IPublisher publisher) : base(mapper)
     {
         _reviewCommandAccess = reviewCommandAccess;
         _userIdGetter = userIdGetter;
         _reviewQueryRepository = reviewQueryRepository;
+        _publisher = publisher;
     }
 
     public async Task Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
@@ -38,5 +40,13 @@ public class DeleteReviewCommandHandler : BaseHandler,IRequestHandler<DeleteRevi
         }
         
         await _reviewCommandAccess.DeleteReview(request.Id);
+        
+        await _publisher.Publish(new ReviewDeletedEvent()
+        {
+            ReviewId = review.Id,
+            UserId = review.UserId,
+            BookingId = review.BookingId,
+            DeletedAt = DateTime.UtcNow
+        });
     }
 }

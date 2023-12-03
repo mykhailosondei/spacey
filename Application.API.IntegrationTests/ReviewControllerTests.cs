@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
 using Application.API.IntegrationTests.Fixtures;
-using ApplicationCommon.DTOs.Booking;
 using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.DTOs.Listing;

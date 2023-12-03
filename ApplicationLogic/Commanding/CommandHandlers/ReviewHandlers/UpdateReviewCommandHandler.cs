@@ -20,8 +20,9 @@ public class UpdateReviewCommandHandler : BaseHandler, IRequestHandler<UpdateRev
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IUserIdGetter _userIdGetter;
+    private readonly IPublisher _publisher;
     
-    public UpdateReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IReviewQueryRepository reviewQueryRepository, IUserIdGetter userIdGetter, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IBookingQueryRepository bookingQueryRepository) : base(mapper)
+    public UpdateReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IReviewQueryRepository reviewQueryRepository, IUserIdGetter userIdGetter, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IBookingQueryRepository bookingQueryRepository, IPublisher publisher) : base(mapper)
     {
         _reviewCommandAccess = reviewCommandAccess;
         _reviewQueryRepository = reviewQueryRepository;
@@ -29,6 +30,7 @@ public class UpdateReviewCommandHandler : BaseHandler, IRequestHandler<UpdateRev
         _listingCommandAccess = listingCommandAccess;
         _listingQueryRepository = listingQueryRepository;
         _bookingQueryRepository = bookingQueryRepository;
+        _publisher = publisher;
     }
 
     public async Task Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
@@ -57,5 +59,13 @@ public class UpdateReviewCommandHandler : BaseHandler, IRequestHandler<UpdateRev
         await _listingCommandAccess.UpdateListing(listing.Id, listing);
         
         await _reviewCommandAccess.UpdateReview(request.Id, review);
+        
+        await _publisher.Publish(new ReviewUpdatedEvent()
+        {
+            ReviewId = review.Id,
+            UserId = review.UserId,
+            BookingId = review.BookingId,
+            UpdatedAt = DateTime.UtcNow
+        });
     }
 }
