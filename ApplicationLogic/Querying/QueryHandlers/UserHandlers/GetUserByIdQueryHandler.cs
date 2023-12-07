@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using Newtonsoft.Json;
 
 namespace ApplicationLogic.Querying.QueryHandlers.UserHandlers;
 
@@ -29,7 +30,10 @@ public class GetUserByIdQueryHandler : BaseHandler, IRequestHandler<GetUserByIdQ
         
         if (cachedUser != null)
         {
-            return BsonSerializer.Deserialize<UserDTO>(cachedUser.ToBsonDocument());
+            var cachedUserDTO = BsonSerializer.Deserialize<UserDTO>(cachedUser);
+            cachedUserDTO.LastAccess = DateTime.UtcNow;
+            await _distributedCache.SetStringAsync($"user-{request.Id}-timestamp", JsonConvert.SerializeObject(cachedUserDTO.LastAccess));
+            return cachedUserDTO;
         }
         
         var result = await _userQueryRepository.GetUserById(request.Id);
@@ -40,6 +44,7 @@ public class GetUserByIdQueryHandler : BaseHandler, IRequestHandler<GetUserByIdQ
         }
         
         await _distributedCache.SetStringAsync(cacheKey, result.ToBsonDocument().ToString());
+        await _distributedCache.SetStringAsync($"user-{request.Id}-timestamp", JsonConvert.SerializeObject(result.LastAccess));
         
         return _mapper.Map<UserDTO>(result);
     }

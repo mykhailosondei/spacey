@@ -1,12 +1,16 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Application.API.IntegrationTests.ServiceMocks;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DbHelper;
+using ApplicationLogic.BackgroundServices;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using MongoDB.Bson;
+using StackExchange.Redis;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -28,6 +32,10 @@ public class IntegrationTest
                 builder.ConfigureServices(services =>
                 {
                     services.RemoveAll(typeof(IMongoDbContext));
+                    services.RemoveAll(typeof(IConnectionMultiplexer));
+                    services.RemoveAll(typeof(BackgroundService));
+                    services.AddSingleton<IConnectionMultiplexer>(new ConnectionMultiplexerMock());
+                    
                     services.AddSingleton<IMongoDbContext>(_ =>
                     {
                         var connectionString = "mongodb+srv://compassuser:wBzZ4kD5ejcI1FWf@democluster.4nn3xhe.mongodb.net/";

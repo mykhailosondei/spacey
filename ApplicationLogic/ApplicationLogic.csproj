@@ -28,5 +28,12 @@
     </ItemGroup>
 
 
+    <ItemGroup>
+      <Reference Include="StackExchange.Redis">
+        <HintPath>..\..\..\.nuget\packages\stackexchange.redis\2.6.122\lib\net6.0\StackExchange.Redis.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+
 
 </Project>

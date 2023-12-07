@@ -59,6 +59,7 @@ namespace airbnb_net.Controllers
         public async Task<Guid> Post([FromBody] ListingCreateDTO listingCreate)
         {
             listingCreate.HostId = _hostIdGetter.HostId;
+            _logger.LogInformation("HostId:" + listingCreate.HostId.ToString());
             return await _mediator.Send(new CreateListingCommand(listingCreate));
         }
         

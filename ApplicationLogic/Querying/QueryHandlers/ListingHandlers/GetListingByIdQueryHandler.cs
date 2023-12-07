@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using Newtonsoft.Json;
 
 namespace ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 
@@ -29,7 +30,10 @@ public class GetListingByIdQueryHandler : BaseHandler, IRequestHandler<GetListin
         
         if (cachedListing != null)
         {
-            return BsonSerializer.Deserialize<ListingDTO>(cachedListing.ToBsonDocument());
+            var cachedListingDTO = BsonSerializer.Deserialize<ListingDTO>(cachedListing);
+            cachedListingDTO.LastAccess = DateTime.UtcNow;
+            await _distributedCache.SetStringAsync($"listing-{request.Id}-timestamp", JsonConvert.SerializeObject(cachedListingDTO.LastAccess));
+            return cachedListingDTO;
         }
         
         var result = await _listingQueryRepository.GetListingById(request.Id);
@@ -40,6 +44,7 @@ public class GetListingByIdQueryHandler : BaseHandler, IRequestHandler<GetListin
         }
         
         await _distributedCache.SetStringAsync(cacheKey, result.ToBsonDocument().ToString());
+        await _distributedCache.SetStringAsync($"listing-{request.Id}-timestamp", JsonConvert.SerializeObject(result.LastAccess));
         
         return _mapper.Map<ListingDTO>(result);
     }

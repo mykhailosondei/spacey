@@ -52,6 +52,5 @@ public class Booking
     [BsonIgnoreIfNull]
     [BsonRepresentation(BsonType.DateTime)]
     [BsonSerializer(typeof(DateTimeSerializer))]
-    [RestrictUpdate]
     public DateTime LastAccess { get; set; }
 }

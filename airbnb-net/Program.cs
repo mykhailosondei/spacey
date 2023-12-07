@@ -1,6 +1,7 @@
 using airbnb_net.Extensions;
 using airbnb_net.Middlewares;
 using ApplicationLogic;
+using ApplicationLogic.Options;
 using ApplicationLogic.PipelineBehaviors;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Bson;
@@ -17,6 +18,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Services.RegisterCustomServices();
+
+builder.Services.Configure<BingMapsConnectionOptions>(
+    builder.Configuration.GetSection(key: nameof(BingMapsConnectionOptions)));
+
 builder.Services.ConfigureJwt(config);
 builder.Services.AddMediatR(x =>
 {

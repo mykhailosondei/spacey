@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using Newtonsoft.Json;
 
 namespace ApplicationLogic.Querying.QueryHandlers.HostHandlers;
 
@@ -30,7 +31,10 @@ public class GetHostByIdQueryHandler : BaseHandler, IRequestHandler<GetHostByIdQ
         
         if (cachedHost != null)
         {
-            return BsonSerializer.Deserialize<HostDTO>(cachedHost);
+            var cachedHostDTO = BsonSerializer.Deserialize<HostDTO>(cachedHost);
+            cachedHostDTO.LastAccess = DateTime.UtcNow;
+            await _distributedCache.SetStringAsync($"host-{request.Id}-timestamp", JsonConvert.SerializeObject(cachedHostDTO.LastAccess));
+            return cachedHostDTO;
         }
         
         var result = await _hostQueryRepository.GetHostById(request.Id);
@@ -41,6 +45,7 @@ public class GetHostByIdQueryHandler : BaseHandler, IRequestHandler<GetHostByIdQ
         }
         
         await _distributedCache.SetStringAsync(cacheKey, result.ToBsonDocument().ToString());
+        await _distributedCache.SetStringAsync($"host-{request.Id}-timestamp", JsonConvert.SerializeObject(result.LastAccess));
         
         return _mapper.Map<HostDTO>(result);
     }
