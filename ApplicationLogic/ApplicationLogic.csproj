@@ -29,6 +29,9 @@
 
 
     <ItemGroup>
+      <Reference Include="BingMapsRESTToolkit">
+        <HintPath>..\..\..\.nuget\packages\bingmapsresttoolkit\1.1.4\lib\netstandard2.0\BingMapsRESTToolkit.dll</HintPath>
+      </Reference>
       <Reference Include="StackExchange.Redis">
         <HintPath>..\..\..\.nuget\packages\stackexchange.redis\2.6.122\lib\net6.0\StackExchange.Redis.dll</HintPath>
       </Reference>
