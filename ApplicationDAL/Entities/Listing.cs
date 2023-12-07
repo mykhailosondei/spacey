@@ -19,6 +19,14 @@ public class Listing
     public string Description { get; set; }
 
     public Address Address { get; set; }
+    
+    [RestrictUpdate]
+    [BsonIgnoreIfNull]
+    public double Latitude { get; set; }
+    
+    [RestrictUpdate]
+    [BsonIgnoreIfNull]
+    public double Longitude { get; set; }
 
     [BsonRepresentation(BsonType.String)]
     public PropertyType PropertyType { get; set; }

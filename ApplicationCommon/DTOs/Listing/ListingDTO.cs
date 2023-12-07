@@ -21,6 +21,10 @@ public class ListingDTO : ILastAccessible
     [BsonRepresentation(BsonType.String)]
     public PropertyType PropertyType { get; set; }
     
+    public double Latitude { get; set; }
+    
+    public double Longitude { get; set; }
+    
     public int PricePerNight { get; set; }
 
     public int NumberOfRooms { get; set; }
