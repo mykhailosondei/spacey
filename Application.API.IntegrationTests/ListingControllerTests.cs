@@ -5,6 +5,7 @@ using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.Enums;
+using ApplicationCommon.GeospatialUtilities;
 using ApplicationCommon.Structs;
 using ApplicationDAL.Entities;
 using Xunit.Abstractions;
@@ -149,5 +150,36 @@ public class ListingControllerTests : IntegrationTest
         
         Assert.True(responseGet.StatusCode == HttpStatusCode.UnprocessableEntity);
         Assert.DoesNotContain(listingId, hostGet.ListingsIds);
+    }
+    
+    [Fact]
+    public async void GetListingsByBoundingBox_ReturnsAllListingsInsideBoundingBox()
+    {
+        //Arrange
+        var listingsCreate = new List<ListingCreateDTO>()
+        {
+            ListingFixtures.ListingCreateNewYork1,
+            ListingFixtures.ListingCreateDTONewYork2,
+            ListingFixtures.ListingCreateDTONewYork2,
+            ListingFixtures.ListingCreateDTONewYork3
+        };
+        //Act
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        var host = await GetObjectFromResponse<Host>(hostResponse);
+        List<Guid> listingIds = new();
+        foreach (var listing in listingsCreate)
+        {
+            listing.HostId = host.Id;
+            var response = await Post<Listing>("api/Listing", listing);
+            listingIds.Add(await GetIdFromResponse(response));
+        }
+        var responseGet = await Get<ListingDTO[]>("api/Listing/boundingBox?x1=-75&y1=40&x2=-72&y2=42");
+        var listings = await GetObjectFromResponse<ListingDTO[]>(responseGet);
+        //Assert
+        Assert.Contains(listingIds[0], listings.Select(x => x.Id));
+        Assert.Contains(listingIds[1], listings.Select(x => x.Id));
+        Assert.Contains(listingIds[2], listings.Select(x => x.Id));
+        Assert.Contains(listingIds[3], listings.Select(x => x.Id));
     }
 }

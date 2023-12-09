@@ -49,6 +49,7 @@ public class IntegrationTest
         TestClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + GetJwtToken());
     }
     
+    
     protected async Task<HttpResponseMessage> Get<T>(string endpoint)
     {
         var response = await TestClient.GetAsync(BaseUrl + endpoint);
