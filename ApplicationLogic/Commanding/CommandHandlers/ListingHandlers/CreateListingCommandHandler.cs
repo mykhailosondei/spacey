@@ -11,6 +11,7 @@ using AutoMapper;
 using BingMapsRESTToolkit;
 using MediatR;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.ListingHandlers;
 
@@ -54,10 +55,14 @@ public class CreateListingCommandHandler : BaseHandler, IRequestHandler<CreateLi
         
         var response = await geoRequest.Execute();
         var boundingBox = response.ResourceSets[0].Resources[0].BoundingBox;
-        listing.Latitude = (boundingBox[2]+boundingBox[0])/2;
-        Console.WriteLine(listing.Latitude);
-        listing.Longitude = (boundingBox[3]+boundingBox[1])/2;
-        Console.WriteLine(listing.Longitude);
+        
+        var xCoordinate = (boundingBox[3]+boundingBox[1])/2;
+        
+        var yCoordinate = (boundingBox[2]+boundingBox[0])/2;
+
+        listing.Location = new GeoJsonPoint<GeoJson2DCoordinates>(new GeoJson2DCoordinates(xCoordinate, yCoordinate));
+        Console.WriteLine(listing.Location.Coordinates.Y);
+        Console.WriteLine(listing.Location.Coordinates.X);
         
         await _publisher.Publish(new ListingCreatedEvent()
         {
