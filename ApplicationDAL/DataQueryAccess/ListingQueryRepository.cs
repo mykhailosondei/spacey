@@ -1,9 +1,12 @@
+using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.Enums;
+using ApplicationCommon.GeospatialUtilities;
 using ApplicationDAL.DataQueryAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace ApplicationDAL.DataQueryAccess;
 
@@ -31,6 +34,29 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
     public async Task<IEnumerable<Listing>> GetListingsByPropertyType(string propertyType)
     {
         var filter = Builders<Listing>.Filter.Eq("PropertyType", propertyType);
+        return await _collection.Find(filter).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Listing>> GetListingsByBoundingBox(BoundingBox requestBoundingBox)
+    {
+        var lowerLeft = requestBoundingBox.LowerLeft;
+        var upperRight = requestBoundingBox.UpperRight;
+        
+        GeoJsonPolygon<GeoJson2DCoordinates> polygon = new GeoJsonPolygon<GeoJson2DCoordinates>(
+            new GeoJsonPolygonCoordinates<GeoJson2DCoordinates>(
+                new GeoJsonLinearRingCoordinates<GeoJson2DCoordinates>(
+                    new List<GeoJson2DCoordinates>
+                    {
+                        new (lowerLeft.Longitude, lowerLeft.Latitude),
+                        new (lowerLeft.Longitude, upperRight.Latitude),
+                        new (upperRight.Longitude, upperRight.Latitude),
+                        new (upperRight.Longitude, lowerLeft.Latitude),
+                        new (lowerLeft.Longitude, lowerLeft.Latitude)
+                    }
+                )
+            )
+        );
+        var filter = Builders<Listing>.Filter.GeoWithin("Location", polygon);
         return await _collection.Find(filter).ToListAsync();
     }
 }
