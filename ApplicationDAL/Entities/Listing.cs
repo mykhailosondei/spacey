@@ -4,6 +4,8 @@ using ApplicationDAL.Attributes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver.GeoJsonObjectModel;
+using Mono.CompilerServices.SymbolWriter;
 
 namespace ApplicationDAL.Entities;
 
@@ -20,13 +22,7 @@ public class Listing
 
     public Address Address { get; set; }
     
-    [RestrictUpdate]
-    [BsonIgnoreIfNull]
-    public double Latitude { get; set; }
-    
-    [RestrictUpdate]
-    [BsonIgnoreIfNull]
-    public double Longitude { get; set; }
+    public GeoJsonPoint<GeoJson2DCoordinates> Location { get; set; }
 
     [BsonRepresentation(BsonType.String)]
     public PropertyType PropertyType { get; set; }
