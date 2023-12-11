@@ -1,12 +1,16 @@
+using System.Collections;
 using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.Enums;
 using ApplicationCommon.GeospatialUtilities;
+using ApplicationCommon.Structs;
 using ApplicationDAL.DataQueryAccess.Abstract;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationDAL.Utilities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
+using Newtonsoft.Json;
 
 namespace ApplicationDAL.DataQueryAccess;
 
@@ -57,6 +61,29 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
             )
         );
         var filter = Builders<Listing>.Filter.GeoWithin("Location", polygon);
+        return await _collection.Find(filter).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Listing>> GetListingsByCity(Address address)
+    {
+        var filter = Builders<Listing>.Filter.Eq("Address.City", address.City) &
+                     Builders<Listing>.Filter.Eq("Address.Country", address.Country);
+        return await _collection.Find(filter).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Listing>> GetListingsByCountry(Address address)
+    {
+        var filter = Builders<Listing>.Filter.Eq("Address.Country", address.Country);
+        return await _collection.Find(filter).ToListAsync();
+    }
+    
+    public async Task<IEnumerable<Listing>> GetListingsByStreet(Address address)
+    {
+        var filterQuery = address.Street.Split(' ')[1];
+        var filter = Builders<Listing>.Filter.Regex("Address.Street", new BsonRegularExpression(filterQuery)) &
+                     Builders<Listing>.Filter.Eq("Address.Country", address.Country) &
+                     Builders<Listing>.Filter.Eq("Address.City", address.City);
+
         return await _collection.Find(filter).ToListAsync();
     }
 }

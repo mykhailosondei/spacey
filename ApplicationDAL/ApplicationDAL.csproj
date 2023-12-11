@@ -16,4 +16,12 @@
       <ProjectReference Include="..\ApplicationCommon\ApplicationCommon.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="bin\Debug\net7.0\countries.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="bin\Debug\net7.0\" />
+    </ItemGroup>
+
 </Project>

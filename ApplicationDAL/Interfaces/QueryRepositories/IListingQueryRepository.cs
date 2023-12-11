@@ -1,5 +1,6 @@
 using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.GeospatialUtilities;
+using ApplicationCommon.Structs;
 using ApplicationDAL.Entities;
 
 namespace ApplicationDAL.Interfaces.QueryRepositories;
@@ -13,4 +14,7 @@ public interface IListingQueryRepository
     public Task<IEnumerable<Listing>> GetListingsByHostId(Guid hostId);
     public Task<IEnumerable<Listing>> GetListingsByPropertyType(string requestPropertyType);
     public Task<IEnumerable<Listing>> GetListingsByBoundingBox(BoundingBox requestBoundingBox);
+    public Task<IEnumerable<Listing>> GetListingsByCity(Address address);
+    public Task<IEnumerable<Listing>> GetListingsByCountry(Address address);
+    public Task<IEnumerable<Listing>> GetListingsByStreet(Address address);
 }

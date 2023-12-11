@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.GeospatialUtilities;
+using ApplicationCommon.Structs;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
@@ -59,6 +60,18 @@ namespace airbnb_net.Controllers
         {
             var boundingBox = new BoundingBox(new Coordinates(x1, y1), new Coordinates(x2, y2));
             return await _mediator.Send(new GetListingsByBoundingBoxQuery(boundingBox));
+        }
+        
+        [HttpGet("address")]
+        public async Task<IEnumerable<ListingDTO>> Get(string? city, string? country, string? street)
+        {
+            var address = new Address
+            {
+                City = city,
+                Country = country,
+                Street = street
+            };
+            return await _mediator.Send(new GetListingsByAddressQuery(address));
         }
         
         // POST: api/Listing
