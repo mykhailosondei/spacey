@@ -1,24 +1,30 @@
-import React, {useState} from 'react';
-import pic from './Pictures/img1.webp';
-import pic2 from './Pictures/img2.webp';
+import React from 'react';
 import './App.scss';
+import {Route, Routes} from "react-router-dom";
 import NavBar from "./components/NavBar";
-import {wait} from "@testing-library/user-event/dist/utils";
 import ListingHolder from "./components/ListingHolder";
+import {PropertyTypeSlider} from "./components/PropertyTypeSlider";
+import {AuthProvider} from "./Contexts/AuthContext";
+import LoginPopup from "./components/LoginPopup";
+import {LoginPopupProvider} from "./Contexts/LoginPopupContext";
 
 function App() {
-    const [imageUrlArray, setImageUrlArray] = useState([''])
-  const getPhotosFromJson = () => {
-      
-  }
-  
-  
+    
   return (
       <>
-        {/*<ListingBox title={"1"} distance={"1"} availability={"1"} price={12} rating={1} pictures={[pic, pic2]}></ListingBox>*/}
     <div className="App">
-        <NavBar />
-        <ListingHolder></ListingHolder>
+        <LoginPopupProvider><LoginPopup></LoginPopup>
+        <AuthProvider>
+            <NavBar/>
+            <PropertyTypeSlider></PropertyTypeSlider>
+            <Routes>
+                <Route path="/" element={<ListingHolder/>}/>
+                <Route path="/:propertyType" element={<ListingHolder/>}/>
+                <Route path="/listing/address" element={<ListingHolder/>}></Route>
+                <Route path="/listing/boundingBox" element={<ListingHolder/>}></Route>
+            </Routes>
+        </AuthProvider>
+        </LoginPopupProvider>
     </div>
       </>
   );

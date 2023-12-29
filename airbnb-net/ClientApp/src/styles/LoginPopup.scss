@@ -1,0 +1,187 @@
+
+.login-popup {
+    width: 568px;
+    position: absolute;
+    top: calc(50%);
+    left: calc(50% - 284px);
+    border: 1px solid lightgray;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px 0 24px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.login-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 64px;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.login-body{
+    width: 100%;
+    display: flex;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    height: 300px;
+    flex-direction: column;
+}
+
+.login-header-close-button {
+    position: absolute;
+    left: 24px;
+    top: 24px;
+    cursor: pointer;
+}
+
+.really-bold {
+    font-weight: 800;
+}
+
+.back-hover-circle {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    left: -8px;
+    top: -8px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.input-field {
+    border: none;
+    outline: none;
+    margin-left: 9px;
+    margin-right: 12px;
+    margin-bottom: 12px;
+    background-color: transparent;
+}
+
+.input-label {
+    font-size: 14px;
+    position: absolute;
+    margin-top: 16px;
+    margin-left: 12px;
+    color: gray;
+    user-select: none;
+    z-index: -1;
+    transition: all 0.2s ease-in-out;
+}
+
+.input-field-holder {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 12px;
+    height: 48px;
+    color: transparent;
+    border: 1px solid lightgray;
+    &:focus-visible{
+        outline: 2px solid black;
+    }
+}
+
+.input-container {
+    &:focus-within {
+        .input-label {
+            transform: translateY(-12px);
+            font-size: 12px;
+        }
+        .input-field-holder {
+            border: 2px solid black;
+        }
+    }
+}
+
+.button-loading-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    border-radius: inherit;
+}
+
+
+.continue-button-container {
+    margin-top: 10px;
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    &:disabled{
+        .continue-button-loading {
+            display: flex !important;
+        }
+        background-color: gray !important;
+    }
+}
+
+.form-button {
+    background-color: rgb(85, 26, 139);
+}
+
+.continue-button-loading {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    justify-content: center;
+    align-items: center;
+}
+
+.bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    cursor: pointer;
+    z-index: 10;
+    animation-name: pulsing-bullet;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+.left-bullet {
+    animation-delay: 0s;
+}
+.mid-bullet {
+    animation-delay: 1s;
+}
+.right-bullet {
+    animation-delay: 0.5s;
+}
+
+@keyframes pulsing-bullet {
+    0% {
+        background-color: rgb(200,200,200);
+    }
+    50% {
+        background-color: rgb(130,130,130);
+    }
+    100% {
+        background-color: rgb(200,200,200);
+    }
+}

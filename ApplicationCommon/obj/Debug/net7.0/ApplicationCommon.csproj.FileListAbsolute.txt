@@ -13,3 +13,5 @@
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Bson.dll
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Bson.xml
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.csproj.CopyComplete
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Driver.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Driver.xml

@@ -4,6 +4,9 @@ $brand-color : rgb(85, 26, 139);
 .navbar {
   display: flex;
   align-items: center;
+  position: sticky;
+  top:0;
+  z-index: 10;
   height: 80px;
   padding: 0 40px;
   font-size: 16px;
@@ -136,34 +139,6 @@ $brand-color : rgb(85, 26, 139);
   }
 }
 
-
-
-.userButton{
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex: 1 0 auto;
-  background-color: white;
-  max-width: 77px;
-  min-width: 77px;
-  height: 42px;
-  vertical-align: middle;
-  border: 1px solid lightgray;
-  border-radius: 40px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
-  &:hover{
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
-  }
-}
-
 .globe-logo{
   display: block; height: 16px; width: 16px; fill: currentcolor;
-}
-
-.three-lines{
-  display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3px; overflow: visible;
-}
-
-.user-avatar{
-  margin-left: 12px;
 }

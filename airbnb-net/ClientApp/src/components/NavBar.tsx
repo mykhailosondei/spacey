@@ -1,7 +1,8 @@
 // NavBar.tsx
 import React from 'react';
 import '../styles/NavBar.scss';
-import logo from './logo.svg'
+import UserProfileDropdown from "./UserProfileDropdown";
+import {LoginPopupProvider} from "../Contexts/LoginPopupContext";
 
 function bop() {
     alert('click')
@@ -50,14 +51,7 @@ const NavBar: React.FC = () => {
                         </div>
                     </button>
                 </div>
-                <div className="userButton">
-                    <div className="three-lines">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false"><g fill="none"><path d="M2 16h28M2 24h28M2 8h28"></path></g></svg>
-                    </div>
-                    <div className="user-avatar">
-                        
-                    </div>
-                </div>
+                <UserProfileDropdown></UserProfileDropdown>
             </div>
         </div>
     );

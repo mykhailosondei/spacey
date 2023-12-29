@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import '../styles/ListingBox.scss';
 import Arrow from "./Arrow";
-import {ReactComponent as LeftArrow} from '../left-arrow.svg'
-import {ReactComponent as RightArrow} from '../right-arrow.svg'
+import {ReactComponent as LeftArrow} from '../values/svgs/left-arrow.svg'
+import {ReactComponent as RightArrow} from '../values/svgs/right-arrow.svg'
 import {Easing, Tween, update} from "@tweenjs/tween.js";
 
 interface ListingBoxProps {

@@ -15,3 +15,7 @@
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/ApplicationCommon.pdb
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/ApplicationDAL.pdb
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/obj/Debug/net7.0/ApplicationLogic.csproj.CopyComplete
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/BingMapsRESTToolkit.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/StackExchange.Redis.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/BingMapsRESTToolkit.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/StackExchange.Redis.xml
