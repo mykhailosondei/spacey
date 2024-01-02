@@ -1,3 +1,5 @@
+import {ReviewDTO} from "../Review/ReviewDTO";
+
 export interface BookingDTO  {
     id: string;
     checkIn: Date;
