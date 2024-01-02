@@ -55,5 +55,13 @@ namespace airbnb_net.Controllers
         {
             return await _authService.Register(registerUserDTO);
         }
+        
+        //POST: api/Auth/isEmailTaken
+        [HttpPost("isEmailTaken")]
+        [AllowAnonymous]
+        public async Task<bool> IsEmailTaken([FromBody] string email)
+        {
+            return await _authService.IsEmailTaken(email);
+        }
     }
 }
