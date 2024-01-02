@@ -71,6 +71,26 @@
     background-color: transparent;
 }
 
+.active {
+    transform: translateY(-12px) !important;
+    font-size: 12px !important;
+}
+
+.invalid-container{
+    .input-label {
+        color: #ff5050;
+    }
+    .input-field-holder {
+        border: 1px solid #ff5050;
+        background-color: rgba(255, 80, 80, 0.05);
+        &:focus-within {
+            outline: 2px solid #ff5050 !important;
+            background-color: transparent;
+            border:none !important;
+        }
+    }
+}
+
 .input-label {
     font-size: 14px;
     position: absolute;
@@ -184,4 +204,20 @@
     100% {
         background-color: rgb(200,200,200);
     }
+}
+
+.input-error {
+    color: #ff5050;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 12px;
+    margin-bottom: 12px;
+}
+
+.login-popup-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
 }
