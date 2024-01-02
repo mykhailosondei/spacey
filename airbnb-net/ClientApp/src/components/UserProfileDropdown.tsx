@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ReactComponent as DefaultAvatar} from "../values/svgs/default-profile.svg";
 import "../styles/UserProfileDropdown.scss";
 import {useAuth} from "../Contexts/AuthContext";
@@ -14,6 +14,10 @@ const UserProfileDropdown : React.FC = () => {
     function toggleDropdown(){
         setIsDropdownVisible(!isDropdownVisible);
     }
+
+    useEffect(() => {
+        document.body.style.overflow = popupActivated ? 'hidden' : 'unset';
+    }, [popupActivated]);
     
     function setPopupTrue(){
         setPopupActivated(true);

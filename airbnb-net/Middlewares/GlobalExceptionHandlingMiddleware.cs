@@ -26,5 +26,6 @@ public class GlobalExceptionHandlingMiddleware
             var json = JsonConvert.SerializeObject(ex);
             await context.Response.WriteAsync(json);
         }
+        
     }
 }

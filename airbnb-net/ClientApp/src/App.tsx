@@ -13,7 +13,7 @@ function App() {
   return (
       <>
     <div className="App">
-        <LoginPopupProvider><LoginPopup></LoginPopup>
+        <LoginPopupProvider>
         <AuthProvider>
             <NavBar/>
             <PropertyTypeSlider></PropertyTypeSlider>

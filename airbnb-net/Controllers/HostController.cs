@@ -52,7 +52,6 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "Host, User")]
         public async Task Put(Guid id, [FromBody] HostUpdateDTO hostUpdate)
         {
-            //TODO: check if id matches hostId
             hostUpdate.UserId = _userIdGetter.UserId;
             hostUpdate.Id = _hostIdGetter.HostId;
             await _mediator.Send(new UpdateHostCommand(id, hostUpdate));

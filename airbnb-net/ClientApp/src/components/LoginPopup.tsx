@@ -1,23 +1,46 @@
 import React, {useContext, useEffect} from "react";
 import "../styles/LoginPopup.scss";
 import {useLoginPopup} from "../Contexts/LoginPopupContext";
+import {AuthService} from "../services/AuthService";
+import InputField from "./InputFIeld";
+import {InputFieldProps} from "./InputFIeld";
 
 const LoginPopup : React.FC = () => {
+    
+    const authService = AuthService.getInstance();
     
     const {popupActivated, setPopupActivated} = useLoginPopup();
     
     const [emailLoading, setEmailLoading] = React.useState<boolean>(false);
+    const [emailTaken, setEmailTaken] = React.useState<boolean>(false);
+    const [inputValue, setInputValue] = React.useState<string>("");
+    const [emailInputInvalid, setEmailInputInvalid] = React.useState<boolean>(false);
     
-    console.log("popupActivated from popup: " + popupActivated)
-
-    async function delay(number: number) {
-        return new Promise(resolve => setTimeout(resolve, number));
+    
+    async function isEmailTaken(email: string) : Promise<boolean> {
+        return await authService.isRegistered(email);
     }
 
+    function validateEmail(input: string) : boolean {
+        if (inputValue === null || inputValue === undefined || inputValue.trim() === '') {
+            return true;
+        }
+        const index = inputValue.indexOf('@');
+
+        const isEmail = index > 0 && index !== inputValue.length - 1 && index === inputValue.lastIndexOf('@');
+        return isEmail;
+    }
+    
     async function $continue(){
+        if (emailInputInvalid){
+            return;
+        }
         setEmailLoading(true);
-        await delay(3000);
-        setEmailLoading(false);
+        isEmailTaken(inputValue).then((result) => {
+            setEmailTaken(result);
+            console.log("email taken: " + result);
+            setEmailLoading(false);
+        });
     }
     
     return <>
@@ -46,20 +69,22 @@ const LoginPopup : React.FC = () => {
                     </div>
                     <div className="login-body">
                         <h3>Welcome to Airbnb</h3>
-                        <div className="input-container">
-                            <form action="">
-                                <div className="input-label">Email address</div>
-                                <div className={"input-field-holder"}><input className="input-field" type="text"/></div>
-                            </form>
-                        </div>
-                                <button className="continue-button-container form-button" type="button" onClick={$continue} disabled={emailLoading}>
-                                    {!emailLoading?"Continue":""}
-                                    <div className={"continue-button-loading"}>
-                                        <span className={"bullet left-bullet"}></span>
-                                        <span className={"bullet mid-bullet"}></span>
-                                        <span className={"bullet right-bullet"}></span>
-                                    </div>
-                                </button>
+                            <InputField className={"input-container"} 
+                                        value={inputValue} 
+                                        label={"Email"} 
+                                        type={"text"} 
+                                        onChange={(e)=>{setInputValue(e.target.value)}}
+                                        isValid={validateEmail}
+                                        onInvalid={(isInvalid)=>{setEmailInputInvalid(isInvalid)}}
+                            ></InputField>
+                            <button className="continue-button-container form-button" type="button" onClick={$continue} disabled={emailLoading}>
+                                {!emailLoading?"Continue":""}
+                                <div className={"continue-button-loading"}>
+                                    <span className={"bullet left-bullet"}></span>
+                                    <span className={"bullet mid-bullet"}></span>
+                                    <span className={"bullet right-bullet"}></span>
+                                </div>
+                            </button>
                     </div>
                 </div>
             </div>
