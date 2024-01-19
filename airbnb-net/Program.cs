@@ -57,6 +57,7 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserIdMiddleware>();
+app.UseMiddleware<RoleMiddleware>();
 app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 

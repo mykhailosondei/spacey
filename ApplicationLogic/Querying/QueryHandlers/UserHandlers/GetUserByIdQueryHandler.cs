@@ -43,9 +43,13 @@ public class GetUserByIdQueryHandler : BaseHandler, IRequestHandler<GetUserByIdQ
             throw new NotFoundException(nameof(UserDTO));
         }
         
-        await _distributedCache.SetStringAsync(cacheKey, result.ToBsonDocument().ToString());
-        await _distributedCache.SetStringAsync($"user-{request.Id}-timestamp", JsonConvert.SerializeObject(result.LastAccess));
+        result.LastAccess = DateTime.UtcNow;
         
-        return _mapper.Map<UserDTO>(result);
+        var mappedUser = _mapper.Map<UserDTO>(result);
+        
+        await _distributedCache.SetStringAsync(cacheKey, mappedUser.ToBsonDocument().ToString());
+        await _distributedCache.SetStringAsync($"user-{request.Id}-timestamp", JsonConvert.SerializeObject(mappedUser.LastAccess));
+        
+        return mappedUser;
     }
 }

@@ -14,6 +14,7 @@ using ApplicationLogic.BackgroundServices;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Jwt;
 using ApplicationLogic.MappingProfiles;
+using ApplicationLogic.RoleLogic;
 using ApplicationLogic.Services;
 using ApplicationLogic.UserIdLogic;
 using FluentValidation;
@@ -61,6 +62,10 @@ public static class ServiceExtensions
         services.AddScoped<HostIdStorageProvider>();
         services.AddScoped<IHostIdSetter>(s => s.GetService<HostIdStorageProvider>()!);
         services.AddScoped<IHostIdGetter>(s => s.GetService<HostIdStorageProvider>()!);
+        
+        services.AddScoped<RoleStorageProvider>();
+        services.AddScoped<IRoleSetter>(s => s.GetService<RoleStorageProvider>()!);
+        services.AddScoped<IRoleGetter>(s => s.GetService<RoleStorageProvider>()!);
         
         services.AddAutoMapper(ApplicationLogic.AssemblyMarker.Assembly);
         

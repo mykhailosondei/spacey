@@ -48,7 +48,7 @@ namespace airbnb_net.Controllers
         
         // GET: api/User/fromToken
         [HttpGet("fromToken")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Host")]
         public async Task<UserDTO> GetFromToken()
         {
             return await _mediator.Send(new GetUserByIdQuery(_userIdGetter.UserId));

@@ -9,6 +9,7 @@ using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Jwt;
+using ApplicationLogic.RoleLogic;
 using ApplicationLogic.Services;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
@@ -24,11 +25,13 @@ namespace airbnb_net.Controllers
     {
         private readonly AuthService _authService;
         private readonly IUserIdGetter _userIdGetter;
+        private readonly IRoleGetter _roleGetter;
         
-        public AuthController(ILogger<InternalControllerBase> logger, IMapper mapper, JwtFactory jwtFactory, IUserCommandAccess userCommandAccess, IUserQueryRepository userQueryRepository, AuthService authService, IUserIdGetter userIdGetter) : base(logger, mapper)
+        public AuthController(ILogger<InternalControllerBase> logger, IMapper mapper, JwtFactory jwtFactory, IUserCommandAccess userCommandAccess, IUserQueryRepository userQueryRepository, AuthService authService, IUserIdGetter userIdGetter, IRoleGetter roleGetter) : base(logger, mapper)
         {
             _authService = authService;
             _userIdGetter = userIdGetter;
+            _roleGetter = roleGetter;
         }
         
         // POST: api/Auth/login
@@ -47,6 +50,11 @@ namespace airbnb_net.Controllers
             return await _authService.SwitchRole(userId, toHost);
         }
         
+        [HttpGet("is-in-role/{role}")]
+        public bool IsInRole(string role)
+        {
+            return _roleGetter.IsInRole(role);
+        }
         
         // POST: api/Auth/register
         [HttpPost("register")]

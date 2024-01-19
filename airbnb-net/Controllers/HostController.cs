@@ -59,7 +59,7 @@ namespace airbnb_net.Controllers
         
         // GET: api/Host
         [HttpGet("fromToken")]
-        [Authorize(Roles = "Host")]
+        [Authorize(Roles = "Host, User")]
         public async Task<HostDTO> Get()
         {
             return await _mediator.Send(new GetHostByIdQuery(_hostIdGetter.HostId));
