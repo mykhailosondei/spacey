@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ErA8nyFLF4iisiTroSlnnjtvXSJhXydzn7K7XS01Ngc68BrmkqIlIUV2EZ1YBgN4uUSr88WcpYVpl1PUtGppBQ==",
+  "dgSpecHash": "4c0kYOv0+QUaHu5/BpJ8QR6ZF/8eP/GzS8ra/AdqtQy0insd4ZgYOREbFxCPCdKBZ4qnHdudGnAlhwawrWQ09g==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj",
   "expectedPackageFiles": [

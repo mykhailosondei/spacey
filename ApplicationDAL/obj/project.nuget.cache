@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fkojUlSaGb4MvqqhC+jpMnnqtZhv3qn/udgBp7KXWwq5IhZqFWF8Gy3sbZznxgZy+jjnvRQSORwPdw3Uzl+JmA==",
+  "dgSpecHash": "TwdcK7vBAvSYbWbgQ+QeaOHn4aXdmd4wwB7gILE7jm86b5Ltz5un4qZc3GiRNUGRtV4Kuf287sJ+20UosIAmFA==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/ApplicationDAL.csproj",
   "expectedPackageFiles": [
