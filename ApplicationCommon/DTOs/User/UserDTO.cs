@@ -22,6 +22,8 @@ public class UserDTO : ILastAccessible
     
     public string Address { get; set; }
     
+    public DateTime BirthDate { get; set; }
+    
     public string Description { get; set; }
     
     public ImageDTO Avatar { get; set; }

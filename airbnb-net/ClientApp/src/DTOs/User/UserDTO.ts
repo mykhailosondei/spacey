@@ -9,6 +9,7 @@ export interface UserDTO {
     createdAt: Date;
     passwordHash: string;
     address: string;
+    birthdate: Date;
     description: string;
     avatar: ImageDTO;
     host: HostDTO;
