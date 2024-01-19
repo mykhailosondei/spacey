@@ -44,9 +44,13 @@ public class GetHostByIdQueryHandler : BaseHandler, IRequestHandler<GetHostByIdQ
             throw new NotFoundException(nameof(HostDTO));
         }
         
-        await _distributedCache.SetStringAsync(cacheKey, result.ToBsonDocument().ToString());
-        await _distributedCache.SetStringAsync($"host-{request.Id}-timestamp", JsonConvert.SerializeObject(result.LastAccess));
+        result.LastAccess = DateTime.UtcNow;
         
-        return _mapper.Map<HostDTO>(result);
+        var mappedHost = _mapper.Map<HostDTO>(result);
+        
+        await _distributedCache.SetStringAsync(cacheKey, mappedHost.ToBsonDocument().ToString());
+        await _distributedCache.SetStringAsync($"host-{request.Id}-timestamp", JsonConvert.SerializeObject(mappedHost.LastAccess));
+        
+        return mappedHost;
     }
 }

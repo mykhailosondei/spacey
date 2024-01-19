@@ -10,7 +10,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
         RuleFor(r => r.User.Name).NotEmpty().MaximumLength(50);
         RuleFor(r => r.User.PhoneNumber).NotEmpty().MaximumLength(50);
-        RuleFor(r => r.User.Address).NotEmpty().MaximumLength(50);
+        RuleFor(r => r.User.Address).NotNull();
         RuleFor(r => r.User.Description).NotEmpty().MaximumLength(500);
     }
 }

@@ -52,9 +52,11 @@ public class GetBookingByIdQueryHandler : BaseHandler, IRequestHandler<GetBookin
         
         result.LastAccess = DateTime.UtcNow;
         
-        await _distributedCache.SetStringAsync(cacheKey, result.ToBsonDocument().ToString(), cancellationToken);
-        await _distributedCache.SetStringAsync(cacheKeyTimestamp, JsonConvert.SerializeObject(result.LastAccess), cancellationToken);
+        var mappedBooking = _mapper.Map<BookingDTO>(result);
         
-        return _mapper.Map<BookingDTO>(result);
+        await _distributedCache.SetStringAsync(cacheKey, mappedBooking.ToBsonDocument().ToString(), cancellationToken);
+        await _distributedCache.SetStringAsync(cacheKeyTimestamp, JsonConvert.SerializeObject(mappedBooking.LastAccess), cancellationToken);
+        
+        return mappedBooking;
     }
 }

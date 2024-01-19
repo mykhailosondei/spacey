@@ -43,9 +43,13 @@ public class GetListingByIdQueryHandler : BaseHandler, IRequestHandler<GetListin
             throw new NotFoundException(nameof(ListingDTO));
         }
         
-        await _distributedCache.SetStringAsync(cacheKey, result.ToBsonDocument().ToString());
-        await _distributedCache.SetStringAsync($"listing-{request.Id}-timestamp", JsonConvert.SerializeObject(result.LastAccess));
+        result.LastAccess = DateTime.UtcNow;
         
-        return _mapper.Map<ListingDTO>(result);
+        var listingDTO = _mapper.Map<ListingDTO>(result);
+        
+        await _distributedCache.SetStringAsync(cacheKey, listingDTO.ToBsonDocument().ToString());
+        await _distributedCache.SetStringAsync($"listing-{request.Id}-timestamp", JsonConvert.SerializeObject(listingDTO.LastAccess));
+        
+        return listingDTO;
     }
 }
