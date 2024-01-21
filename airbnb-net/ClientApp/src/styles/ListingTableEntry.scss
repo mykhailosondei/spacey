@@ -1,0 +1,22 @@
+.listing-table-entry-data-cell {
+    padding: 16px 8px;
+    height: auto;
+}
+
+.listing-row {
+    height: 45px + 32px;
+    &:hover {
+        border-radius: 32px;
+        background-color: #f7f7f7;
+        cursor: pointer;
+    }
+}
+
+.listing-table-entry-image {
+    height: 45px;
+    transform: translateY(-16px);
+    line-height: 0;
+    vertical-align: middle;
+    display: block;
+    width: 80px;
+}

@@ -127,9 +127,6 @@ public class IntegrationTest
             Email = email,
             Password = password,
             Name = "testFirstName",
-            PhoneNumber = "testPhoneNumber",
-            Address = "testAddress",
-            Description = "testDescription"
         }).Result;
         var response = TestClient.PostAsJsonAsync("http://localhost:5241/api/Auth/login", new LoginUserDTO()
         {
