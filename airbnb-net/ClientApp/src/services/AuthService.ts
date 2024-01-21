@@ -1,12 +1,13 @@
 import {HttpCustomClient} from "./HttpCustomClient";
 import {RegisterUserDTO} from "../DTOs/User/RegisterUserDTO";
 import {LoginUserDTO} from "../DTOs/User/LoginUserDTO";
+import AuthUser from "../DTOs/User/AuthUser";
 
 export class AuthService {
     http: HttpCustomClient;
     baseUrl: string;
     private constructor() {
-        this.http = new HttpCustomClient();
+        this.http = HttpCustomClient.getInstance();
         this.baseUrl = "/auth";
     }
     
@@ -18,14 +19,48 @@ export class AuthService {
         return AuthService.instance;
     }
     
-    
     async register(user:RegisterUserDTO) {
-        return await this.http.Post<RegisterUserDTO>(`${this.baseUrl}/register`, user);
+        const response = await this.http.Post<AuthUser>(`${this.baseUrl}/register`, user);
+        if(response){
+            this.http.SetBearerToken(response.token);
+            console.log(response.token);
+        }
+        return response;
     }
+    
+    async switchToHost() {
+        const response = await this.http.Post<AuthUser>(`${this.baseUrl}/switch-role-to-host/true`);
+        if(response){
+            this.http.SetBearerToken(response.token);
+        }
+        return response;
+    }
+    
+    async switchToUser() {
+        const response = await this.http.Post<AuthUser>(`${this.baseUrl}/switch-role-to-host/false`);
+        if(response){
+            this.http.SetBearerToken(response.token);
+        }
+        return response;
+    }
+    
     async login(user:LoginUserDTO) {
-        return await this.http.Post<LoginUserDTO>(`${this.baseUrl}/login`, user);
+        const response = await this.http.Post<AuthUser>(`${this.baseUrl}/login`, user);
+        if(response){
+            this.http.SetBearerToken(response.token);
+        }
+        return response;
     }
+    
     async isRegistered(email: string) {
         return await this.http.Post<boolean>(`${this.baseUrl}/isEmailTaken`, email);
+    }
+
+    async isInRole(role: string) {
+        return await this.http.Get<boolean>(`${this.baseUrl}/is-in-role/${role}`);
+    }
+    
+    logout() {
+        this.http.RemoveBearerToken();
     }
 }
