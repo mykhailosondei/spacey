@@ -6,12 +6,12 @@ export class UserService {
     http : HttpCustomClient;
     baseUrl;
     private constructor() {
-        this.http = new HttpCustomClient();
+        this.http = HttpCustomClient.getInstance();
         this.baseUrl = "/user";
     }
     
     private static instance: UserService;
-    public getInstance(): UserService {
+    public static getInstance(): UserService {
         if (!UserService.instance) {
             UserService.instance = new UserService();
         }
@@ -23,6 +23,9 @@ export class UserService {
     }
     async get(id:string) {
         return await this.http.Get<UserDTO>(`${this.baseUrl}/${id}`);
+    }
+    async getFromToken() {
+        return await this.http.Get<UserDTO>(`${this.baseUrl}/fromToken`);
     }
     async update(user:UserUpdateDTO) {
         return await this.http.Put(`${this.baseUrl}`, user);

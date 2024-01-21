@@ -2,28 +2,30 @@ import {HttpCustomClient} from "./HttpCustomClient";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
 import {ListingCreateDTO} from "../DTOs/Listing/ListingCreateDTO";
 import {ListingUpdateDTO} from "../DTOs/Listing/ListingUpdateDTO";
+import {AxiosRequestConfig} from "axios";
 
 export class ListingService {
     http: HttpCustomClient;
     baseUrl:string;
     private constructor() {
-        this.http = new HttpCustomClient();
+        this.http = HttpCustomClient.getInstance();
         this.baseUrl = "/listing";
     }
     
     private static instance: ListingService;
-    public getInstance(): ListingService {
+    
+    public static getInstance(): ListingService {
         if (!ListingService.instance) {
             ListingService.instance = new ListingService();
         }
         return ListingService.instance;
     }
     
-    async getAll() {
-        return await this.http.Get(`${this.baseUrl}`);
+    async getAll(config:AxiosRequestConfig = {}) {
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}`, config);
     }
-    async get(id:string) {
-        return await this.http.Get(`${this.baseUrl}/${id}`);
+    async get(id:string, config:AxiosRequestConfig = {}) {
+        return await this.http.Get<ListingDTO>(`${this.baseUrl}/${id}`, config);
     }
     async getByPropertyType(propertyType:string) {
         return await this.http.Get(`${this.baseUrl}/${propertyType}`);

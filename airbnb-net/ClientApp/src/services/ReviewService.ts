@@ -6,7 +6,7 @@ export class ReviewService{
     http: HttpCustomClient;
     baseUrl:string;
     private constructor() {
-        this.http = new HttpCustomClient();
+        this.http = HttpCustomClient.getInstance();
         this.baseUrl = "/review";
     }
     

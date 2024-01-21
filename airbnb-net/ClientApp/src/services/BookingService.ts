@@ -5,7 +5,7 @@ export class BookingService {
     http : HttpCustomClient;
     baseUrl;
     private constructor() {
-        this.http = new HttpCustomClient();
+        this.http = HttpCustomClient.getInstance();
         this.baseUrl = "/booking";
     }
     
