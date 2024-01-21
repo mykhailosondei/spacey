@@ -32,7 +32,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         const htmlBulletsArrayInitValue = [];
         for (let i: number = 0; i<pictures.length; i++){
             htmlBulletsArrayInitValue.push(
-                <span className={"bullet"}></span>
+                <span className={"bullet-load"}></span>
             )
         }
         
@@ -90,7 +90,6 @@ const ListingBox: React.FC<ListingBoxProps> = ({
             if(bullet.id==currentPictureIndex+2 || bullet.id==currentPictureIndex-2) return {id:bullet.id, scale:5/6, opacity:bullet.opacity};
             return {id:bullet.id, scale:2/3, opacity:bullet.opacity};
         });
-        console.log(JSON.stringify(currentBulletScaleArrayState));
         setBulletsArrayState(currentBulletScaleArrayState);
     }
     

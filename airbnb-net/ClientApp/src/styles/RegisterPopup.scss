@@ -1,0 +1,79 @@
+.register-popup {
+  width: 568px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+    transform: translate(-50%, -50%);
+  border: 1px solid lightgray;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 0 24px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+  z-index: 1000;
+}
+
+.email-input, .birthdate-input, .password-input {
+    font-size: 16px;
+    margin-top: 24px;
+}
+
+.birthdate-input {
+    .input-container:focus-within {
+        .input-field {
+            color: black;
+        }
+    }
+    .input-label {
+        translate: none;
+    }
+    .input-field {
+        color: transparent;
+    }
+}
+
+.register-body{
+  width: 100%;
+  display: flex;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  height: 500px;
+  flex-direction: column;
+}
+
+.toggle-password-visibility-btn {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+    transform: translateY(-50%);
+  bottom: auto;
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  text-decoration-thickness: 10%;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.password-validation {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+}
+
+.password-validation-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    color:green; 
+    &.invalid {
+        color: red!important;
+    }
+}

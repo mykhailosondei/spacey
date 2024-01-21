@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import "../styles/LoginPopup.scss";
-import {useLoginPopup} from "../Contexts/LoginPopupContext";
+import {PopupType, usePopup} from "../Contexts/PopupContext";
 import {AuthService} from "../services/AuthService";
 import InputField from "./InputFIeld";
 import {InputFieldProps} from "./InputFIeld";
@@ -9,7 +9,7 @@ const LoginPopup : React.FC = () => {
     
     const authService = AuthService.getInstance();
     
-    const {popupActivated, setPopupActivated} = useLoginPopup();
+    const {popupType, setPopupType,userEmail, setUserEmail} = usePopup();
     
     const [emailLoading, setEmailLoading] = React.useState<boolean>(false);
     const [emailTaken, setEmailTaken] = React.useState<boolean>(false);
@@ -31,24 +31,31 @@ const LoginPopup : React.FC = () => {
         return isEmail;
     }
     
+    
     async function $continue(){
-        if (emailInputInvalid){
+        if (emailInputInvalid || inputValue.trim() === ''){
             return;
         }
         setEmailLoading(true);
         isEmailTaken(inputValue).then((result) => {
             setEmailTaken(result);
             console.log("email taken: " + result);
+            setUserEmail(inputValue);
+            if (result) {
+                setPopupType(PopupType.PASSWORD);
+            }
+            else {
+                setPopupType(PopupType.REGISTER);
+            }
             setEmailLoading(false);
         });
     }
     
     return <>
-        {popupActivated?
             <div>
-                <div className="login-popup-background" onClick={() => setPopupActivated(false)}></div>
+                <div className="login-popup-background" onClick={() => setPopupType(PopupType.NONE)}></div>
                 <div className="login-popup">
-                    <div className="login-header-close-button" onClick={() => setPopupActivated(false)}>
+                    <div className="login-header-close-button" onClick={() => setPopupType(PopupType.NONE)}>
                         <div className={"back-hover-circle"}></div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                              style={{
@@ -80,15 +87,14 @@ const LoginPopup : React.FC = () => {
                             <button className="continue-button-container form-button" type="button" onClick={$continue} disabled={emailLoading}>
                                 {!emailLoading?"Continue":""}
                                 <div className={"continue-button-loading"}>
-                                    <span className={"bullet left-bullet"}></span>
-                                    <span className={"bullet mid-bullet"}></span>
-                                    <span className={"bullet right-bullet"}></span>
+                                    <span className={"bullet-load left-bullet"}></span>
+                                    <span className={"bullet-load mid-bullet"}></span>
+                                    <span className={"bullet-load right-bullet"}></span>
                                 </div>
                             </button>
                     </div>
                 </div>
             </div>
-            : null}
     </>
 }
 
