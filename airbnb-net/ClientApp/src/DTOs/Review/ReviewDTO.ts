@@ -1,7 +1,9 @@
+import {Ratings} from "../../values/Ratings";
+
 export interface ReviewDTO {
     id: string;
     comment: string;
-    ratings: number[];
+    ratings: Ratings;
     bookingId: string;
     userId: string;
 }
