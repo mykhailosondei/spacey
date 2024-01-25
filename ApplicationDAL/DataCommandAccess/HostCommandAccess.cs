@@ -19,13 +19,6 @@ public class HostCommandAccess : BaseAccessHandler, IHostCommandAccess
     {
         _listingDeletor = listingDeletor;
     }
-
-    public async Task<Guid> AddHost(Host host)
-    {
-        host.Id = Guid.NewGuid();
-        await _collection.InsertOneAsync(host);
-        return host.Id;
-    }
     
     public async Task UpdateHost(Guid id, Host host)
     {
