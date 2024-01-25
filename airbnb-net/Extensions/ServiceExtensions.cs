@@ -82,6 +82,7 @@ public static class ServiceExtensions
         {
             options.ConfigurationOptions = new()
             {
+                AbortOnConnectFail = false,
                 Password = "MSmQBJVyE2LweeEFqKjYOOaJctkubqau",
                 EndPoints = { "redis-16876.c267.us-east-1-4.ec2.cloud.redislabs.com:16876" }
             };

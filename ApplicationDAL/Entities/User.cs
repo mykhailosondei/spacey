@@ -19,8 +19,10 @@ public class User
     
     public string PhoneNumber { get; set; }
     
+    [RestrictUpdate]
     public DateTime CreatedAt { get; set; }
     
+    [RestrictUpdate]
     public string PasswordHash { get; set; }
     
     public string Address { get; set; }
@@ -29,6 +31,7 @@ public class User
     
     public Image Avatar { get; set; }
     
+    [RestrictUpdate]
     public Host Host { get; set; }
     
     [RestrictUpdate]

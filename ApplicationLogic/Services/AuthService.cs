@@ -68,14 +68,6 @@ public class AuthService
         
         Guid userId = await _userCommandAccess.AddUser(user);
         
-        Host host = new()
-        {
-            Id = Guid.NewGuid(),
-            UserId = userId
-        };
-        
-        await _hostCommandAccess.AddHost(host);
-        user.Host = host;
         await _userCommandAccess.UpdateUser(user.Id, user);
         var userWithId = await _userQueryRepository.GetUserById(userId);
         Console.WriteLine(userWithId.ToBsonDocument());

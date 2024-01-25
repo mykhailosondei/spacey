@@ -15,6 +15,13 @@ public class UserCommandAccess : BaseAccessHandler, IUserCommandAccess
     public async Task<Guid> AddUser(User user)
     {
         user.Id = Guid.NewGuid();
+        var host = new Host()
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id
+        };
+        user.Host = host;
+        await GetCollection<Host>("hosts").InsertOneAsync(host);
         await _collection.InsertOneAsync(user);
         return user.Id;
     }
