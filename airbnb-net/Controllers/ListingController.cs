@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.Listing;
@@ -12,6 +13,7 @@ using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Commanding.Commands.ListingCommands;
 using ApplicationLogic.HostIdLogic;
+using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.Querying.Queries.ListingQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
@@ -47,6 +49,23 @@ namespace airbnb_net.Controllers
         public async Task<ListingDTO> Get(Guid id)
         {
             return await _mediator.Send(new GetListingByIdQuery(id));
+        }
+        
+        // GET: api/Listing/5/unavailableDates
+        [HttpGet("{id:guid}/unavailableDates")]
+        public async Task<IEnumerable<DateTime>> GetUnavailableDates(Guid id)
+        {
+            var unavailableDates = new List<DateTime>();
+            var listing = await _mediator.Send(new GetListingByIdQuery(id));
+            foreach (var bookingId in listing.BookingsIds)
+            {
+                var booking = await _mediator.Send(new GetBookingByIdQuery(bookingId));
+                for (DateTime i = booking.CheckIn; i <= booking.CheckOut; i = i.AddDays(1))
+                {
+                    unavailableDates.Add(i);
+                }
+            }
+            return unavailableDates;
         }
         
         [HttpGet("{propertyType}")]

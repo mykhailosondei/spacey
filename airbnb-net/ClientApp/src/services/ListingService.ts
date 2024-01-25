@@ -27,6 +27,9 @@ export class ListingService {
     async get(id:string, config:AxiosRequestConfig = {}) {
         return await this.http.Get<ListingDTO>(`${this.baseUrl}/${id}`, config);
     }
+    async getUnavailableDates(id:string) {
+        return await this.http.Get<string[]>(`${this.baseUrl}/${id}/unavailableDates`);
+    }
     async getByPropertyType(propertyType:string) {
         return await this.http.Get(`${this.baseUrl}/${propertyType}`);
     }
