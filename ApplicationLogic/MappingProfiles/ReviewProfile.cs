@@ -1,4 +1,5 @@
 using ApplicationCommon.DTOs.Review;
+using ApplicationCommon.Structs;
 using ApplicationDAL.Entities;
 using AutoMapper;
 
@@ -10,7 +11,7 @@ public class ReviewProfile : Profile
     {
         CreateMap<ReviewCreateDTO, ReviewDTO>();
         CreateMap<ReviewUpdateDTO, ReviewDTO>();
-        CreateMap<ReviewDTO, Review>();
-        CreateMap<Review, ReviewDTO>();
+        CreateMap<ReviewDTO, Review>().ForMember(dest => dest.Ratings, opt => opt.MapFrom(src => src.Ratings.getRatingsArray()));
+        CreateMap<Review, ReviewDTO>().ForMember(dest => dest.Ratings, opt => opt.MapFrom(src => new Ratings(src.Ratings)));
     }
 }

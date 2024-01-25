@@ -54,7 +54,7 @@ public class UpdateReviewCommandHandler : BaseHandler, IRequestHandler<UpdateRev
         
         var listing = await _listingQueryRepository.GetListingById(booking.ListingId);
         
-        listing.Ratings = BookingHelper.CalculateNewRating(listing.BookingsIds.Count,listing.Ratings, request.Review.Ratings);
+        listing.Ratings = BookingHelper.CalculateNewRating(listing.BookingsIds.Count,listing.Ratings, request.Review.Ratings.getRatingsArray());
         
         await _listingCommandAccess.UpdateListing(listing.Id, listing);
         

@@ -9,7 +9,7 @@ public class UpdateListingCommandValidator : AbstractValidator<UpdateListingComm
     public UpdateListingCommandValidator()
     {
         RuleFor(r => r.Listing.Title).NotEmpty().MaximumLength(50);
-        RuleFor(r => r.Listing.Description).NotEmpty().MaximumLength(500);
+        RuleFor(r => r.Listing.Description).NotEmpty().MaximumLength(1500);
         RuleFor(r => r.Listing.PropertyType).NotEmpty();
         RuleFor(r => r.Listing.PricePerNight).NotEmpty().GreaterThan(0);
         RuleFor(r => r.Listing.NumberOfRooms).NotEmpty().GreaterThan(0);

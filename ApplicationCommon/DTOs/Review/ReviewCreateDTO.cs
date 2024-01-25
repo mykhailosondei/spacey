@@ -1,3 +1,4 @@
+using ApplicationCommon.Structs;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.Review;
@@ -9,7 +10,7 @@ public class ReviewCreateDTO
     
     public string Comment { get; set; }
     
-    public double[] Ratings { get; set; }
+    public Ratings Ratings { get; set; }
     
     public Guid BookingId { get; set; }
     

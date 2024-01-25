@@ -1,3 +1,4 @@
+using ApplicationCommon.Structs;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.Review;
@@ -9,5 +10,5 @@ public class ReviewUpdateDTO
     
     public string Comment { get; set; }
     
-    public double[] Ratings { get; set; }
+    public Ratings Ratings { get; set; }
 }
