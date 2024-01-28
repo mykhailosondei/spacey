@@ -13,6 +13,8 @@ public class ReviewDTO
     
     public Ratings Ratings { get; set; }
     
+    public DateTime CreatedAt { get; set; }
+    
     public Guid BookingId { get; set; }
     
     public Guid UserId{ get; set; }

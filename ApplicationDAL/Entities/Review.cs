@@ -19,6 +19,9 @@ public class Review
     public double[] Ratings { get; set; }
     
     [RestrictUpdate]
+    public DateTime CreatedAt { get; set; }
+    
+    [RestrictUpdate]
     [BsonRepresentation(BsonType.String)]
     public Guid BookingId { get; set; }
     

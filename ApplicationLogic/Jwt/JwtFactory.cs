@@ -35,6 +35,8 @@ public sealed class JwtFactory : ITokenGenerator
                  identity.FindFirst("hostId"),
                  new Claim(ClaimTypes.Role, isHost ? "Host" : "User")
              };
+            
+            Console.WriteLine("Role" + claims[6].Value);
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(
@@ -45,13 +47,10 @@ public sealed class JwtFactory : ITokenGenerator
                 _jwtOptions.Expiration,
                 _jwtOptions.SigningCredentials);
 
+            Console.WriteLine("JWT" + _jwtSecurityTokenHandler.WriteToken(jwt));
+            
             return new AccessToken(_jwtSecurityTokenHandler.WriteToken(jwt), (int)_jwtOptions.ValidFor.TotalSeconds);
         }
-
-        /*public string GenerateRefreshToken()
-        {
-            return Convert.ToBase64String(SecurityHelper.GetRandomBytes());
-        }*/
 
         public ClaimsPrincipal GetPrincipalFromToken(string token, string signingKey)
         {
