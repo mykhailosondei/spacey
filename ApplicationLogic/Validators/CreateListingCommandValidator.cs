@@ -11,7 +11,7 @@ public class CreateListingCommandValidator : AbstractValidator<CreateListingComm
     {
         RuleFor(r => r.Listing.HostId).NotEmpty().Must((guid)=> guid != Guid.Empty);
         RuleFor(r => r.Listing.Title).NotEmpty().MaximumLength(50);
-        RuleFor(r => r.Listing.Description).NotEmpty().MaximumLength(500);
+        RuleFor(r => r.Listing.Description).NotEmpty().MaximumLength(1500);
         RuleFor(r => r.Listing.PropertyType).NotEmpty();
         RuleFor(r => r.Listing.PropertyType).Must((propertyType) => Enum.IsDefined(typeof(PropertyType), propertyType));
         RuleFor(r => r.Listing.PricePerNight).NotEmpty().GreaterThan(0);
