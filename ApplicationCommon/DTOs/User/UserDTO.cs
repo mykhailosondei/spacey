@@ -1,6 +1,7 @@
 using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.Interfaces;
+using ApplicationCommon.Structs;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.User;
@@ -20,7 +21,7 @@ public class UserDTO : ILastAccessible
     
     public string PasswordHash { get; set; }
     
-    public string Address { get; set; }
+    public Address Address { get; set; }
     
     public DateTime BirthDate { get; set; }
     

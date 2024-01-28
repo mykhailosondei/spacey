@@ -1,3 +1,4 @@
+using ApplicationCommon.Structs;
 using ApplicationDAL.Attributes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -25,7 +26,7 @@ public class User
     [RestrictUpdate]
     public string PasswordHash { get; set; }
     
-    public string Address { get; set; }
+    public Address Address { get; set; }
     
     public string Description { get; set; }
     

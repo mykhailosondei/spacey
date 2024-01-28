@@ -1,5 +1,6 @@
 import {ImageDTO} from "../Image/ImageDTO";
 import {HostDTO} from "../Host/HostDTO";
+import {Address} from "../../values/Address";
 
 export interface UserDTO {
     id: string;
@@ -8,7 +9,7 @@ export interface UserDTO {
     phoneNumber: string;
     createdAt: Date;
     passwordHash: string;
-    address: string;
+    address: Address;
     birthdate: Date;
     description: string;
     avatar: ImageDTO;

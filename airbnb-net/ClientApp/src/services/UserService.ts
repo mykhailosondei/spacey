@@ -24,6 +24,14 @@ export class UserService {
     async get(id:string) {
         return await this.http.Get<UserDTO>(`${this.baseUrl}/${id}`);
     }
+    
+    async getMany(ids:string[]) {
+        let result = [] as UserDTO[];
+        await Promise.all(ids.map(async (id) => {
+            result.push(await this.get(id));
+        }));
+        return result;
+    }
     async getFromToken() {
         return await this.http.Get<UserDTO>(`${this.baseUrl}/fromToken`);
     }
