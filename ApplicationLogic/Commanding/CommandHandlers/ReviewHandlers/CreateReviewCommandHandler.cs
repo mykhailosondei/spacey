@@ -57,6 +57,8 @@ public class CreateReviewCommandHandler :BaseHandler, IRequestHandler<CreateRevi
             throw new InvalidOperationException("This booking already has a review, use the update command instead.");
         }
         
+        review.CreatedAt = DateTime.UtcNow;
+        
         listing.Ratings = BookingHelper.CalculateNewRating(listing.BookingsIds.Count,listing.Ratings, request.Review.Ratings.getRatingsArray());
         
         await _listingCommandAccess.UpdateListing(listing.Id, listing);
