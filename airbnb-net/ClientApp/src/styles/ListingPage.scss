@@ -1,0 +1,54 @@
+.listing-page, .booking-page, .navbar-wrapper:first-child>:first-child {
+    padding: 0 80px;
+    max-width: 1120px;
+    margin: 0 auto;
+    border: none;
+}
+
+.navbar-wrapper{
+    border-bottom: 1px solid lightgray;
+}
+
+.title-and-save-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-direction: row;
+}
+
+.save-button {
+    & svg{
+        margin-right: 5px;
+    }
+    display: flex;
+    font-weight: 500;
+    text-decoration: underline;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    background-color: transparent;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+        background-color: #f4f4f4;
+    }
+    &:active {
+        scale: 0.96;
+    }
+}
+
+.listing-info-and-booking-window {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    position: relative;
+    margin-top: 40px;
+}
+
+.listing-left-side {
+    position: relative;
+    width: 60%;
+}
