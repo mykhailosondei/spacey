@@ -52,6 +52,9 @@ export class HttpCustomClient{
         const response : AxiosResponse<T, any> = await axios.post<T>(this.baseUrl + url, body, {headers: this.headers, validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Post<${url}> status:`);
         console.log(response.status);
+        if(response.status == 500){
+            return null as T;
+        }
         const data = response.data;
         return data;
     }
