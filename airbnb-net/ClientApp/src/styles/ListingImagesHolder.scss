@@ -1,0 +1,79 @@
+.listing-images-holder {
+    width: 100%;
+}
+.listing-images-holder * {
+    box-sizing: border-box;
+}
+
+.listing-page-image {
+    &:hover {
+        cursor: pointer;
+        filter: brightness(0.85);
+    }
+    transition: filter 0.05s ease-in-out;
+}
+
+.front-image {
+    width: 50%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+    img{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.next-two-images {
+    width: 25%;
+    height: 100%;
+    top: 0;
+    padding-left: 8px;
+    left: 50%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    & img{
+        position: absolute;
+        width: 100%;
+        height: 50%;
+        object-fit: cover;
+    }
+    .bottom-image, .top-image {
+        width: 100%;
+        height: 50%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        & img{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .bottom-image {
+        padding-top: 8px;
+        & img{
+            position: absolute;
+            width: 100%;
+            height: calc(100% - 8px);
+            object-fit: cover;
+        }
+    }
+}
+
+.padding-hack {
+    height: 0px !important;
+    min-height: 100% !important;
+    min-width: 100% !important;
+    position: relative !important;
+    padding-top: 50% !important;
+}
+
+.move-further {
+    right: 0;
+    left: auto;
+}
