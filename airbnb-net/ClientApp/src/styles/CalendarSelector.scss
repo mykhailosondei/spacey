@@ -1,0 +1,113 @@
+.calendar-month {
+    height: 360px;
+    width: 336px;
+    box-sizing: border-box;
+    padding: 0 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.moving-container {
+    width: 1344px;
+    left: -336px;
+    position: absolute;
+    display: flex;
+    #prev-unseen{
+        place-self: flex-start;
+    }
+    #next-unseen{
+        place-self: flex-end;
+    }
+    flex-direction: row;
+    align-items: center;
+    z-index: 0;
+}
+
+.month-header-and-day-cells_dynamic {
+    width: 672px;
+    position: relative;
+    overflow: hidden;
+    height: 360px;
+}
+
+.left-calendar-arrow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.right-calendar-arrow {
+    transform: rotateY(180deg);
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.calendar-selector {
+    position: relative;
+    display: flex;
+}
+
+.day-of-week{
+    width: 1/7 * 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.days-of-week {
+    display: flex;
+    width: 50%;
+    justify-content: space-around;
+    user-select: none;
+    margin: 40px 14px 0 14px;
+}
+
+.days-of-the-week-container {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.arrows-and-days-of-week_static {
+    position: absolute;
+    top: 16px;
+    width: 100%;
+}
+
+.month-header {
+    margin-bottom: 32px;
+}
+
+.calendar-selector-holder {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
