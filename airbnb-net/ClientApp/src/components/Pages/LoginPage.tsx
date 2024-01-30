@@ -6,7 +6,6 @@ export const LoginPage = () => {
     const {popupType, setPopupType} = usePopup();
 
     useEffect(() => {
-        console.log("popupType: ", popupType)
         setPopupType(PopupType.LOGIN);
     }, []);
     
