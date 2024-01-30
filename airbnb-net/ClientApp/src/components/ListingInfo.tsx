@@ -45,7 +45,7 @@ export const ListingInfo = (props: { listing: ListingDTO }) => {
             <div className="listing-bedrooms-and-bathrooms">
                 {props.listing.numberOfGuests} guests · {props.listing.numberOfRooms} bedrooms · {props.listing.numberOfBathrooms} bathrooms
             </div>
-            <div className="listing-info-divider"></div>
+            <div className="horizontal-divider"></div>
             <div className="host-info">
                 {isLoaded ?
                     <div>
@@ -61,7 +61,7 @@ export const ListingInfo = (props: { listing: ListingDTO }) => {
                         </div>
                     </div> : <></>}
             </div>
-            <div className="listing-info-divider"></div>
+            <div className="horizontal-divider"></div>
             <pre className="listing-description">
                 {props.listing.description}
             </pre>
@@ -77,7 +77,7 @@ export const ListingInfo = (props: { listing: ListingDTO }) => {
                     d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z"
                     fill-rule="evenodd"></path></svg>
             </div>
-            <div className="listing-info-divider"></div>
+            <div className="horizontal-divider"></div>
         </div>
     </>;
 }
