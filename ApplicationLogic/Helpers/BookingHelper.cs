@@ -12,7 +12,7 @@ public static class BookingHelper
     
     public static bool DateIntersects(DateTime inputCheckIn, DateTime inputCheckOut, (DateTime checkIn, DateTime checkOut)[] existingBookings)
     {
-        return existingBookings.Any(existingBooking => inputCheckIn < existingBooking.checkOut && inputCheckOut > existingBooking.checkIn);
+        return existingBookings.Any(existingBooking => inputCheckIn <= existingBooking.checkOut && inputCheckOut >= existingBooking.checkIn);
     }
 
     public static int CalculateTotalPrice(DateTime bookingCheckIn, DateTime bookingCheckOut, int listingEntityPricePerNight)
