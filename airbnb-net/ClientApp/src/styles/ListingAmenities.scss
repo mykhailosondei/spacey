@@ -1,0 +1,24 @@
+.amenities {
+    width: 100%;
+    position: relative;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    display: flex;
+}
+
+.amenity {
+    width: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    svg {
+        margin-right: 12px;
+    }
+}
+
+.custom-width {
+    width: fit-content;
+    padding: 0 16px;
+}
