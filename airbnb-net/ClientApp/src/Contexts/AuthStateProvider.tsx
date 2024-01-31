@@ -29,7 +29,7 @@ export function useAuthState() {
 export function AuthStateProvider(props: any) {
     const [authenticationState, setAuthenticationState] = React.useState<AuthenticationState>(AuthenticationState.Unauthenticated);
     const authService = useMemo(() => {return AuthService.getInstance()}, []);
-    const [isCheckingRole, setIsCheckingRole] = React.useState<boolean>(false);
+    const [isCheckingRole, setIsCheckingRole] = React.useState<boolean>(true);
     
     function setState(newState: AuthenticationState) {
         setIsCheckingRole(false);
@@ -38,16 +38,18 @@ export function AuthStateProvider(props: any) {
     }
     
     useEffect(() => {
-        setIsCheckingRole(true);
         authService.isInRole("Host").then((result) => {
             if(result) {
+                console.log("Authenticated host");
                 setState(AuthenticationState.AuthenticatedHost);
             }
             else {
                 authService.isInRole("User").then((result) => {
                     if(result) {
+                        console.log("Authenticated user");
                         setState(AuthenticationState.AuthenticatedUser);
                     }else {
+                        console.log("Unauthenticated")
                         setState(AuthenticationState.Unauthenticated);
                         localStorage.removeItem("token");
                     }

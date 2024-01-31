@@ -7,8 +7,10 @@ import {AuthService} from "../services/AuthService";
 import {useUser} from "../Contexts/UserContext";
 import {useHost} from "../Contexts/HostContext";
 
-export function RequireAuth({ children }: { children: JSX.Element }) {
+
+export function RequireSwitchToHost({ children }: { children: JSX.Element }) {
     let { authenticationState } = useAuthState();
+    console.log("authenticationState: ", authenticationState)
     let location = useLocation();
     
     const userService = useMemo(() => {return UserService.getInstance()}, []);
@@ -55,6 +57,6 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
     if ((authenticationState == AuthenticationState.Unauthenticated)) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     } else {
-        return !isSwitching ? children : <></>;
+        return (!isSwitching) ? children : <></>;
     }
 }
