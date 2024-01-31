@@ -4,14 +4,15 @@ import {BookingService} from "../services/BookingService";
 
 export interface InputFieldProps {
     label: string;
+    children?: any;
     type: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    error?: string;
     className?: string;
     disabled?: boolean;
     isValid: (input:string)=>boolean;
     onInvalid: (isInvalid:boolean)=>void;
+    lowerText?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = (props) => {
@@ -32,16 +33,20 @@ const InputField: React.FC<InputFieldProps> = (props) => {
     }
     
 
-    return <div className={"input-container " + (inputInvalid?"invalid-container":"")}>
-        <label className={"input-label " + (inputValue != ''? "active " : "")}>{props.label}</label>
-        <div className="input-field-holder">
-            <input
-                className={"input-field" + (inputInvalid ? " input-invalid" : "")}
-                type={props.type}
-                value={inputValue}
-                onChange={(e) => props.onChange(e)}
-                disabled={props.disabled}
-            />
+    return <div className={props.className}>
+        <div className={"input-container " + (inputInvalid ? "invalid-container" : "")}>
+            <label className={"input-label " + (inputValue != '' ? "active " : "")}>{props.label}</label>
+            <div className="input-field-holder">
+                <input
+                    className={"input-field" + (inputInvalid ? " input-invalid" : "")}
+                    type={props.type}
+                    value={inputValue}
+                    onChange={(e) => props.onChange(e)}
+                    disabled={props.disabled}
+                />
+                {props.children}
+            </div>
+            <div className="lower-text">{props.lowerText}</div>
         </div>
     </div>;
 };

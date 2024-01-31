@@ -20,7 +20,6 @@ const NavBar: React.FC = () => {
     const {popupType, setPopupType} = usePopup()!;
     
     return (
-        <div className={"nav-wrapper"}>
         <div className="navbar">
             <div className="left">
                 <a className="item" href="/">
@@ -60,7 +59,6 @@ const NavBar: React.FC = () => {
                 </div>
                 <UserProfileDropdown></UserProfileDropdown>
             </div>
-        </div>
         </div>
     );
 };

@@ -77,7 +77,7 @@ export const ListingPage = () => {
     }
 
     return listingLoaded ? <>
-    <div className={"navbar-wrapper"}><NavBar></NavBar></div>
+    <div className={"page-navbar-wrapper"}><NavBar></NavBar></div>
         <div className={"listing-page"}>
             <div className="title-and-save-button">
                 <h1 className="listing-title">{listing.title}</h1>
