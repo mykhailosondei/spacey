@@ -15,6 +15,7 @@ import SelectedDatesProvider from "./Contexts/SelectedDatesProvider";
 import {BookingPage} from "./components/Pages/BookingPage";
 import {TripsPage} from "./components/Pages/TripsPage";
 import {RequireLogin} from "./components/RequireLogin";
+import {UserProfilePage} from "./components/Pages/UserProfilePage";
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
                         <SelectedDatesProvider><ListingPage/></SelectedDatesProvider>}></Route>
                     <Route path="/booking/*" element={<BookingPage></BookingPage>}></Route>
                     <Route path="/trips/*" element={<RequireLogin><TripsPage/></RequireLogin>}></Route>
+                    <Route path="/user/*" element={<RequireLogin><UserProfilePage/></RequireLogin>}></Route>
                 </Routes>
             </PopupProvider>
             </UserProvider>
