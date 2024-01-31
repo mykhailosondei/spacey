@@ -1,0 +1,93 @@
+$hightlight-color: rgba(0, 0, 0, 0.05);
+$selected-color: rgb(85, 26, 139);
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    width: 100%;
+}
+
+.blank-day {
+    width: 100%;
+    aspect-ratio: 1;
+}
+
+.calendar-day {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    position: relative;
+    &:hover{
+        cursor: pointer;
+        &::after{
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid black;
+            z-index: -1;
+        }
+    }
+}
+
+.calendar-day-highlighted {
+    background-color: $hightlight-color;
+    &:not(.calendar-day-highlighted:has(~ .calendar-day-highlighted)) {
+        border-bottom-right-radius: 50%;
+        border-top-right-radius: 50%;
+    }
+    
+    &:not(.calendar-day-highlighted:has(~ :not(.calendar-day-highlighted))) {
+        border-bottom-left-radius: 50%;
+        border-top-left-radius: 50%;
+    }
+}
+
+.calendar-day-unavailable {
+    color: gray;
+}
+
+.calendar-day-selected-start {
+    border-radius: 50% 0 0 50%;
+    position: relative;
+    color: white;
+    &::after{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: $selected-color;
+        z-index: -1;
+    }
+}
+
+.calendar-day-selected-end{
+    border-radius: 0 50% 50% 0;
+    position: relative;
+    color: white;
+    &::after{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: $selected-color;
+        z-index: -1;
+    }
+}
+
+.dummy-day {
+    display: none;
+}
