@@ -1,0 +1,38 @@
+.review {
+    padding: 0 8px 0 8px;
+    width: 42%;
+    box-sizing: border-box;
+    margin-right: 8%;
+    margin-bottom: 40px;
+    margin-left: 0;
+    position: relative;
+}
+
+.reviews {
+    display: flex;
+    width: 100%;
+    position: relative;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.user-name-and-address {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
