@@ -46,10 +46,6 @@
         <InternalsVisibleTo Include="Application.API.IntegrationTests" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ClientApp\src\components\Icons\" />
-    </ItemGroup>
-
 
 
 

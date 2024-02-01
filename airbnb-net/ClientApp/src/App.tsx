@@ -38,7 +38,7 @@ function App() {
                         <SelectedDatesProvider><ListingPage/></SelectedDatesProvider>}></Route>
                     <Route path="/booking/*" element={<BookingPage></BookingPage>}></Route>
                     <Route path="/trips/*" element={<RequireLogin><TripsPage/></RequireLogin>}></Route>
-                    <Route path="/user/*" element={<RequireLogin><UserProfilePage/></RequireLogin>}></Route>
+                    <Route path="/user/:id" element={<RequireLogin><UserProfilePage/></RequireLogin>}></Route>
                 </Routes>
             </PopupProvider>
             </UserProvider>
