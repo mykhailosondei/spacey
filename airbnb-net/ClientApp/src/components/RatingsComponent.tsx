@@ -2,20 +2,19 @@ import * as React from 'react';
 import {Ratings} from "../values/Ratings";
 
 import "../styles/Ratings.scss";
-import Cleanliness from "../values/svgs/Ratings/src/components/Icons/Ratings/Cleanliness";
-import Communication from "../values/svgs/Ratings/src/components/Icons/Ratings/Communication";
-import Location from "../values/svgs/Ratings/src/components/Icons/Ratings/Location";
-import CheckIn from "../values/svgs/Ratings/src/components/Icons/Ratings/CheckIn";
-import Value from "../values/svgs/Ratings/src/components/Icons/Ratings/Value";
+import Cleanliness from "./Icons/Ratings/Cleanliness";
+import Communication from "./Icons/Ratings/Communication";
+import Location from "./Icons/Ratings/Location";
+import CheckIn from "./Icons/Ratings/CheckIn";
+import Value from "./Icons/Ratings/Value";
 import {Accordion} from "react-bootstrap";
-import Accuracy from "../values/svgs/Ratings/src/components/Icons/Ratings/Accuracy";
+import Accuracy from "./Icons/Ratings/Accuracy";
 
 interface RatingsProps {
     ratingsArray: Ratings[];
 }
 
 export const RatingsComponent = (props:RatingsProps) => {
-    
     const getOverallRating = (ratings:Ratings) => {
         const sum = ratings.cleanliness + ratings.communication + ratings.location + ratings.checkIn + ratings.value + ratings.accuracy;
         return sum / 6;
