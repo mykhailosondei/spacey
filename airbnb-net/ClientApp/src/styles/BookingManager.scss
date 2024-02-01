@@ -1,0 +1,42 @@
+.action-button {
+    background-color: white;
+    height: 32px;
+    margin-right: 8px;
+    position: relative;
+    border-radius: 32px;
+    border: 1px solid lightgray;
+    transition: all 0.2s ease-in-out;
+    &>span {
+        font-size: 14px;
+        font-weight: 400;
+        color: #484848;
+        padding: 10px 15px 10px 15px;
+    }
+    &:hover {
+        cursor: pointer;
+        border-color: #222222;
+    }
+    &:active {
+        scale: 0.9;
+    }
+}
+
+.action-button-selected {
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top:-2px;
+        left: -2px;
+        border: 2px solid #222222;
+        border-radius: inherit;
+    }
+    background-color: #f0f0f0;
+}
+
+.action-buttons {
+    &:last-child {
+        margin-right: 0;
+    }
+}
