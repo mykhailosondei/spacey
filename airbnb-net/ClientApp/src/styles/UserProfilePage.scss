@@ -1,0 +1,94 @@
+@use "variables";
+
+.up-nav-wrapper {
+    .middle{
+        display:none;
+    }
+    .item{
+        text-decoration: none;
+        &::after {
+            content: "airbnb-clone";
+            font-weight: 600;
+            margin-left: 8px;
+            font-size: 1.2rem;
+            color: variables.$brand-color;
+        }
+    }
+}
+
+.up-profile-card-space {
+    width: 30%;
+    height: 100%;
+}
+
+.user-profile-page{
+    display: flex;
+    padding-top: 50px;
+}
+
+.up-profile-card{
+    width: 100%;
+    min-height: 200px;
+    border-radius: 16px;
+    border: 1px solid #EBEBEB;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    padding: 24px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.up-name-and-avatar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+}
+
+.up-date-joined-and-reviews{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.up-content {
+    width: 63%;
+    margin-left: auto;
+    height: 100%;
+}
+
+.lives-in {
+    display: flex;
+    align-items: center;
+    svg {
+        margin-right: 8px;
+    }
+}
+
+.up-listing {
+    border-radius: 12px;
+    border: 1px solid #EBEBEB;
+    max-width: 120px;
+    padding: 20px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+}
+
+.upl-year {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.upl-location {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.up-listings {
+    display: flex;
+    width: 100%;
+}
