@@ -23,7 +23,7 @@ public class GetListingsByPropertyTypeQueryHandler : BaseHandler, IRequestHandle
         
         if (!result.Any())
         {
-            throw new NotFoundException(nameof(IEnumerable<ListingDTO>));
+            return Array.Empty<ListingDTO>();
         }
         
         return _mapper.Map<IEnumerable<ListingDTO>>(result);

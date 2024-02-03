@@ -68,22 +68,32 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
     {
         var filter = Builders<Listing>.Filter.Eq("Address.City", address.City) &
                      Builders<Listing>.Filter.Eq("Address.Country", address.Country);
-        return await _collection.Find(filter).ToListAsync();
+        return await _collection.Find(filter, new FindOptions
+        {
+            Collation = new Collation("en", strength: CollationStrength.Primary),
+        }).ToListAsync();
     }
 
     public async Task<IEnumerable<Listing>> GetListingsByCountry(Address address)
     {
         var filter = Builders<Listing>.Filter.Eq("Address.Country", address.Country);
-        return await _collection.Find(filter).ToListAsync();
+        return await _collection.Find(filter, new FindOptions
+        {
+            Collation = new Collation("en", strength: CollationStrength.Primary),
+        }).ToListAsync();
     }
     
     public async Task<IEnumerable<Listing>> GetListingsByStreet(Address address)
     {
-        var filterQuery = address.Street.Split(' ')[1];
+        var streetWords = address.Street!.Split(' ');
+        var filterQuery = streetWords.Length > 1 ? streetWords[1] : streetWords[0];
         var filter = Builders<Listing>.Filter.Regex("Address.Street", new BsonRegularExpression(filterQuery)) &
                      Builders<Listing>.Filter.Eq("Address.Country", address.Country) &
                      Builders<Listing>.Filter.Eq("Address.City", address.City);
 
-        return await _collection.Find(filter).ToListAsync();
+        return await _collection.Find(filter, new FindOptions
+        {
+            Collation = new Collation("en", strength: CollationStrength.Primary),
+        }).ToListAsync();
     }
 }
