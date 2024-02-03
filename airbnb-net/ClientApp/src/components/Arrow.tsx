@@ -12,7 +12,12 @@ const Arrow : React.FC<ArrowProps> = ({svg, isVisibleInitial, onClickFunction}) 
     return (
         <>
             <div className={"isVisible-"+isVisibleInitial}>
-                <button className="arrow-button" onClick={()=>{onClickFunction()}}>
+                <button className="arrow-button" onClick={(e)=>{
+                    e.stopPropagation();
+                    if(isVisibleInitial) {
+                        onClickFunction();
+                    }
+                }}>
                     {svg}
                 </button>
             </div>
