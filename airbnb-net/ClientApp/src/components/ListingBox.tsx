@@ -1,10 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import '../styles/ListingBox.scss';
 import Arrow from "./Arrow";
 import {ReactComponent as LeftArrow} from '../values/svgs/left-arrow.svg'
 import {ReactComponent as RightArrow} from '../values/svgs/right-arrow.svg'
 import {Easing, Tween, update} from "@tweenjs/tween.js";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
+import {useAuthState} from "../Contexts/AuthStateProvider";
+import {UserService} from "../services/UserService";
+import {ListingService} from "../services/ListingService";
 
 interface ListingBoxProps {
     listing: ListingDTO;
@@ -16,6 +19,13 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     const [isLeftArrowVisible, setIsLeftArrowVisible] = useState(false);
     const [isRightArrowVisible, setIsRightArrowVisible] = useState(false);
     const bulletsArrayInitialState : {id:number, scale:number, opacity:0.6|1}[]= [];
+    
+    
+    const { authenticationState, setAuthenticationState } = useAuthState();
+    const userService = useMemo(() => {return UserService.getInstance()}, []);
+    const listingService = useMemo(() => {return ListingService.getInstance()}, []);
+    
+    
     const [bulletsArrayState, setBulletsArrayState] = useState<{id:number, scale:number, opacity:0.6|1}[]>(bulletsArrayInitialState);
     const [htmlBulletsArrayState, setHtmlBulletsArrayState] = useState<JSX.Element[]>(()=>{
         const htmlBulletsArrayInitValue = [];
@@ -32,7 +42,23 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     
     const bulletsRef = useRef<HTMLDivElement>(null);
     const pictureContainer = useRef<HTMLDivElement>(null);
-    
+
+    useEffect(() => {
+        if(authenticationState === 0){
+            setLiked(false);
+        }
+        else {
+            let liked = false;
+            if(props.listing.likedUsersIds){
+                userService.getFromToken().then((user) => {
+                    if(user){
+                        liked = props.listing.likedUsersIds.includes(user.data.id);
+                        setLiked(liked);
+                    }
+                });
+            }
+        }
+    }, []);
     
     for(let i: number = 0; i<props.listing.imagesUrls.length; i++){
         pictureArray.push(<a className="image-ref">
@@ -44,6 +70,8 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
         </a>)
         bulletsArrayInitialState.push({id:i, scale: 2/3, opacity: 0.6});
     }
+    
+    
     
     function renderBullets(){
         const htmlBulletsArrayValue = [];
@@ -200,7 +228,22 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     
     
     function changeLikeStatus(){
+        if(authenticationState === 0){
+            return;
+        }
         setLiked(!liked);
+        if(liked){
+            listingService.unlike(props.listing.id).then((response)=>{
+                if(response.status === 200) return;
+                setLiked(!liked);
+            });
+        }
+        else{
+            listingService.like(props.listing.id).then((response)=>{
+                if(response.status === 200) return;
+                setLiked(!liked);
+            });
+        }
     }
 
     const distance = () => {
@@ -227,7 +270,7 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
                             <div className="like-grid">
                                 <div className="empty-part"></div>
                                 <div className="like-holder">
-                                    <div className="like"><button className="like-button" onClick={changeLikeStatus}>
+                                    <div className="like"><button className="like-button" onClick={(e) => {changeLikeStatus(); e.stopPropagation();}}>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style={{display: 'block', fill: (liked ? 'rgb(85, 26, 139)' : 'rgba(0,0,0,0.5)'), height: '24px' ,width: '24px' ,stroke: 'white' ,strokeWidth: '2px' ,overflow: 'visible'}} aria-hidden="true" role="presentation" focusable="false"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path></svg>   
                                     </button></div>
                                 </div>
