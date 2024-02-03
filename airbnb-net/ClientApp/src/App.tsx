@@ -31,7 +31,7 @@ function App() {
                     <Route path={"/login"} element={<LoginPage></LoginPage>}/>
                     <Route path="/hosting/*" element={<HostProvider><RequireSwitchToHost><HostingPage/></RequireSwitchToHost></HostProvider>}/>
                     <Route path="/" element={<MainPage/>}/>
-                    <Route path="/:propertyType" element={<MainPage/>}/>
+                    <Route path="/listing/propertyType/:propertyType" element={<MainPage/>}/>
                     <Route path="/listing/address" element={<MainPage/>}></Route>
                     <Route path="/listing/boundingBox" element={<MainPage/>}></Route>
                     <Route path="/listing/:id" element={
