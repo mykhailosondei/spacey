@@ -23,7 +23,7 @@ public class GetAllReviewsQueryHandler : BaseHandler, IRequestHandler<GetAllRevi
 
         if (!result.Any())
         {
-            throw new NotFoundException(nameof(IEnumerable<ReviewDTO>));
+            return Array.Empty<ReviewDTO>();
         }
         
         return _mapper.Map<IEnumerable<ReviewDTO>>(result);

@@ -23,7 +23,7 @@ public class GetAllBookingsQueryHandler : BaseHandler, IRequestHandler<GetAllBoo
 
         if (!result.Any())
         {
-            throw new NotFoundException(nameof(IEnumerable<BookingDTO>));
+            return Array.Empty<BookingDTO>();
         }
         
         return _mapper.Map<IEnumerable<BookingDTO>>(result);

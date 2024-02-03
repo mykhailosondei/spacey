@@ -24,7 +24,7 @@ public class GetAllUsersQueryHandler : BaseHandler, IRequestHandler<GetAllUsersQ
 
         if (!result.Any())
         {
-            throw new NotFoundException(nameof(IEnumerable<UserDTO>));
+            return Array.Empty<UserDTO>();
         }
         
         return _mapper.Map<IEnumerable<UserDTO>>(result);
