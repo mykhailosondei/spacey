@@ -5,6 +5,7 @@ import {ListingService} from "../services/ListingService";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
 import {useLocation} from "react-router-dom";
 import {HttpResponse} from "../services/HttpCustomClient";
+import {log} from "node:util";
 
 const GeneralListingHolder : React.FC = () => {
     
@@ -39,7 +40,7 @@ const GeneralListingHolder : React.FC = () => {
                 setListings(listings.data);
             }
         });
-    }, []);
+    }, [location]);
     
     return (
         <>

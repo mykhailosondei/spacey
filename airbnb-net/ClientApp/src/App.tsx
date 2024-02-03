@@ -30,10 +30,7 @@ function App() {
                 <Routes>
                     <Route path={"/login"} element={<LoginPage></LoginPage>}/>
                     <Route path="/hosting/*" element={<HostProvider><RequireSwitchToHost><HostingPage/></RequireSwitchToHost></HostProvider>}/>
-                    <Route path="/" element={<MainPage/>}/>
-                    <Route path="/listing/propertyType/:propertyType" element={<MainPage/>}/>
-                    <Route path="/listing/address" element={<MainPage/>}></Route>
-                    <Route path="/listing/boundingBox" element={<MainPage/>}></Route>
+                    <Route path="/*" element={<MainPage/>}/>
                     <Route path="/listing/:id" element={
                         <SelectedDatesProvider><ListingPage/></SelectedDatesProvider>}></Route>
                     <Route path="/booking/*" element={<BookingPage></BookingPage>}></Route>
