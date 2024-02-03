@@ -11,7 +11,7 @@ export const TripsPage = () => {
 
     useEffect(() => {
         userService.getFromToken().then((result) => {
-            setUser(result);
+            setUser(result.data);
         });
     }, []);
     

@@ -19,11 +19,11 @@ export const ListingInfo = (props: { listing: ListingDTO }) => {
         console.log("ListingPage.tsx: listing: ", props.listing);
         hostService.get(props.listing.host.id).then((host) => {
             if(host){
-                setHost(host);
-                props.listing.host = host;
-                userService.get(host.userId).then((user) => {
+                setHost(host.data);
+                props.listing.host = host.data;
+                userService.get(host.data.userId).then((user) => {
                     if(user){
-                        setUser(user);
+                        setUser(user.data);
                         setIsLoaded(true);
                     }
                     else{

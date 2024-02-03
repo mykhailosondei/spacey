@@ -26,9 +26,9 @@ export function RequireSwitchToHost({ children }: { children: JSX.Element }) {
         authService.switchToHost().then((result)=>{
             if(!result) {console.log("Error switching to host"); return;}
 
-            setUser(result.user);
+            setUser(result.data.user);
             hostService.getFromToken().then((host) => {
-                setHost(host);
+                setHost(host.data);
                 setIsSwitching(false);
             });
             setAuthenticationState(AuthenticationState.AuthenticatedHost);
@@ -37,10 +37,10 @@ export function RequireSwitchToHost({ children }: { children: JSX.Element }) {
     
     function updateHostAndUser(){
         hostService.getFromToken().then((host) => {
-            setHost(host);
+            setHost(host.data);
             setIsSwitching(false);
             userService.getFromToken().then((user) => {
-                setUser(user);
+                setUser(user.data);
             });
         });
     }

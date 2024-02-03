@@ -4,24 +4,13 @@ import Arrow from "./Arrow";
 import {ReactComponent as LeftArrow} from '../values/svgs/left-arrow.svg'
 import {ReactComponent as RightArrow} from '../values/svgs/right-arrow.svg'
 import {Easing, Tween, update} from "@tweenjs/tween.js";
+import ListingDTO from "../DTOs/Listing/ListingDTO";
 
 interface ListingBoxProps {
-    title: string;
-    distance: string;
-    availability: string;
-    price: number;
-    rating: number;
-    pictures: string[] | string;
+    listing: ListingDTO;
 }
 
-const ListingBox: React.FC<ListingBoxProps> = ({
-                                                   title,
-                                                   distance,
-                                                   availability,
-                                                   price,
-                                                   rating,
-                                                   pictures,
-                                               }) => {
+const ListingBox: React.FC<ListingBoxProps> = (props) => {
     const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
     const [liked, setLiked] = useState(false);
     const [isLeftArrowVisible, setIsLeftArrowVisible] = useState(false);
@@ -30,7 +19,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
     const [bulletsArrayState, setBulletsArrayState] = useState<{id:number, scale:number, opacity:0.6|1}[]>(bulletsArrayInitialState);
     const [htmlBulletsArrayState, setHtmlBulletsArrayState] = useState<JSX.Element[]>(()=>{
         const htmlBulletsArrayInitValue = [];
-        for (let i: number = 0; i<pictures.length; i++){
+        for (let i: number = 0; i<props.listing.imagesUrls.length; i++){
             htmlBulletsArrayInitValue.push(
                 <span className={"bullet-load"}></span>
             )
@@ -45,11 +34,11 @@ const ListingBox: React.FC<ListingBoxProps> = ({
     const pictureContainer = useRef<HTMLDivElement>(null);
     
     
-    for(let i: number = 0; i<pictures.length; i++){
+    for(let i: number = 0; i<props.listing.imagesUrls.length; i++){
         pictureArray.push(<a className="image-ref">
             <div className="image-holder">
                 <div className="image-container">
-                    <img src={pictures[i]} alt={i.toString()+' picture'}></img>
+                    <img src={props.listing.imagesUrls[i].url} alt={i.toString()+' picture'}></img>
                 </div>
             </div>
         </a>)
@@ -58,7 +47,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
     
     function renderBullets(){
         const htmlBulletsArrayValue = [];
-        for (let i: number = 0; i<pictures.length; i++){
+        for (let i: number = 0; i<props.listing.imagesUrls.length; i++){
             htmlBulletsArrayValue.push(
                 <span className={"bullet" +" "+ ((bulletsArrayState[i].opacity == 1) ? "opacity-high" : "opacity-low") + " " + ((bulletsArrayState[i].scale == 1)? "scale-high":((bulletsArrayState[i].scale == 5/6)? "scale-mid":"scale-low"))}></span>
             )
@@ -81,9 +70,9 @@ const ListingBox: React.FC<ListingBoxProps> = ({
                 if(bullet.id==3) return {id:bullet.id, scale:5/6, opacity:bullet.opacity};
                 return {id:bullet.id, scale:2/3, opacity:bullet.opacity};
             }
-            if(currentPictureIndex>=pictures.length-3){
-                if(bullet.id>=pictures.length-3) return {id:bullet.id, scale:1, opacity:bullet.opacity};
-                if(bullet.id==pictures.length-4) return {id:bullet.id, scale:5/6, opacity:bullet.opacity};
+            if(currentPictureIndex>=props.listing.imagesUrls.length-3){
+                if(bullet.id>=props.listing.imagesUrls.length-3) return {id:bullet.id, scale:1, opacity:bullet.opacity};
+                if(bullet.id==props.listing.imagesUrls.length-4) return {id:bullet.id, scale:5/6, opacity:bullet.opacity};
                 return {id:bullet.id, scale:2/3, opacity:bullet.opacity};
             }
             if(bullet.id<=currentPictureIndex+1 && bullet.id>=currentPictureIndex-1) return {id:bullet.id, scale:1, opacity:bullet.opacity};
@@ -100,10 +89,10 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         let leftArrowResult : boolean;
         switch (currentPictureIndex){
             case 0: 
-                rightArrowResult = pictures.length != 1;
+                rightArrowResult = props.listing.imagesUrls.length != 1;
                 leftArrowResult = false;
                 break;
-            case pictures.length-1:
+            case props.listing.imagesUrls.length-1:
                 rightArrowResult = false;
                 leftArrowResult = true;
                 break;
@@ -149,7 +138,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         if(currentPictureIndex < 2){
             return;
         }
-        if(currentPictureIndex>=pictures.length-3){
+        if(currentPictureIndex>=props.listing.imagesUrls.length-3){
             return;
         }
         animate();
@@ -163,7 +152,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         if(currentPictureIndex <= 2){
             return;
         }
-        if(currentPictureIndex>pictures.length-3){
+        if(currentPictureIndex>props.listing.imagesUrls.length-3){
             return;
         }
         animate();
@@ -174,7 +163,7 @@ const ListingBox: React.FC<ListingBoxProps> = ({
     }
     
     function moveNextSlide(){
-        if(currentPictureIndex >= pictures.length-1){
+        if(currentPictureIndex >= props.listing.imagesUrls.length-1){
             return;
         }
         animate();
@@ -214,8 +203,23 @@ const ListingBox: React.FC<ListingBoxProps> = ({
         setLiked(!liked);
     }
 
+    const distance = () => {
+        return "420 km";
+    };
+    const availability = () => {
+        return "Available";
+    };
+
+    const ratings = () => {
+        return "4.5 (18)";
+    }
+
+    function redirectToListingPage() {
+        window.location.href = `/listing/${props.listing.id}`;
+    }
+
     return (
-        <div className="listing-box" onMouseEnter={ValidateArrowsVisibilityDependingOnIndex} onMouseLeave={OnListingBoxMouseLeave}>
+        <div className="listing-box" onMouseEnter={ValidateArrowsVisibilityDependingOnIndex} onMouseLeave={OnListingBoxMouseLeave} onClick={redirectToListingPage}>
             <div className="picture-slider">
                 <div className="pictures-controls-and-window">
                     <div className="picture-controls">
@@ -263,13 +267,13 @@ const ListingBox: React.FC<ListingBoxProps> = ({
                 </div>
             </div>
             <div className="listing-info">
-                <div className="title">{title}</div>
-                <span className="distance">{distance}</span>
-                <span className="availability">{availability}</span>
-                <b className="price">${price} <span className='font-weight-normal'>per night</span></b>
+                <div className="title">{props.listing.title}</div>
+                <span className="distance">{distance()}</span>
+                <span className="availability">{availability()}</span>
+                <b className="price">${props.listing.pricePerNight} <span className='font-weight-normal'>per night</span></b>
                 <div className="rating">
                     <span className="star">&#9733;</span>
-                    {rating}
+                    {ratings()}
                 </div>
             </div>
         </div>

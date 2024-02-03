@@ -26,8 +26,8 @@ export const UserProfilePage: React.FC = () => {
         if(!id) return;
         userService.get(id).then((user) => {
             if(!user) return;
-            setUser(user);
-            bookingService.getMany(user.bookingsIds).then((bookings) => {
+            setUser(user.data);
+            bookingService.getMany(user.data.bookingsIds).then((bookings) => {
                 if(!bookings) return;
                 bookings.forEach((booking) => {
                     listingService.get(booking.listingId).then((listing) => {
@@ -35,7 +35,7 @@ export const UserProfilePage: React.FC = () => {
                         setYearNames((prev) => {
                             const year = new Date(booking.checkIn).getFullYear();
                             if(prev.some((yearName) => yearName.year === year)) return prev;
-                            return [...prev, {year, name: `${listing.address.city}, ${listing.address.country}`}];
+                            return [...prev, {year, name: `${listing.data.address.city}, ${listing.data.address.country}`}];
                         });
                     });
                 });

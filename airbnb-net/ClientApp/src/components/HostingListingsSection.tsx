@@ -31,7 +31,7 @@ export const HostingListingsSection = () => {
                 return listingService.get(listingId);
             }));
             await getListingsForHostPromise.then((listings) => {
-                setListingsState(listings);
+                setListingsState(listings.map((listing) => {return  listing.data}));
             });
         }
         catch (e) 

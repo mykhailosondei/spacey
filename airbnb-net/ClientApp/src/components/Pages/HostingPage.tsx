@@ -26,7 +26,7 @@ export const HostingPage = () => {
     
     useEffect(() => {
         authService.switchToHost().then(()=>{
-               hostService.getFromToken().then((host) => {setHost(host)});
+               hostService.getFromToken().then((host) => {setHost(host.data)});
             }
         )
     }, []);

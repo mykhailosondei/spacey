@@ -19,7 +19,7 @@ export const SwitchToUser = (props: { children: ReactNode }) => {
                 console.log(result);
                 if(result){
                     console.log("Switched to user");
-                    setUser(result.user);
+                    setUser(result.data.user);
                     setAuthenticationState(AuthenticationState.AuthenticatedUser);
                     setIsSwitching(false);
                 }else {
@@ -29,7 +29,7 @@ export const SwitchToUser = (props: { children: ReactNode }) => {
             });
         }else if (authenticationState === AuthenticationState.AuthenticatedUser){
             userService.getFromToken().then((user) => {
-                setUser(user);
+                setUser(user.data);
                 setIsSwitching(false);
             });
         }else {

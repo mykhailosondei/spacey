@@ -1,5 +1,11 @@
 import axios, {Axios, AxiosHeaders, AxiosRequestConfig, AxiosRequestHeaders, AxiosResponse, CancelToken} from "axios";
 
+export interface HttpResponse<T> {
+    data: T;
+    status: number;
+    statusText: string;
+}
+
 export class HttpCustomClient{
     private readonly headers: AxiosRequestHeaders;
     private readonly baseUrl: string;
@@ -40,38 +46,43 @@ export class HttpCustomClient{
         return this.headers[key];
     }
     
-    public async Get<T>(url: string, config:AxiosRequestConfig = {}, typeInfo? : new ()=>T): Promise<T> {
+    transformResponse<T>(response: AxiosResponse<T, any>): HttpResponse<T> {
+        return {
+            data: response.data,
+            status: response.status,
+            statusText: response.statusText
+        };
+    }
+    
+    public async Get<T>(url: string, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
         const response : AxiosResponse<T, any> = await axios.get<T>(this.baseUrl + url, {headers: this.headers, validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Get<${url}> status:`);
         console.log(response.status);
-        const data = response.data;
-        return data;
+        const responseResult = this.transformResponse<T>(response);
+        return responseResult;
     }
     
-    public async Post<T>(url: string, body: any = {}, config:AxiosRequestConfig = {}, typeInfo? : new ()=>T): Promise<T> {
+    public async Post<T>(url: string, body: any = {}, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
         const response : AxiosResponse<T, any> = await axios.post<T>(this.baseUrl + url, body, {headers: this.headers, validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Post<${url}> status:`);
         console.log(response.status);
-        if(response.status == 500){
-            return null as T;
-        }
-        const data = response.data;
-        return data;
+        const responseResult = this.transformResponse<T>(response);
+        return responseResult;
     }
     
-    public async Put<T>(url: string, body: any = {}, config:AxiosRequestConfig = {}, typeInfo? : new ()=>T): Promise<T> {
+    public async Put<T>(url: string, body: any = {}, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
         const response : AxiosResponse<T, any> = await axios.put<T>(this.baseUrl + url, body, {headers: this.headers, validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Put<${url}> status:`);
         console.log(response.status);
-        const data = response.data;
-        return data;
+        const responseResult = this.transformResponse<T>(response);
+        return responseResult;
     }
     
-    public async Delete<T>(url: string, config:AxiosRequestConfig = {}, typeInfo? : new ()=>T): Promise<T> {
+    public async Delete<T>(url: string, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
         const response : AxiosResponse<T, any> = await axios.delete<T>(this.baseUrl + url, {headers: this.headers, validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Delete<${url}> status:`);
         console.log(response.status);
-        const data = response.data;
-        return data;
+        const responseResult = this.transformResponse<T>(response);
+        return responseResult;
     }
 }

@@ -31,13 +31,13 @@ export class ListingService {
         return await this.http.Get<string[]>(`${this.baseUrl}/${id}/unavailableDates`);
     }
     async getByPropertyType(propertyType:string) {
-        return await this.http.Get(`${this.baseUrl}/${propertyType}`);
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/${propertyType}`);
     }
     async getByBoundingBox(x1:number, y1:number, x2:number, y2:number) {
-        return await this.http.Get(`${this.baseUrl}/boundingbox?x1=${x1}&y1=${y1}&x2=${x2}&y2=${y2}`);
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/boundingbox?x1=${x1}&y1=${y1}&x2=${x2}&y2=${y2}`);
     }
     async getByAddress(city:string, country:string, street:string) {
-        return await this.http.Get(`${this.baseUrl}/address?city=${city}&country=${country}&street=${street}`);
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/address?city=${city}&country=${country}&street=${street}`);
         
     }
     async create(listing:ListingCreateDTO) {

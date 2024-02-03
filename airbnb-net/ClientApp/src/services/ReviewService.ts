@@ -28,7 +28,7 @@ export class ReviewService{
     async getMany(ids:string[]) {
         let result = [] as ReviewDTO[];
         await Promise.all(ids.map(async (id) => {
-            result.push(await this.get(id));
+            result.push(await this.get(id).then((response) => response.data));
         }));
         return result;
     }

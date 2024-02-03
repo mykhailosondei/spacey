@@ -83,7 +83,7 @@ const RegisterPopup : React.FC = () => {
                 console.log(result);
                 if(result){
                     setPopupType(PopupType.NONE);
-                    setUser(result.user);
+                    setUser(result.data.user);
                     setAuthenticationState(AuthenticationState.AuthenticatedUser);
                 }
             });

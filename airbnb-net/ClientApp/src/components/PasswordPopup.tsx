@@ -26,7 +26,7 @@ const PasswordPopup : React.FC = () => {
             if (result) {
                 setPopupType(PopupType.NONE);
                 setAuthenticationState(AuthenticationState.AuthenticatedUser);
-                setUser(result.user);
+                setUser(result.data.user);
             }else
             {
                 handleIncorrectPassword();

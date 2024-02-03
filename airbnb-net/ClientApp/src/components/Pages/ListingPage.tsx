@@ -42,9 +42,9 @@ export const ListingPage = () => {
     
     React.useEffect(() => {
         listingService.get(id!).then((listing) => {
-            setListing(listing);
+            setListing(listing.data);
             setListingLoaded(true);
-            bookingService.getMany(listing.bookingsIds).then((bookings) => {
+            bookingService.getMany(listing.data.bookingsIds).then((bookings) => {
                 let reviews = bookings.map((booking) => {
                    if (booking.review) {
                           return booking.review;
@@ -58,7 +58,7 @@ export const ListingPage = () => {
         });
         userService.getFromToken().then((user) => {
            if(user){
-                setSaved(user.likedListingsIds.includes(id!));
+                setSaved(user.data.likedListingsIds.includes(id!));
            } 
         });
     }, []);

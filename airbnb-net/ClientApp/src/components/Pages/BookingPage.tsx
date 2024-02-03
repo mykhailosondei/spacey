@@ -32,9 +32,9 @@ export const BookingPage = () => {
     useEffect(() => {
         if(listingId) {
             listingService.get(listingId).then((listing) => {
-                setListing(listing);
-                userService.get(listing.host.userId).then((user) => {
-                    setHostName(user.name);
+                setListing(listing.data);
+                userService.get(listing.data.host.userId).then((user) => {
+                    setHostName(user.data.name);
                 });
             });
         }

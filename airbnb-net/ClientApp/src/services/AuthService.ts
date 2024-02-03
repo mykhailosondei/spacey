@@ -22,8 +22,8 @@ export class AuthService {
     async register(user:RegisterUserDTO) {
         const response = await this.http.Post<AuthUser>(`${this.baseUrl}/register`, user);
         if(response){
-            this.http.SetBearerToken(response.token);
-            console.log(response.token);
+            this.http.SetBearerToken(response.data.token);
+            console.log(response.data.token);
         }
         return response;
     }
@@ -31,7 +31,7 @@ export class AuthService {
     async switchToHost() {
         const response = await this.http.Post<AuthUser>(`${this.baseUrl}/switch-role-to-host/true`);
         if(response){
-            this.http.SetBearerToken(response.token);
+            this.http.SetBearerToken(response.data.token);
         }
         return response;
     }
@@ -39,7 +39,7 @@ export class AuthService {
     async switchToUser() {
         const response = await this.http.Post<AuthUser>(`${this.baseUrl}/switch-role-to-host/false`);
         if(response){
-            this.http.SetBearerToken(response.token);
+            this.http.SetBearerToken(response.data.token);
         }
         return response;
     }
@@ -47,7 +47,7 @@ export class AuthService {
     async login(user:LoginUserDTO) {
         const response = await this.http.Post<AuthUser>(`${this.baseUrl}/login`, user);
         if(response){
-            this.http.SetBearerToken(response.token);
+            this.http.SetBearerToken(response.data.token);
         }
         return response;
     }

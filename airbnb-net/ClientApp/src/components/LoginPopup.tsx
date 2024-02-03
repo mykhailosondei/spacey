@@ -18,7 +18,9 @@ const LoginPopup : React.FC = () => {
     
     
     async function isEmailTaken(email: string) : Promise<boolean> {
-        return await authService.isRegistered(email);
+        return await authService.isRegistered(email).then((result) => {
+            return result.data;
+        });
     }
 
     function validateEmail(input: string) : boolean {

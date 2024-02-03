@@ -24,8 +24,8 @@ export const CalendarSelector = (props:CalendarSelectorProps) => {
     useEffect(() => {
         listingService.getUnavailableDates(props.listing.id).then((dates) => {
             const datesArray = [] as Date[];
-            for (let i = 0; i < dates.length; i++) {
-                datesArray.push(new Date(dates[i]));
+            for (let i = 0; i < dates.data.length; i++) {
+                datesArray.push(new Date(dates.data[i]));
             }
             setUnavailableDates(datesArray);
         });

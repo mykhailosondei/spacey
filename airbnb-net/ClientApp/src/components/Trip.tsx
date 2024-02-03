@@ -24,11 +24,11 @@ export const Trip = (props: TripProps) => {
 
     useEffect(() => {
         bookingService.get(props.bookingId).then((result) => {
-            setBooking(result);
-            listingService.get(result.listingId).then((listingResult) => {
-                setListing(listingResult);
-                userService.get(listingResult.host.userId).then((host) => {
-                    setUserName(host.name);
+            setBooking(result.data);
+            listingService.get(result.data.listingId).then((listingResult) => {
+                setListing(listingResult.data);
+                userService.get(listingResult.data.host.userId).then((host) => {
+                    setUserName(host.data.name);
                 });
             });
         });

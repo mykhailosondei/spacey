@@ -3,6 +3,7 @@ import PropertyTypeItem from "./PropertyTypeItem";
 import {createContext, useEffect, useLayoutEffect, useState} from "react";
 import {propertyTypeDictionary} from "../values/PropertyTypeTitles";
 import {createWriteStream} from "node:fs";
+import {PropertyType} from "../values/PropertyType";
 
 export const PropertyTypeSlider : React.FC = () => {
     const propertyTypes = ["House", "Apartment", "Condo", "Townhouse", "Studio", "Mansion", "Cottage", "Castle", "Treehouse", "Boat", "RV", "Tent", "Villa", "Bungalow", "Loft", "Farmhouse", "Chalet", "Cabin", "Other"];
