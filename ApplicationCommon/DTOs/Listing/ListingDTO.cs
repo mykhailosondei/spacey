@@ -18,16 +18,17 @@ public class ListingDTO : ILastAccessible
 
     public Address Address { get; set; }
 
-    [BsonRepresentation(BsonType.String)]
-    public PropertyType PropertyType { get; set; }
-    
+    [BsonRepresentation(BsonType.String)] public PropertyType PropertyType { get; set; }
+
     public double Latitude { get; set; }
-    
+
     public double Longitude { get; set; }
-    
+
     public int PricePerNight { get; set; }
 
     public int NumberOfRooms { get; set; }
+
+    public List<Ratings> Ratings { get; set; }
 
     public int NumberOfBathrooms { get; set; }
 

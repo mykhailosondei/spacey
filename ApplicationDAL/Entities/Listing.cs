@@ -45,7 +45,7 @@ public class Listing
 
     public Amenities Amenities { get; set; }
     
-    public double[] Ratings { get; set; }
+    public List<Ratings> Ratings { get; set; }
     
     public List<Guid> LikedUsersIds { get; set; }
     

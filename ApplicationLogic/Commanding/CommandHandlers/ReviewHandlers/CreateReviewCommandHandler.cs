@@ -58,8 +58,8 @@ public class CreateReviewCommandHandler :BaseHandler, IRequestHandler<CreateRevi
         }
         
         review.CreatedAt = DateTime.UtcNow;
-        
-        listing.Ratings = BookingHelper.CalculateNewRating(listing.BookingsIds.Count,listing.Ratings, request.Review.Ratings.getRatingsArray());
+
+        listing.Ratings.Add(request.Review.Ratings);
         
         await _listingCommandAccess.UpdateListing(listing.Id, listing);
         
