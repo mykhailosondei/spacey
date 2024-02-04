@@ -19,6 +19,7 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     const [isLeftArrowVisible, setIsLeftArrowVisible] = useState(false);
     const [isRightArrowVisible, setIsRightArrowVisible] = useState(false);
     const bulletsArrayInitialState : {id:number, scale:number, opacity:0.6|1}[]= [];
+    const [distance, setDistance] = useState(0);
     
     
     const { authenticationState, setAuthenticationState } = useAuthState();
@@ -57,6 +58,13 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
                     }
                 });
             }
+        }
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition((position) => {
+                listingService.getDistance(props.listing.id, position.coords.latitude, position.coords.longitude).then((response) => {
+                    setDistance(response.data);
+                });
+            });
         }
     }, []);
     
@@ -245,10 +253,6 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
             });
         }
     }
-
-    const distance = () => {
-        return "420 km";
-    };
     const availability = () => {
         return "Available";
     };
@@ -259,6 +263,14 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
 
     function redirectToListingPage() {
         window.location.href = `/listing/${props.listing.id}`;
+    }
+    
+    const distanceFormatter = (distance: number) => {
+        const meters = distance * 1000;
+        if(meters < 1000){
+            return meters.toFixed(0) + "m";
+        }
+        return (meters/1000).toFixed(0) + "km";
     }
 
     return (
@@ -311,7 +323,7 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
             </div>
             <div className="listing-info">
                 <div className="title">{props.listing.title}</div>
-                <span className="distance">{distance()}</span>
+                <span className="distance">{distanceFormatter(distance)}</span>
                 <span className="availability">{availability()}</span>
                 <b className="price">${props.listing.pricePerNight} <span className='font-weight-normal'>per night</span></b>
                 <div className="rating">

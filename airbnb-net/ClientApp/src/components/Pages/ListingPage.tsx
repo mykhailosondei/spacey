@@ -44,6 +44,11 @@ export const ListingPage = () => {
         listingService.get(id!).then((listing) => {
             setListing(listing.data);
             setListingLoaded(true);
+            userService.getFromToken().then((user) => {
+                if(user){
+                    setSaved(listing.data.likedUsersIds.includes(user.data.id));
+                } 
+            });
             bookingService.getMany(listing.data.bookingsIds).then((bookings) => {
                 let reviews = bookings.map((booking) => {
                    if (booking.review) {
@@ -66,12 +71,14 @@ export const ListingPage = () => {
     function handleSaveClick() {
         setSaved(!saved);
         if(saved) {
-            listingService.unlike(id!).then(() => {
-                setSaved(false);
+            listingService.unlike(id!).then((response) => {
+                if(response.status === 200) return;
+                setSaved(true);
             });
         }else {
-            listingService.like(id!).then(() => {
-                setSaved(true);
+            listingService.like(id!).then((response) => {
+                if(response.status === 200) return;
+                setSaved(false);
             });
         }
     }

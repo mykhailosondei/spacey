@@ -40,6 +40,11 @@ export class ListingService {
         return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/address?city=${city}&country=${country}&street=${street}`);
         
     }
+    
+    async getDistance(id:string,latitude:number, longitude:number) {
+        return await this.http.Get<number>(`${this.baseUrl}/${id}/distance?latitude=${latitude}&longitude=${longitude}`);
+    }
+    
     async create(listing:ListingCreateDTO) {
         return await this.http.Post(`${this.baseUrl}`, listing);
     }

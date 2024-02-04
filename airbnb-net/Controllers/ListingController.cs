@@ -51,6 +51,14 @@ namespace airbnb_net.Controllers
             return await _mediator.Send(new GetListingByIdQuery(id));
         }
         
+        [HttpGet("{id:guid}/distance")]
+        public async Task<double> GetDistance(Guid id, double latitude, double longitude)
+        {
+            var coordinates = new Coordinates(longitude, latitude);
+            Console.WriteLine("Coordinates: " + coordinates.Latitude + " " + coordinates.Longitude);
+            return await _mediator.Send(new GetDistanceToListingQuery(id, coordinates));
+        }
+        
         // GET: api/Listing/5/unavailableDates
         [HttpGet("{id:guid}/unavailableDates")]
         public async Task<IEnumerable<DateTime>> GetUnavailableDates(Guid id)
