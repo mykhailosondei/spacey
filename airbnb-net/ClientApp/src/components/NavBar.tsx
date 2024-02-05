@@ -2,23 +2,47 @@
 import React from 'react';
 import '../styles/NavBar.scss';
 import UserProfileDropdown from "./UserProfileDropdown";
-import {PopupProvider, PopupType, usePopup} from "../Contexts/PopupContext";
+import {usePopup} from "../Contexts/PopupContext";
 import {Link} from "react-router-dom";
-import {AuthenticationState} from "../Contexts/AuthStateProvider";
-import {useUser} from "../Contexts/UserContext";
-import {useAuthState} from "../Contexts/AuthStateProvider";
+import Cross from "./Icons/Cross";
+import Lens from "./Icons/Lens";
+import {NavBarDropdownGuests} from "./NavBarDropdownGuests";
+import {NavBarDropdownDates} from "./NavBarDropdownDates";
+import {NavBarDropdownWhere} from "./NavBarDropdownWhere";
 
-function bop() {
-    alert('click')
-}
-
-function bop2(){
-    alert('click2')
+enum NavBarButton {
+    WHERE = 0,
+    CHECKIN = 1,
+    CHECKOUT = 2,
+    GUESTS = 3,
+    NONE = 4
 }
 
 const NavBar: React.FC = () => {
     const {popupType, setPopupType} = usePopup()!;
     
+    const [isSearchBarOpen, setIsSearchBarOpen] = React.useState<boolean>(false);
+    
+    const [whereQuery, setWhereQuery] = React.useState<string>("");
+    
+    const [buttonAtTarget, setButtonAtTarget] = React.useState<NavBarButton>(NavBarButton.NONE);
+    
+    const setButtonAt = (button: NavBarButton) => {
+        if(!isSearchBarOpen) return;
+        setButtonAtTarget(button);
+    }
+    
+    const openSearchBar = () => {
+        setIsSearchBarOpen(true);
+    }
+
+    function closeSearchBar() {
+        setButtonAtTarget(NavBarButton.NONE);
+        setIsSearchBarOpen(false);
+    }
+    
+    const buttonNotNone = () => buttonAtTarget !== NavBarButton.NONE;
+
     return (
         <div className="navbar">
             <div className="left">
@@ -29,22 +53,38 @@ const NavBar: React.FC = () => {
                 </a>
             </div>
             <div className="middle">
-                <div className="middle-item">
-                    <button className="nav-btn" data-index="0">
-                        <div className="word">Anywhere</div>
+                <div className={"middle-item" + (buttonNotNone()?" full-gray":"")} style={{height: isSearchBarOpen?"60px":"48px"}} onClick={openSearchBar}>
+                    <button className={"nav-btn" + (isSearchBarOpen?" gray-hover":"") + (buttonAtTarget == NavBarButton.WHERE ? " selected-nav-btn" : "")} data-index="0" onClick={()=>setButtonAt(NavBarButton.WHERE)}>
+                        <div className="word w-fit">{isSearchBarOpen?"Where":"Anywhere"}</div>
+                        {isSearchBarOpen && <input className="search-bar-input" placeholder={"Search destinations"} value={whereQuery} onChange={(e) => {setWhereQuery(e.target.value)}}></input>}
                     </button>
                     <span className="divider-bar"></span>
-                    <button className="nav-btn" data-index="1" onClick={bop2}>
-                        <div className="word">Any week</div>
+                    <button className={"nav-btn" + (isSearchBarOpen?" gray-hover":"") + (buttonAtTarget == NavBarButton.CHECKIN ? " selected-nav-btn" : "")} data-index="1" onClick={()=>setButtonAt(NavBarButton.CHECKIN)}>
+                        <div className="word">{isSearchBarOpen?"Check-in":"Any week"}</div>
+                        {isSearchBarOpen && <input className="search-bar-input" placeholder={"Add date"}></input>}
                     </button>
                     <span className="divider-bar"></span>
-                    <button className="nav-btn" data-index="2" onClick={bop}>
-                        <div className="word grayword">Add guests</div>
-                        <div className="search-icon">
-                            <svg className="lens-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false"><path fill="none" d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"></path></svg>
+                    {isSearchBarOpen && <><button className={"nav-btn" + (isSearchBarOpen?" gray-hover":"") + (buttonAtTarget == NavBarButton.CHECKOUT ? " selected-nav-btn" : "")} data-index="1" onClick={()=>setButtonAt(NavBarButton.CHECKOUT)}>
+                        <div className="check-out">Check-out</div>
+                        {isSearchBarOpen && <input className="search-bar-input" placeholder={"Add date"}></input>}
+                    </button>
+                        <span className="divider-bar"></span></>}
+                    <button className={"nav-btn add-guests" + (isSearchBarOpen?" gray-hover add-guests-big":"") + (buttonAtTarget == NavBarButton.GUESTS ? " selected-nav-btn" : "")} data-index="0" onClick={() => setButtonAt(NavBarButton.GUESTS)}>
+                        <div className={"word w-fit" + (!isSearchBarOpen ? " grayword":"")}>{isSearchBarOpen?"Who":"Add guests"}</div>
+                        {isSearchBarOpen && <input className="search-bar-input" placeholder={"Add guests"}></input>}
+                        <div className={"search-icon-btn" + (isSearchBarOpen? " search-icon-bigger" : "") + (buttonNotNone()?" button-selected":"")}>
+                            <Lens className="search-icon"></Lens>
+                            {buttonNotNone() && <div className="search-icon-text">Search</div>}
                         </div>
                     </button>
                 </div>
+                <NavBarDropdownWhere whereQuery={whereQuery}></NavBarDropdownWhere>
+                <NavBarDropdownDates></NavBarDropdownDates>
+                <NavBarDropdownGuests></NavBarDropdownGuests>
+                
+                {isSearchBarOpen && <div className="close-search-bar" onClick={closeSearchBar}>
+                    <Cross/>
+                </div>}
             </div>
             <div className="right">
                 <div className="host-options">
