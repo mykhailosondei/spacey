@@ -8,6 +8,7 @@ import ListingDTO from "../DTOs/Listing/ListingDTO";
 import {useAuthState} from "../Contexts/AuthStateProvider";
 import {UserService} from "../services/UserService";
 import {ListingService} from "../services/ListingService";
+import {Ratings} from "../values/Ratings";
 
 interface ListingBoxProps {
     listing: ListingDTO;
@@ -20,7 +21,7 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     const [isRightArrowVisible, setIsRightArrowVisible] = useState(false);
     const bulletsArrayInitialState : {id:number, scale:number, opacity:0.6|1}[]= [];
     const [distance, setDistance] = useState(0);
-    
+    const [avgRatings, setAvgRatings] = useState<number>(0);
     
     const { authenticationState, setAuthenticationState } = useAuthState();
     const userService = useMemo(() => {return UserService.getInstance()}, []);
@@ -66,7 +67,20 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
                 });
             });
         }
+        setAvgRatings(avgRatingsFromListingRatingsArray(props.listing.ratings));
     }, []);
+    
+    const avgRatingsFromListingRatingsArray = (ratingsArray: Ratings[]) => {
+        let sum = 0;
+        for(let i = 0; i < ratingsArray.length; i++){
+            sum += avgRatingsFromListing(ratingsArray[i]);
+        }
+        return sum/ratingsArray.length;
+    };
+    
+    const avgRatingsFromListing = (ratings: Ratings) => {
+        return (ratings.cleanliness + ratings.communication + ratings.checkIn + ratings.accuracy + ratings.location + ratings.value)/6;
+    }
     
     for(let i: number = 0; i<props.listing.imagesUrls.length; i++){
         pictureArray.push(<a className="image-ref">
@@ -258,7 +272,10 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     };
 
     const ratings = () => {
-        return "4.5 (18)";
+        if(avgRatings){
+            return avgRatings.toFixed(2);
+        }
+        return "No ratings";
     }
 
     function redirectToListingPage() {

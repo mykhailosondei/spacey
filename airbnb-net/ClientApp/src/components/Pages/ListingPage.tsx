@@ -62,9 +62,9 @@ export const ListingPage = () => {
             });
         });
         userService.getFromToken().then((user) => {
-           if(user){
+           if(user.data){
                 setSaved(user.data.likedListingsIds.includes(id!));
-           } 
+           }
         });
     }, []);
 

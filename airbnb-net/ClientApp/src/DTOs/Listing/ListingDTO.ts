@@ -2,6 +2,7 @@ import {ImageDTO} from "../Image/ImageDTO";
 import {HostDTO} from "../Host/HostDTO";
 import {PropertyType} from "../../values/PropertyType";
 import {Address} from "../../values/Address";
+import {Ratings} from "../../values/Ratings";
 
 
 
@@ -19,6 +20,7 @@ export interface ListingDTO {
     numberOfGuests: number;
     imagesUrls: ImageDTO[];
     host: HostDTO;
+    ratings: Ratings[];
     bookingsIds: string[];
     amenities: string[];
     likedUsersIds: string[];
