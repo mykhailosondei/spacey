@@ -32,6 +32,7 @@ public static class ServiceExtensions
     public static void RegisterCustomServices(this IServiceCollection services)
     {
         services.AddScoped<AuthService>();
+        services.AddScoped<IAutocompleteService, AutocompleteService>();
         
         services.AddScoped<IBookingCommandAccess, BookingCommandAccess>();
         services.AddScoped<IBookingQueryRepository, BookingQueryRepository>();
