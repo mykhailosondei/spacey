@@ -47,8 +47,8 @@ const CalendarMonth = (props:CalendarMonthProps) => {
     };
     
     const isDayInHighlightedRange = (day : Day) : boolean => {
-        if(props.startDate === null) return false;
-        if (props.endDate === null) {
+        if(!props.startDate) return false;
+        if (!props.endDate) {
             if(props.currentHoveredDate === null) return false;
             return day.date >= props.startDate && day.date <= props.currentHoveredDate;
         }
@@ -70,11 +70,11 @@ const CalendarMonth = (props:CalendarMonthProps) => {
     
     const handleDayClick = (day : Day) => {
         if(isDateUnavailable(day.date)) return;
-        if (props.startDate === null) {
+        if (!props.startDate) {
             props.setStartDate(day.date);
             return;
         }
-        if (props.endDate === null) {
+        if (!props.endDate) {
             if (day.date < props.startDate) {
                 props.setStartDate(day.date);
                 return;
@@ -88,7 +88,7 @@ const CalendarMonth = (props:CalendarMonthProps) => {
     }
     
     const isSelectedDay = (day : Day) : " calendar-day-selected-start" | " calendar-day-selected-end" | " " => {
-        if (props.startDate === null) return " ";
+        if (!props.startDate) return " ";
         switch (day.date.toDateString()) {
             case props.startDate.toDateString():
                 return " calendar-day-selected-start";

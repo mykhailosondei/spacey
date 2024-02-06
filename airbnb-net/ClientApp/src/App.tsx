@@ -30,7 +30,7 @@ function App() {
                 <Routes>
                     <Route path={"/login"} element={<LoginPage></LoginPage>}/>
                     <Route path="/hosting/*" element={<HostProvider><RequireSwitchToHost><HostingPage/></RequireSwitchToHost></HostProvider>}/>
-                    <Route path="/*" element={<MainPage/>}/>
+                    <Route path="/*" element={<SelectedDatesProvider><MainPage/></SelectedDatesProvider>}/>
                     <Route path="/listing/:id" element={
                         <SelectedDatesProvider><ListingPage/></SelectedDatesProvider>}></Route>
                     <Route path="/booking/*" element={<BookingPage></BookingPage>}></Route>

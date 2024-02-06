@@ -8,7 +8,7 @@ import CalendarLeftArrow from "./Icons/LeftArrow";
 import {useSelectedDates} from "../Contexts/SelectedDatesProvider";
 
 interface CalendarSelectorProps {
-    listing: ListingDTO;
+    listing?: ListingDTO;
 }
 
 export const CalendarSelector = (props:CalendarSelectorProps) => {
@@ -22,6 +22,9 @@ export const CalendarSelector = (props:CalendarSelectorProps) => {
     const [unavailableDates, setUnavailableDates] = React.useState<Date[]>([]);
     
     useEffect(() => {
+        if (!props.listing) {
+            return;
+        }
         listingService.getUnavailableDates(props.listing.id).then((dates) => {
             const datesArray = [] as Date[];
             for (let i = 0; i < dates.data.length; i++) {
