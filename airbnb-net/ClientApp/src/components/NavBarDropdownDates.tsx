@@ -1,3 +1,12 @@
-export const NavBarDropdownDates = () => {
-    return <div className={"nav-dropdown right-40 w-80px"}></div>
+import {CalendarSelector} from "./CalendarSelector";
+import ListingDTO from "../DTOs/Listing/ListingDTO";
+
+interface NavBarDropdownDatesProps {
+    active: boolean;
+}
+
+export const NavBarDropdownDates = (props: NavBarDropdownDatesProps) => {
+    return props.active? <div className={"nav-dropdown right-40 nav-dates w-full"}>
+        <CalendarSelector ></CalendarSelector>
+    </div>: <></>;
 };
