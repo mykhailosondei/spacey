@@ -11,7 +11,10 @@ using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.Abstract;
 using ApplicationLogic.Commanding.Commands.ListingCommands;
+using ApplicationLogic.Filters;
+using ApplicationLogic.Filters.Abstract;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.Querying.Queries.ListingQueries;
@@ -99,6 +102,20 @@ namespace airbnb_net.Controllers
                 Street = street
             };
             return await _mediator.Send(new GetListingsByAddressQuery(address));
+        }
+        
+        [HttpGet("search")]
+        public async Task<IEnumerable<ListingDTO>> Get(string place, DateTime checkIn, DateTime checkOut, int guests)
+        {
+            return await _mediator.Send(new GetListingsBySearchQuery()
+            {
+                Filters = new List<AbstractFilter>()
+                {
+                    new PlaceFilter(place),
+                    new DateFilter(checkIn, checkOut),
+                    new GuestsFilter(guests)
+                }
+            });
         }
         
         // POST: api/Listing

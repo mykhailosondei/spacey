@@ -62,6 +62,6 @@ export class ListingService {
     }
 
     async getBySearch(place: string, checkIn: string, checkOut: string, guests: number) {
-        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search?place=${place}&pl=${checkIn}&s3=${checkOut}&number=${guests}`);
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search?place=${place}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
     }
 }
