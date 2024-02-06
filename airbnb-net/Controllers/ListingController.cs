@@ -76,7 +76,7 @@ namespace airbnb_net.Controllers
             return unavailableDates;
         }
         
-        [HttpGet("{propertyType}")]
+        [HttpGet("propertyType/{propertyType}")]
         public async Task<IEnumerable<ListingDTO>> Get(string propertyType)
         {
             return await _mediator.Send(new GetListingsByPropertyTypeQuery(propertyType));
