@@ -18,21 +18,23 @@ const GeneralListingHolder : React.FC = () => {
     let apiURL : string = "";
     
     let fetchPromise : Promise<HttpResponse<ListingDTO[]>>;
-    
+    //refactor this and paste code below if statements
     if(location.pathname.includes("propertyType")) {
         const propertyType = location.pathname.split("/").pop();
         if(propertyType) {
             fetchPromise = listingService.getByPropertyType(propertyType);
         }
-    }else if(location.pathname.includes("address")) {
-        const searchParams = new URLSearchParams(location.search);
-        fetchPromise = listingService.getByAddress(searchParams.get("city")!, searchParams.get("country")!, searchParams.get("street")!);
     }else if(location.pathname.includes("boundingBox")) {
         const searchParams = new URLSearchParams(location.search);
         fetchPromise = listingService.getByBoundingBox(parseInt(searchParams.get("x1")!), parseInt(searchParams.get("y1")!), parseInt(searchParams.get("x2")!), parseInt(searchParams.get("y2")!));
-    }else {
+    }else if(location.pathname.includes("search")) {
+        const searchParams = new URLSearchParams(location.search);
+        fetchPromise = listingService.getBySearch(searchParams.get("where")!, searchParams.get("checkIn")!, searchParams.get("checkOut")!, parseInt(searchParams.get("guests")!));
+    }
+    else {
         fetchPromise = listingService.getAll();
     }
+    
     
     React.useEffect(() => {
         fetchPromise.then((listings) => {

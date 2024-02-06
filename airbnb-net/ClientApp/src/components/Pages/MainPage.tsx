@@ -14,7 +14,6 @@ export const MainPage = () => {
             <Routes>
                 <Route path="/" element={<GeneralListingHolder/>}/>
                 <Route path="/listings/propertyType/:propertyType" element={<GeneralListingHolder/>}/>
-                <Route path="/listings/address" element={<GeneralListingHolder/>}></Route>
                 <Route path="/listings/boundingBox" element={<GeneralListingHolder/>}></Route>
             </Routes>
             <Outlet/>

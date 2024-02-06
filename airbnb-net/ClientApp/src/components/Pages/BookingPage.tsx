@@ -9,6 +9,8 @@ import {PropertyType} from "../../values/PropertyType";
 import LeftArrow from "../Icons/LeftArrow";
 import {BookingService} from "../../services/BookingService";
 
+export function convertDateToUTC(date:Date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
+
 export const BookingPage = () => {
     
     const location = useLocation();
@@ -39,8 +41,6 @@ export const BookingPage = () => {
             });
         }
     }, []);
-
-    function convertDateToUTC(date:Date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
     
     function displayDates(startDate: Date, endDate: Date) {
         if(!(startDate && endDate)) return;
