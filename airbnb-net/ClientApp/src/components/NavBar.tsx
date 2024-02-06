@@ -19,7 +19,13 @@ enum NavBarButton {
     NONE = 4
 }
 
-const NavBar: React.FC = () => {
+interface NavBarButtonProps {
+    searchMode?: {where: string, dates:string, guests: string};
+}
+
+const NavBar: React.FC<NavBarButtonProps> = (props : NavBarButtonProps) => {
+    
+    const searchMode = !!props.searchMode;
     
     const [isSearchBarOpen, setIsSearchBarOpen] = React.useState<boolean>(false);
     
@@ -61,6 +67,21 @@ const NavBar: React.FC = () => {
         }
         return guests + " guests";
     }
+    
+    const searchAvailable = () => {
+        return whereQuery !== "" || startDate !== null || endDate !== null;
+    }
+    
+    const smallButtonTitle = (button: NavBarButton) => {
+        switch(button) {
+            case NavBarButton.WHERE:
+                return !searchMode ? "Anywhere" : props.searchMode?.where;
+            case NavBarButton.CHECKIN || NavBarButton.CHECKOUT:
+                return !searchMode ? "Any week" : props.searchMode?.dates;
+            case NavBarButton.GUESTS:
+                return !searchMode ? "Add guests" : props.searchMode?.guests;
+        }
+    }
 
     return (
         <div className="navbar">
@@ -74,12 +95,12 @@ const NavBar: React.FC = () => {
             <div className="middle">
                 <div className={"middle-item" + (buttonNotNone()?" full-gray":"")} style={{height: isSearchBarOpen?"60px":"48px"}} onClick={openSearchBar}>
                     <button className={"nav-btn" + (isSearchBarOpen?" gray-hover":"") + (buttonAtTarget == NavBarButton.WHERE ? " selected-nav-btn" : "")} data-index="0" onClick={()=>setButtonAt(NavBarButton.WHERE)}>
-                        <div className="word w-fit">{isSearchBarOpen?"Where":"Anywhere"}</div>
+                        <div className="word w-fit">{isSearchBarOpen?"Where":smallButtonTitle(NavBarButton.WHERE)}</div>
                         {isSearchBarOpen && <input className="search-bar-input" placeholder={"Search destinations"} value={whereQuery} onChange={(e) => {setWhereQuery(e.target.value)}}></input>}
                     </button>
                     <span className="divider-bar"></span>
                     <button className={"nav-btn" + (isSearchBarOpen?" gray-hover":"") + (buttonAtTarget == NavBarButton.CHECKIN ? " selected-nav-btn" : "")} data-index="1" onClick={()=>setButtonAt(NavBarButton.CHECKIN)}>
-                        <div className="word">{isSearchBarOpen?"Check-in":"Any week"}</div>
+                        <div className="word">{isSearchBarOpen?"Check-in":smallButtonTitle(NavBarButton.CHECKIN)}</div>
                         {isSearchBarOpen && <input className="search-bar-input" placeholder={"Add date"} value={formatDate(startDate)}></input>}
                     </button>
                     <span className="divider-bar"></span>
@@ -89,9 +110,10 @@ const NavBar: React.FC = () => {
                     </button>
                         <span className="divider-bar"></span></>}
                     <button className={"nav-btn add-guests" + (isSearchBarOpen?" gray-hover add-guests-big":"") + (buttonAtTarget == NavBarButton.GUESTS ? " selected-nav-btn" : "")} data-index="0" onClick={() => setButtonAt(NavBarButton.GUESTS)}>
-                        <div className={"word w-fit" + (!isSearchBarOpen ? " grayword":"")}>{isSearchBarOpen?"Who":"Add guests"}</div>
+                        <div className={"word w-fit" + (!isSearchBarOpen ? " grayword":"")}>{isSearchBarOpen?"Who":smallButtonTitle(NavBarButton.GUESTS)}</div>
                         {isSearchBarOpen && <input className="search-bar-input" value={formatGuests(guests)} placeholder={"Add guests"}></input>}
                         <div className={"search-icon-btn" + (isSearchBarOpen? " search-icon-bigger" : "") + (buttonNotNone()?" button-selected":"")}>
+                            {searchAvailable() && <Link className={"link"} to={{pathname:"/search", search:`?where=${whereQuery}&checkIn=${startDate?.toLocaleDateString()??""}&checkOut=${endDate?.toLocaleDateString()??""}&guests=${guests}`}}/>}
                             <Lens className="search-icon"></Lens>
                             {buttonNotNone() && <div className="search-icon-text">Search</div>}
                         </div>
