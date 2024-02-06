@@ -93,7 +93,15 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
 
         return await _collection.Find(filter, new FindOptions
         {
-            Collation = new Collation("en", strength: CollationStrength.Primary),
+            Collation = new Collation("en", strength: CollationStrength.Primary)
+        }).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Listing>> GetListingsByFilter(FilterDefinition<Listing> filter)
+    {
+        return await _collection.Find(filter, new FindOptions()
+        {
+            Collation = new Collation("en", strength:CollationStrength.Primary)
         }).ToListAsync();
     }
 }
