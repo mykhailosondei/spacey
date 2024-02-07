@@ -1,5 +1,6 @@
 using ApplicationDAL.Entities;
 using ApplicationLogic.Filters.Abstract;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationLogic.Filters;
@@ -13,7 +14,7 @@ public class GuestsFilter : AbstractFilter
         _guests = guests;
     }
 
-    public override FilterDefinition<Listing> BuildDefinition()
+    public override PipelineDefinition<Listing, Listing> BuildDefinition()
     {
         throw new NotImplementedException();
     }
