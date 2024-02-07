@@ -27,6 +27,7 @@ public class Host
     public double Rating { get; set; }
 
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> ListingsIds { get; set; } = new();
     
     [BsonIgnoreIfNull]

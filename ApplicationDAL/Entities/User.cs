@@ -36,12 +36,15 @@ public class User
     public Host Host { get; set; }
     
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> BookingsIds { get; set; }
     
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> ReviewsIds { get; set; }
     
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> LikedListingsIds { get; set; }
     
     [BsonIgnoreIfNull]

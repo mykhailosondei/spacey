@@ -41,12 +41,14 @@ public class Listing
     public Host Host { get; set; }
 
     [RestrictUpdate]
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> BookingsIds { get; set; }
 
     public Amenities Amenities { get; set; }
     
     public List<Ratings> Ratings { get; set; }
     
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> LikedUsersIds { get; set; }
     
     [BsonIgnoreIfNull]
