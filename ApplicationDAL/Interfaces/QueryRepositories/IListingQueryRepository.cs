@@ -2,6 +2,7 @@ using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.GeospatialUtilities;
 using ApplicationCommon.Structs;
 using ApplicationDAL.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ApplicationDAL.Interfaces.QueryRepositories;
@@ -18,5 +19,5 @@ public interface IListingQueryRepository
     public Task<IEnumerable<Listing>> GetListingsByCity(Address address);
     public Task<IEnumerable<Listing>> GetListingsByCountry(Address address);
     public Task<IEnumerable<Listing>> GetListingsByStreet(Address address);
-    public Task<IEnumerable<Listing>> GetListingsByFilter(FilterDefinition<Listing> filter);
+    public Task<IEnumerable<Listing>> GetListingsByPipeline(PipelineDefinition<Listing, Listing> pipeline);
 }

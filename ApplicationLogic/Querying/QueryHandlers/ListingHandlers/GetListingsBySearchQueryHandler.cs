@@ -8,7 +8,7 @@ using MediatR;
 
 namespace ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 
-public class GetListingsBySearchQueryHandler :BaseHandler, IRequestHandler<GetListingsBySearchQuery, IEnumerable<ListingDTO>>
+public class GetListingsBySearchQueryHandler : BaseHandler, IRequestHandler<GetListingsBySearchQuery, IEnumerable<ListingDTO>>
 {
     private readonly IListingQueryRepository _listingQueryRepository;
 
@@ -20,8 +20,7 @@ public class GetListingsBySearchQueryHandler :BaseHandler, IRequestHandler<GetLi
     public async Task<IEnumerable<ListingDTO>> Handle(GetListingsBySearchQuery request, CancellationToken cancellationToken)
     {
         var filters = request.Filters;
-        var filterDefinition = FilterBuilder.BuildFilterDefinition(filters);
-        var listings = await _listingQueryRepository.GetListingsByFilter(filterDefinition);
+        var listings = await _listingQueryRepository.GetListingsByPipeline(filters[0].BuildDefinition());
         return _mapper.Map<IEnumerable<ListingDTO>>(listings);
     }
 }
