@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Runtime.InteropServices.JavaScript;
 using Application.API.IntegrationTests.ServiceMocks;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DbHelper;
@@ -112,6 +113,7 @@ public class IntegrationTest
 
     protected async Task SwitchRole(bool toHost)
     {
+        _output.WriteLine(TestClient.DefaultRequestHeaders.Authorization.ToString());
         var response = await TestClient.PostAsJsonAsync("http://localhost:5241/api/Auth/switch-role-to-host/" + toHost, default(object));
         var user = await response.Content.ReadFromJsonAsync<AuthUser>();
         TestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
@@ -119,8 +121,8 @@ public class IntegrationTest
 
     private string? GetJwtToken()
     {
-        var email = "testEmail " + Guid.NewGuid().ToString().ToCharArray().Take(5).ToString();
-        var password = "testPassword " + Guid.NewGuid().ToString().ToCharArray().Take(5).ToString();
+        var email = "testEmail@mail.com " + new string(Guid.NewGuid().ToString().ToCharArray().Take(5).ToArray());
+        var password = "testPassword " + new string(Guid.NewGuid().ToString().ToCharArray().Take(5).ToArray());
         
         var response1 = TestClient.PostAsJsonAsync("http://localhost:5241/api/Auth/register", new RegisterUserDTO()
         {
@@ -128,11 +130,14 @@ public class IntegrationTest
             Password = password,
             Name = "testFirstName",
         }).Result;
+        
+        _output.WriteLine("AAAAAAAAAAA" +response1.Content.ReadAsStringAsync().Result);
         var response = TestClient.PostAsJsonAsync("http://localhost:5241/api/Auth/login", new LoginUserDTO()
         {
             Email = email,
             Password = password
         }).Result;
+        _output.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA" +response.Content.ReadAsStringAsync().Result);
         var responseContent = response.Content.ReadFromJsonAsync<AuthUser>().Result;
         return responseContent.Token;
     }

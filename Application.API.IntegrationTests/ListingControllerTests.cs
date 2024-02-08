@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Application.API.IntegrationTests.Fixtures;
+using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.DTOs.Listing;
@@ -52,6 +53,37 @@ public class ListingControllerTests : IntegrationTest
         //Assert
         _output.WriteLine(response.Content.ReadAsStringAsync().Result);
         Assert.True(response.StatusCode == HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async void GetListingBySearch_ReturnsEmptyList_OnUnavailableDates()
+    {
+        var listing = ListingFixtures.ListingCreateDTO;
+
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        
+        listing.HostId = (await GetObjectFromResponse<Host>(hostResponse)).Id;
+        var response = await Post<Listing>("api/Listing", listing);
+        
+        var booking = new BookingCreateDTO()
+        {
+            ListingId = await GetIdFromResponse(response),
+            CheckIn = DateTime.Now.AddDays(2),
+            CheckOut = DateTime.Now.AddDays(3),
+            NumberOfGuests = 1,
+            UserId = await GetUserId()
+        };
+
+        await SwitchRole(false);
+        
+        var bookingResponse = await Post<Booking>("api/Booking", booking);
+        
+        _output.WriteLine("BBBBBBBBBBBBBBBBBBBBB"+bookingResponse.Content.ReadAsStringAsync().Result);
+        
+        var responseGet = await Get<ListingDTO[]>("api/Listing/search?place=any&guests=1&checkIn="+DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")+"&checkOut="+DateTime.Now.AddDays(5).ToString("yyyy-MM-dd"));
+        
+        Assert.True(responseGet.Content.ReadAsStringAsync().Result == "[]");
     }
     
     [Fact]
