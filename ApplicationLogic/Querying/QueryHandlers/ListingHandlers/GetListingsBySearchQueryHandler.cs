@@ -1,3 +1,4 @@
+using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
@@ -8,19 +9,58 @@ using MediatR;
 
 namespace ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 
+public class ListingAndBookings
+{
+    public ListingDTO Listing { get; set; }
+    public IEnumerable<BookingDTO> Bookings { get; set; }
+
+    public ListingAndBookings()
+    {
+        Bookings = new List<BookingDTO>();
+    }
+}
+
 public class GetListingsBySearchQueryHandler : BaseHandler, IRequestHandler<GetListingsBySearchQuery, IEnumerable<ListingDTO>>
 {
     private readonly IListingQueryRepository _listingQueryRepository;
+    private readonly IBookingQueryRepository _bookingQueryRepository;
 
-    public GetListingsBySearchQueryHandler(IMapper mapper, IListingQueryRepository listingQueryRepository) : base(mapper)
+    public GetListingsBySearchQueryHandler(IMapper mapper, IListingQueryRepository listingQueryRepository, IBookingQueryRepository bookingQueryRepository) : base(mapper)
     {
         _listingQueryRepository = listingQueryRepository;
+        _bookingQueryRepository = bookingQueryRepository;
     }
 
     public async Task<IEnumerable<ListingDTO>> Handle(GetListingsBySearchQuery request, CancellationToken cancellationToken)
     {
-        var filters = request.Filters;
-        var listings = await _listingQueryRepository.GetListingsByPipeline(filters[0].BuildDefinition());
-        return _mapper.Map<IEnumerable<ListingDTO>>(listings);
+        var listingAndBookings = new List<ListingAndBookings>();
+        
+        var query = await _listingQueryRepository.GetAllListings();
+        
+        var listings = _mapper.Map<IEnumerable<ListingDTO>>(query).ToList();
+        
+        foreach (var listing in listings)
+        {
+            var bookings = new List<BookingDTO>();
+            foreach (var bookingId in listing.BookingsIds)
+            {
+                var booking = await _bookingQueryRepository.GetBookingById(bookingId);
+                bookings.Add(_mapper.Map<BookingDTO>(booking));
+            }
+            listingAndBookings.Add(new ListingAndBookings
+            {
+                Listing = listing,
+                Bookings = bookings
+            });
+        }
+        
+        foreach (var filter in request.Filters)
+        {
+            listingAndBookings = await filter.ApplyFilter(listingAndBookings);
+        }
+        
+        listings = listingAndBookings.Select(listingAndBookings => listingAndBookings.Listing).ToList();
+        
+        return listings;
     }
 }
