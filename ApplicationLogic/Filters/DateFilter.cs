@@ -1,7 +1,9 @@
 using System.Globalization;
 using System.Text;
+using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.Entities;
 using ApplicationLogic.Filters.Abstract;
+using ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -18,24 +20,10 @@ public class DateFilter : AbstractFilter
         _checkIn = checkIn;
         _checkOut = checkOut;
     }
-
-    public override PipelineDefinition<Listing, Listing> BuildDefinition()
+    
+    public override async Task<List<ListingAndBookings>> ApplyFilter(List<ListingAndBookings> listings)
     {
-        var @string =
-            $"{{ $match: {{ bookings: {{ $elemMatch: {{ $or: [ {{ CheckIn: {{ $gte: ISODate(\"{_checkOut.Date.ToShortDateString()}\") }} }}, {{ CheckOut: {{ $lte: ISODate(\"{_checkIn.Date.ToShortDateString()}\") }} }} ] }} }} }} }}";
-        
-        Console.WriteLine(@string);
-        
-        var aggregationPipeline = new BsonDocument[]
-        {
-            BsonDocument.Parse("{ $lookup: { from: 'bookings', localField: 'BookingsIds', foreignField: '_id', as: 'bookings' } }"),
-            BsonDocument.Parse(@string),
-            BsonDocument.Parse("{ $project: { bookings: 0 } }")
-        };
-
-        
-        var pipeline = PipelineDefinition<Listing, Listing>.Create(aggregationPipeline);
-        
-        return pipeline;
+        return listings.Where(listing =>
+            listing.Bookings.All(booking => booking.CheckOut < _checkIn || booking.CheckIn > _checkOut)).ToList();
     }
 }

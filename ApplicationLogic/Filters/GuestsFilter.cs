@@ -1,5 +1,7 @@
+using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.Entities;
 using ApplicationLogic.Filters.Abstract;
+using ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -13,9 +15,9 @@ public class GuestsFilter : AbstractFilter
     {
         _guests = guests;
     }
-
-    public override PipelineDefinition<Listing, Listing> BuildDefinition()
+    
+    public override async Task<List<ListingAndBookings>> ApplyFilter(List<ListingAndBookings> listings)
     {
-        throw new NotImplementedException();
+        return listings.Where(listing => listing.Listing.NumberOfGuests >= _guests).ToList();
     }
 }
