@@ -109,11 +109,10 @@ namespace airbnb_net.Controllers
         {
             return await _mediator.Send(new GetListingsBySearchQuery()
             {
-                Filters = new List<AbstractFilter>()
+                Filters = new List<AbstractFilter>
                 {
                     new PlaceFilter(place),
-                    new DateFilter(checkIn, checkOut),
-                    new GuestsFilter(guests)
+                    new DateFilter(checkIn, checkOut)
                 }
             });
         }

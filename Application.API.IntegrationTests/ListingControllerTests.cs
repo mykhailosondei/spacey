@@ -56,7 +56,7 @@ public class ListingControllerTests : IntegrationTest
     }
 
     [Fact]
-    public async void GetListingBySearch_ReturnsEmptyList_OnUnavailableDates()
+    public async void GetListingBySearch_NotContainsListing_OnUnavailableDate__Around()
     {
         var listing = ListingFixtures.ListingCreateDTO;
 
@@ -69,8 +69,8 @@ public class ListingControllerTests : IntegrationTest
         var booking = new BookingCreateDTO()
         {
             ListingId = await GetIdFromResponse(response),
-            CheckIn = DateTime.Now.AddDays(2),
-            CheckOut = DateTime.Now.AddDays(3),
+            CheckIn = DateTime.Parse(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd")),
+            CheckOut = DateTime.Parse(DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")),
             NumberOfGuests = 1,
             UserId = await GetUserId()
         };
@@ -79,11 +79,109 @@ public class ListingControllerTests : IntegrationTest
         
         var bookingResponse = await Post<Booking>("api/Booking", booking);
         
-        _output.WriteLine("BBBBBBBBBBBBBBBBBBBBB"+bookingResponse.Content.ReadAsStringAsync().Result);
-        
         var responseGet = await Get<ListingDTO[]>("api/Listing/search?place=any&guests=1&checkIn="+DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")+"&checkOut="+DateTime.Now.AddDays(5).ToString("yyyy-MM-dd"));
         
-        Assert.True(responseGet.Content.ReadAsStringAsync().Result == "[]");
+        var searchResult = await GetObjectFromResponse<ListingDTO[]>(responseGet);
+        
+        Assert.DoesNotContain(await GetIdFromResponse(response), searchResult.Select(x => x.Id));
+    }
+    
+    [Fact]
+    public async void GetListingBySearch_NotContainsListing_OnUnavailableDate__Exact()
+    {
+        var listing = ListingFixtures.ListingCreateDTO;
+
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        
+        listing.HostId = (await GetObjectFromResponse<Host>(hostResponse)).Id;
+        var response = await Post<Listing>("api/Listing", listing);
+        
+        await SwitchRole(false);
+        
+        var booking = new BookingCreateDTO()
+        {
+            ListingId = await GetIdFromResponse(response),
+            CheckIn = DateTime.Parse(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd")),
+            CheckOut = DateTime.Parse(DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")),
+            NumberOfGuests = 1,
+            UserId = await GetUserId()
+        };
+
+        
+        var bookingResponse = await Post<Booking>("api/Booking", booking);
+        
+        var responseGet = await Get<ListingDTO[]>("api/Listing/search?place=any&guests=1&checkIn="+DateTime.Now.AddDays(2).ToString("yyyy-MM-dd")+"&checkOut="+DateTime.Now.AddDays(3).ToString("yyyy-MM-dd"));
+        
+        var searchResult = await GetObjectFromResponse<ListingDTO[]>(responseGet);
+        
+        Assert.DoesNotContain(await GetIdFromResponse(response), searchResult.Select(x => x.Id));
+    }
+    
+    [Fact]
+    public async void GetListingBySearch_ContainsListing_OnAvailableDate()
+    {
+        var listing = ListingFixtures.ListingCreateDTO;
+
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        
+        listing.HostId = (await GetObjectFromResponse<Host>(hostResponse)).Id;
+        var response = await Post<Listing>("api/Listing", listing);
+        
+        var responseGet = await Get<ListingDTO[]>("api/Listing/search?place=any&guests=1&checkIn="+DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")+"&checkOut="+DateTime.Now.AddDays(3).ToString("yyyy-MM-dd"));
+        
+        var searchResult = await GetObjectFromResponse<ListingDTO[]>(responseGet);
+        
+        Assert.Contains(await GetIdFromResponse(response), searchResult.Select(x => x.Id));
+    }
+
+    [Fact]
+    public async void GetListingBySearch_NotContainsListing_Misc()
+    {
+        var listing = ListingFixtures.ListingCreateDTO;
+
+        await SwitchRole(true);
+        var hostResponse = await Get<Host>("api/Host/fromToken");
+        
+        listing.HostId = (await GetObjectFromResponse<Host>(hostResponse)).Id;
+        var response = await Post<Listing>("api/Listing", listing);
+        
+        await SwitchRole(false);
+        
+        var userId = await GetUserId();
+        
+        var booking = new BookingCreateDTO()
+        {
+            ListingId = await GetIdFromResponse(response),
+            CheckIn = DateTime.Parse(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd")),
+            CheckOut = DateTime.Parse(DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")),
+            NumberOfGuests = 1,
+            UserId = userId
+        };
+        
+        var booking2 = new BookingCreateDTO()
+        {
+            ListingId = await GetIdFromResponse(response),
+            CheckIn = DateTime.Parse(DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")),
+            CheckOut = DateTime.Parse(DateTime.Now.AddDays(8).ToString("yyyy-MM-dd")),
+            NumberOfGuests = 1,
+            UserId = userId
+        };
+        
+        var bookingResponse = await Post<Booking>("api/Booking", booking);
+        var bookingResponse2 = await Post<Booking>("api/Booking", booking2);
+        
+        var responseGetAvailable = await Get<ListingDTO[]>("api/Listing/search?place=any&guests=1&checkIn="+DateTime.Now.AddDays(5).ToString("yyyy-MM-dd")+"&checkOut="+DateTime.Now.AddDays(6).ToString("yyyy-MM-dd"));
+        
+        var searchResultAvailable = await GetObjectFromResponse<ListingDTO[]>(responseGetAvailable);
+        
+        var responseGetUnavailable = await Get<ListingDTO[]>("api/Listing/search?place=any&guests=1&checkIn="+DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")+"&checkOut="+DateTime.Now.AddDays(3).ToString("yyyy-MM-dd"));
+        
+        var searchResultUnavailable = await GetObjectFromResponse<ListingDTO[]>(responseGetUnavailable);
+        
+        Assert.DoesNotContain(await GetIdFromResponse(response), searchResultUnavailable.Select(x => x.Id));
+        Assert.Contains(await GetIdFromResponse(response), searchResultAvailable.Select(x => x.Id));
     }
     
     [Fact]
