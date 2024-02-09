@@ -107,7 +107,8 @@ public class IntegrationTest
 
     protected async Task<Guid> GetUserId()
     {
-        var response = await TestClient.GetFromJsonAsync<UserDTO>("http://localhost:5241/api/User/fromToken");
+        var response = await TestClient.GetAsync("http://localhost:5241/api/User/fromToken").Result.Content.ReadFromJsonAsync<UserDTO>();
+        _output.WriteLine("RESPONSE LOG: " + response);
         return response.Id;
     }
 
