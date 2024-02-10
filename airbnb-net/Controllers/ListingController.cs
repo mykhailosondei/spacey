@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.Listing;
+using ApplicationCommon.Enums;
 using ApplicationCommon.GeospatialUtilities;
 using ApplicationCommon.Structs;
 using ApplicationDAL.DataCommandAccess;
@@ -16,6 +17,7 @@ using ApplicationLogic.Commanding.Commands.ListingCommands;
 using ApplicationLogic.Filters;
 using ApplicationLogic.Filters.Abstract;
 using ApplicationLogic.HostIdLogic;
+using ApplicationLogic.Options;
 using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.Querying.Queries.ListingQueries;
 using ApplicationLogic.UserIdLogic;
@@ -24,6 +26,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace airbnb_net.Controllers
 {
@@ -33,11 +37,13 @@ namespace airbnb_net.Controllers
     {
         private readonly IHostIdGetter _hostIdGetter;
         private readonly IMediator _mediator;
+        private readonly IOptions<BingMapsConnectionOptions> _bingMapsConnectionOptions;
 
-        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator, IHostIdGetter hostIdGetter) : base(logger,mapper)
+        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator, IHostIdGetter hostIdGetter, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(logger,mapper)
         {
             _mediator = mediator;
             _hostIdGetter = hostIdGetter;
+            _bingMapsConnectionOptions = bingMapsConnectionOptions;
         }
         
         // GET: api/Listing
@@ -105,14 +111,22 @@ namespace airbnb_net.Controllers
         }
         
         [HttpGet("search")]
-        public async Task<IEnumerable<ListingDTO>> Get(string place, DateTime checkIn, DateTime checkOut, int guests)
+        public async Task<IEnumerable<ListingDTO>> Get(string? place, DateTime? checkIn, DateTime? checkOut, int? guests, PropertyType? propertyType)
         {
+            _logger.LogInformation("Place: " + place);
+            _logger.LogInformation("CheckIn: " + checkIn);
+            _logger.LogInformation("CheckOut: " + checkOut);
+            _logger.LogInformation("Guests: " + guests);
+            _logger.LogInformation("PropertyType: " + propertyType);
+            
             return await _mediator.Send(new GetListingsBySearchQuery()
             {
                 Filters = new List<AbstractFilter>
                 {
-                    new PlaceFilter(place),
-                    new DateFilter(checkIn, checkOut)
+                    new PlaceFilter(place, _bingMapsConnectionOptions),
+                    new DateFilter(checkIn, checkOut),
+                    new GuestsFilter(guests),
+                    new PropertyTypeFilter(propertyType)
                 }
             });
         }
