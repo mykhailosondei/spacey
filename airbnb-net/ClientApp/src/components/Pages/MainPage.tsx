@@ -13,8 +13,6 @@ export const MainPage = () => {
             <PropertyTypeSlider/>
             <Routes>
                 <Route path="/" element={<GeneralListingHolder/>}/>
-                <Route path="/listings/propertyType/:propertyType" element={<GeneralListingHolder/>}/>
-                <Route path="/listings/boundingBox" element={<GeneralListingHolder/>}></Route>
             </Routes>
             <Outlet/>
             

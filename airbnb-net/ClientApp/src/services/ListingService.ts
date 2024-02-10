@@ -3,6 +3,7 @@ import ListingDTO from "../DTOs/Listing/ListingDTO";
 import {ListingCreateDTO} from "../DTOs/Listing/ListingCreateDTO";
 import {ListingUpdateDTO} from "../DTOs/Listing/ListingUpdateDTO";
 import {AxiosRequestConfig} from "axios";
+import {SearchConfig} from "../values/SearchConfig";
 
 export class ListingService {
     http: HttpCustomClient;
@@ -61,7 +62,11 @@ export class ListingService {
         return await this.http.Post(`${this.baseUrl}/${id}/unlike`);
     }
 
-    async getBySearch(place: string, checkIn: string, checkOut: string, guests: number) {
-        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search?place=${place}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+    /*async getBySearch(place: string, checkIn: string, checkOut: string, guests: number, propertyType: string) {
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search?place=${place}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}&propertyType=${propertyType}`);
+    }*/
+    
+    async getBySearch(config: SearchConfig) {
+       return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search`, {params: config});
     }
 }

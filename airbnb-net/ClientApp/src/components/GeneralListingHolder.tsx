@@ -3,11 +3,16 @@ import '../styles/ListingHolder.scss';
 import ListingBox from "./ListingBox";
 import {ListingService} from "../services/ListingService";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {HttpResponse} from "../services/HttpCustomClient";
 import {log} from "node:util";
+import {SearchConfig} from "../values/SearchConfig";
 
-const GeneralListingHolder : React.FC = () => {
+interface GeneralListingHolderProps {
+    searchConfig?: SearchConfig;
+}
+
+const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:GeneralListingHolderProps) => {
     
     const [listings, setListings] = useState<ListingDTO[]>([]);
     
@@ -18,20 +23,10 @@ const GeneralListingHolder : React.FC = () => {
     let apiURL : string = "";
     
     let fetchPromise : Promise<HttpResponse<ListingDTO[]>>;
-    //refactor this and paste code below if statements
-    if(location.pathname.includes("propertyType")) {
-        const propertyType = location.pathname.split("/").pop();
-        if(propertyType) {
-            fetchPromise = listingService.getByPropertyType(propertyType);
-        }
-    }else if(location.pathname.includes("boundingBox")) {
-        const searchParams = new URLSearchParams(location.search);
-        fetchPromise = listingService.getByBoundingBox(parseInt(searchParams.get("x1")!), parseInt(searchParams.get("y1")!), parseInt(searchParams.get("x2")!), parseInt(searchParams.get("y2")!));
-    }else if(location.pathname.includes("search")) {
-        const searchParams = new URLSearchParams(location.search);
-        fetchPromise = listingService.getBySearch(searchParams.get("where")!, searchParams.get("checkIn")!, searchParams.get("checkOut")!, parseInt(searchParams.get("guests")!));
-    }
-    else {
+    
+    if(props.searchConfig) {
+        fetchPromise = listingService.getBySearch(props.searchConfig);
+    } else {
         fetchPromise = listingService.getAll();
     }
     

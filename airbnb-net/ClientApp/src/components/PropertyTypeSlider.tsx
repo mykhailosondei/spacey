@@ -4,7 +4,7 @@ import {createContext, useEffect, useLayoutEffect, useState} from "react";
 import {propertyTypeDictionary} from "../values/PropertyTypeTitles";
 import {createWriteStream} from "node:fs";
 import {PropertyType} from "../values/PropertyType";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export const PropertyTypeSlider : React.FC = () => {
     const propertyTypes = ["House", "Apartment", "Condo", "Townhouse", "Studio", "Mansion", "Cottage", "Castle", "Treehouse", "Boat", "RV", "Tent", "Villa", "Bungalow", "Loft", "Farmhouse", "Chalet", "Cabin", "Other"];
@@ -15,6 +15,8 @@ export const PropertyTypeSlider : React.FC = () => {
     const [scrollerOffset, setScrollerOffset] = useState<number>(0);
     
     const navigate = useNavigate();
+    
+    const location = useLocation();
     
     useEffect(() => {
         console.log("Window width: " + scrollerWindowWidth);
@@ -47,7 +49,13 @@ export const PropertyTypeSlider : React.FC = () => {
     }, [scrollerOffset]);
     
     function updateIndex(title : string){
-        navigate(`/listings/propertyType/${title}`, {replace: true});
+        if(location.pathname === "/search" && location.search.includes("propertyType=")){
+            navigate({pathname: "/search", search: location.search.replace(/propertyType=[^&]+/, "propertyType=" + title)});
+        }else if((location.pathname === "/search" && location.search === "") || location.pathname === "/"){
+            navigate({pathname: "/search", search: "?propertyType=" + title});
+        } else {
+            navigate({pathname: "/search", search: location.search + "&propertyType=" + title});
+        }
         setSelectedPropertyTypeIndex(propertyTypes.indexOf(title));
     }
     

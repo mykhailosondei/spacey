@@ -4,6 +4,7 @@ import {convertDateToUTC} from "./BookingPage";
 import {PropertyTypeSlider} from "../PropertyTypeSlider";
 import GeneralListingHolder from "../GeneralListingHolder";
 
+
 export const SearchPage = () => {
     
     const query = new URLSearchParams(useLocation().search);
@@ -11,7 +12,9 @@ export const SearchPage = () => {
     const where = query.get("where");
     const checkIn = query.get("checkIn");
     const checkOut = query.get("checkOut");
-    const guests = parseInt(query.get("guests")??"1");
+    const guests = query.get("guests");
+    const propertyType = query.get("propertyType");
+    
     
     const whereText = ()=> {
         console.log(where);
@@ -33,18 +36,20 @@ export const SearchPage = () => {
         return "Any week";
     };
 
-    function formatGuests(guests: number) {
-        if (guests === 0) {
-            return "";
+    function formatGuests(guests: string | null) {
+        let guestsNumber = guests ? parseInt(guests) : 0;
+        if (guestsNumber === 0) {
+            return "Add guests";
         }
-        if (guests === 1) {
+        if (guestsNumber === 1) {
             return "1 guest";
         }
-        return guests + " guests";
+        return guestsNumber + " guests";
     }
     
     return <div className="search-page">
         <NavBar searchMode={{where:whereText(), dates:datesText(), guests: formatGuests(guests)}}></NavBar>
-        <GeneralListingHolder></GeneralListingHolder>
+        <PropertyTypeSlider></PropertyTypeSlider>
+        <GeneralListingHolder searchConfig={{place: where ?? undefined, checkIn: checkIn ?? undefined, checkOut: checkOut?? undefined, propertyType: propertyType ?? undefined, guests: guests ?? undefined}}></GeneralListingHolder>
     </div>;
 };
