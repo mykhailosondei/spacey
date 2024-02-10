@@ -39,12 +39,13 @@ public class GetListingsBySearchQueryHandler : BaseHandler, IRequestHandler<GetL
         
         var listings = _mapper.Map<IEnumerable<ListingDTO>>(query).ToList();
         
-        foreach (var listing in listings)
+        foreach (ListingDTO listing in listings)
         {
-            var bookings = new List<BookingDTO>();
+            List<BookingDTO> bookings = new List<BookingDTO>();
             foreach (var bookingId in listing.BookingsIds)
             {
                 var booking = await _bookingQueryRepository.GetBookingById(bookingId);
+                if (booking == null) continue;
                 bookings.Add(_mapper.Map<BookingDTO>(booking));
             }
             listingAndBookings.Add(new ListingAndBookings
