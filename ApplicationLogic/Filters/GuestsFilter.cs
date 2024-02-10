@@ -7,17 +7,27 @@ using MongoDB.Driver;
 
 namespace ApplicationLogic.Filters;
 
-public class GuestsFilter : AbstractFilter
+public sealed class GuestsFilter : AbstractFilter
 {
-    private readonly int _guests;
+    private readonly int? _guests;
 
-    public GuestsFilter(int guests)
+    public GuestsFilter(int? guests)
     {
         _guests = guests;
     }
     
+    protected override bool IsEmpty()
+    {
+        return _guests == null;
+    }
+    
     public override async Task<List<ListingAndBookings>> ApplyFilter(List<ListingAndBookings> listings)
     {
+        if (IsEmpty())
+        {
+            return listings;
+        }
+        
         return listings.Where(listing => listing.Listing.NumberOfGuests >= _guests).ToList();
     }
 }

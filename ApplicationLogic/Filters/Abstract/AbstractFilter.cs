@@ -9,4 +9,6 @@ namespace ApplicationLogic.Filters.Abstract;
 public abstract class AbstractFilter
 {
     public abstract Task<List<ListingAndBookings>> ApplyFilter(List<ListingAndBookings> listings);
+    
+    protected abstract bool IsEmpty();
 }
