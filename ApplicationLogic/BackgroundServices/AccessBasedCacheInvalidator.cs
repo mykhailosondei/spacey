@@ -69,6 +69,7 @@ public class AccessBasedCacheInvalidator : BackgroundService, IDisposable
                 {
                     _logger.LogInformation($"Cache for {redisKey.type} {redisKey.guid} is expired.");
                     await DeleteCache(key);
+                    await DeleteCache(new RedisKey(cacheKeyTimestamp));
                 }
                 else
                 {
