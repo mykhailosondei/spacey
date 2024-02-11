@@ -3,6 +3,9 @@ import NavBar from "../NavBar";
 import {convertDateToUTC} from "./BookingPage";
 import {PropertyTypeSlider} from "../PropertyTypeSlider";
 import GeneralListingHolder from "../GeneralListingHolder";
+import BingMaps from "../../BingMaps/BingMaps";
+import "../../styles/SearchPage.scss";
+import {MapResultsProvider} from "../../Contexts/MapResultsProvider";
 
 
 export const SearchPage = () => {
@@ -50,6 +53,19 @@ export const SearchPage = () => {
     return <div className="search-page">
         <NavBar searchMode={{where:whereText(), dates:datesText(), guests: formatGuests(guests)}}></NavBar>
         <PropertyTypeSlider></PropertyTypeSlider>
-        <GeneralListingHolder searchConfig={{place: where ?? undefined, checkIn: checkIn ?? undefined, checkOut: checkOut?? undefined, propertyType: propertyType ?? undefined, guests: guests ?? undefined}}></GeneralListingHolder>
+
+        <MapResultsProvider>
+            <div className="listings-and-map">
+                <GeneralListingHolder searchConfig={{
+                    place: where ?? undefined,
+                    checkIn: checkIn ?? undefined,
+                    checkOut: checkOut ?? undefined,
+                    propertyType: propertyType ?? undefined,
+                    guests: guests ?? undefined,
+                    boundingBox: {x1: 90, y1: -90, x2: 180, y2: -180}
+                }}/>
+                <BingMaps></BingMaps>
+            </div>
+        </MapResultsProvider>
     </div>;
 };
