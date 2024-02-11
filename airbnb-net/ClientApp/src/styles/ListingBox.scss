@@ -11,6 +11,8 @@ $picture-bottom-margin:12px;
   background: transparent;
   border-radius: 8px;
   width: auto;
+  height: fit-content;
+  position: relative;
 }
 
 .picture-slider {

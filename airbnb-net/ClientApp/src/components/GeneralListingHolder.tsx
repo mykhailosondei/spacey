@@ -7,6 +7,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {HttpResponse} from "../services/HttpCustomClient";
 import {log} from "node:util";
 import {SearchConfig} from "../values/SearchConfig";
+import {useMapResults} from "../Contexts/MapResultsProvider";
 
 interface GeneralListingHolderProps {
     searchConfig?: SearchConfig;
@@ -17,6 +18,8 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
     const [listings, setListings] = useState<ListingDTO[]>([]);
     
     const listingService = useMemo(() => {return  ListingService.getInstance()}, []);
+    
+    const {setPushPins} = useMapResults();
     
     const location = useLocation();
     
@@ -30,11 +33,23 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
         fetchPromise = listingService.getAll();
     }
     
+    const price = (pricePerNight: number) => {
+        return `$${pricePerNight} CAD`;
+    }
     
     React.useEffect(() => {
         fetchPromise.then((listings) => {
             if(listings.status === 200) {
                 setListings(listings.data);
+                setPushPins(listings.data.map(listing => {
+                    return {
+                        location: {
+                            latitude: listing.latitude,
+                            longitude: listing.longitude
+                        },
+                        price: price(listing.pricePerNight)
+                    }
+                }));
             }
         });
     }, [location]);
