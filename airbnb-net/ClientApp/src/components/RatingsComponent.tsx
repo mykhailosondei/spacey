@@ -17,7 +17,7 @@ interface RatingsProps {
 export const RatingsComponent = (props:RatingsProps) => {
     const getOverallRating = (ratings:Ratings) => {
         const sum = ratings.cleanliness + ratings.communication + ratings.location + ratings.checkIn + ratings.value + ratings.accuracy;
-        return sum / 6;
+        return sum / 6 ?? 0;
     }
     
     const getAllOverallRatings = (ratingsArray: Ratings[]) => {
@@ -25,7 +25,7 @@ export const RatingsComponent = (props:RatingsProps) => {
         ratingsArray.forEach(rating => {
             sum += getOverallRating(rating);
         });
-        return sum / props.ratingsArray.length;
+        return sum / props.ratingsArray.length ?? 0;
     }
     
     const getMeanOfRatings = (ratingsArray: Ratings[], qualityName:"Cleanliness"|"Communication"|"Location"|"Check-in"|"Value"|"Accuracy") => {
@@ -62,7 +62,7 @@ export const RatingsComponent = (props:RatingsProps) => {
                 });
                 break;
         }
-        return sum / ratingsArray.length;
+        return sum / ratingsArray.length ?? 0;
     }
     
     const percentageOfOverallRatingThatIsWholeNumber = (desiredOverallRating:number, ratingsArray: Ratings[]) => {
@@ -74,7 +74,7 @@ export const RatingsComponent = (props:RatingsProps) => {
                 overallRatingsCountMatchesWholeNumber++;
             }
         });
-        return overallRatingsCountMatchesWholeNumber / ratingsArray.length;
+        return overallRatingsCountMatchesWholeNumber / ratingsArray.length ?? 0;
     }
     
     return <div className="ratings">
