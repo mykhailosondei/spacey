@@ -7,8 +7,10 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
-using Newtonsoft.Json;
+using MongoDB.Bson.Serialization.Serializers;
+using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace ApplicationLogic.Querying.QueryHandlers.UserHandlers;
 
@@ -27,25 +29,31 @@ public class GetUserByIdQueryHandler : BaseHandler, IRequestHandler<GetUserByIdQ
     {
         var cacheKey = $"user-{request.Id}";
         var cachedUser = await _distributedCache.GetStringAsync(cacheKey);
-        
+
         if (cachedUser != null)
         {
             var cachedUserDTO = BsonSerializer.Deserialize<UserDTO>(cachedUser);
             cachedUserDTO.LastAccess = DateTime.UtcNow;
-            await _distributedCache.SetStringAsync($"user-{request.Id}-timestamp", JsonConvert.SerializeObject(cachedUserDTO.LastAccess));
+            await _distributedCache.SetStringAsync($"user-{request.Id}-timestamp",
+                JsonConvert.SerializeObject(cachedUserDTO.LastAccess));
             return cachedUserDTO;
         }
-        
+
         var result = await _userQueryRepository.GetUserById(request.Id);
-        
+
         if (result == null)
         {
             throw new NotFoundException(nameof(UserDTO));
         }
-        
+
         result.LastAccess = DateTime.UtcNow;
-        
+
         var mappedUser = _mapper.Map<UserDTO>(result);
+
+        Console.WriteLine(mappedUser.ToBsonDocument(configurator: builder =>
+        {
+            
+        }).ToJson());
         
         await _distributedCache.SetStringAsync(cacheKey, mappedUser.ToBsonDocument().ToString());
         await _distributedCache.SetStringAsync($"user-{request.Id}-timestamp", JsonConvert.SerializeObject(mappedUser.LastAccess));

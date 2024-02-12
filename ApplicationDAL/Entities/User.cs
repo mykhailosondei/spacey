@@ -43,7 +43,6 @@ public class User
     [BsonRepresentation(BsonType.String)]
     public List<Guid> ReviewsIds { get; set; }
     
-    [RestrictUpdate]
     [BsonRepresentation(BsonType.String)]
     public List<Guid> LikedListingsIds { get; set; }
     

@@ -43,6 +43,7 @@ public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserC
             throw new UnauthorizedAccessException("You are not authorized to update this user.");
         }
         
+        user.LikedListingsIds = existingUser.LikedListingsIds;
         
         await _userCommandAccess.UpdateUser(request.Id, user);
         

@@ -2,6 +2,7 @@ using ApplicationCommon.DTOs.Host;
 using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.Interfaces;
 using ApplicationCommon.Structs;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApplicationCommon.DTOs.User;
@@ -9,6 +10,7 @@ namespace ApplicationCommon.DTOs.User;
 public class UserDTO : ILastAccessible
 {
     [BsonId]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
     
     public string Name { get; set; }
@@ -31,10 +33,13 @@ public class UserDTO : ILastAccessible
     
     public HostDTO Host { get; set; }
     
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> BookingsIds { get; set; }
     
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> ReviewsIds { get; set; }
     
+    [BsonRepresentation(BsonType.String)]
     public List<Guid> LikedListingsIds { get; set; }
     
     public DateTime LastAccess { get; set; }
