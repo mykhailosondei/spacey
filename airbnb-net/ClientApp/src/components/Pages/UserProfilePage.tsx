@@ -7,9 +7,8 @@ import {useParams} from "react-router-dom";
 import {UserService} from "../../services/UserService";
 import {UserDTO} from "../../DTOs/User/UserDTO";
 import {BookingService} from "../../services/BookingService";
-import {BookingDTO} from "../../DTOs/Booking/BookingDTO";
-import ListingDTO from "../../DTOs/Listing/ListingDTO";
 import {ListingService} from "../../services/ListingService";
+import {UpdatePopup} from "../UpdatePopup";
 
 export const UserProfilePage: React.FC = () => {
     
@@ -17,6 +16,8 @@ export const UserProfilePage: React.FC = () => {
     
     const [user, setUser] = React.useState<UserDTO | null>(null);
     const [yearNames, setYearNames] = React.useState<{year:number, name:string}[]>([]);
+    const [isMe, setIsMe] = React.useState(false);
+    const [updatePopupOpen, setUpdatePopupOpen] = React.useState(false);
     
     const userService : UserService = useMemo(() => {return UserService.getInstance()}, []);
     const bookingService = useMemo(() => {return BookingService.getInstance()}, []);
@@ -25,7 +26,7 @@ export const UserProfilePage: React.FC = () => {
     useEffect(()=> {
         if(!id) return;
         userService.get(id).then((user) => {
-            if(!user) return;
+            if(!user) throw new Error("User not found");
             setUser(user.data);
             bookingService.getMany(user.data.bookingsIds).then((bookings) => {
                 if(!bookings) return;
@@ -40,6 +41,10 @@ export const UserProfilePage: React.FC = () => {
                     });
                 });
             });
+        });
+        userService.getFromToken().then((user) => {
+            if(!user) return;
+            setIsMe(user.data.id === id);
         });
     }, []);
     
@@ -60,8 +65,17 @@ export const UserProfilePage: React.FC = () => {
         if(years.toString().endsWith("1")) return {count: years, unit: "year"};
         return {count: years, unit: "years"};
     }
+
+    function openUpdatePopup() {
+        setUpdatePopupOpen(true);
+    }
     
+    function closeUpdatePopup() {
+        setUpdatePopupOpen(false);
+    }
+
     return user && <div>
+        {updatePopupOpen && <UpdatePopup user={user} onClose={closeUpdatePopup}></UpdatePopup>}
         <div className="up-nav-wrapper page-navbar-wrapper"><NavBar></NavBar></div>
         <div className="user-profile-page">
             <div className="up-profile-card-space">
@@ -88,6 +102,7 @@ export const UserProfilePage: React.FC = () => {
             <div className="up-content">
                 <div className="up-about">
                     <div className="header-large">About {user.name}</div>
+                    {isMe && <button className="create-button custom-width margin-b20" onClick={openUpdatePopup}>Edit profile</button>}
                     <div className="lives-in">
                         <Globe></Globe>
                         Lives in {user.address.city}, {user.address.country}

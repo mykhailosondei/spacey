@@ -56,9 +56,16 @@ const UserProfileDropdown : React.FC = () => {
         return authenticationState != AuthenticationState.Unauthenticated;
     }
 
+
+    function goToProfile() {
+        if (user) {
+            window.location.href = `/user/${user.id}`;
+        }
+    }
+
     function returnDropdown(){
         return <div className="user-dropdown">
-            <div className="user-dropdown-item">Profile</div>
+            <div className="user-dropdown-item" onClick={goToProfile}>Profile</div>
             <div className="user-dropdown-item">Account</div>
             <div className="user-dropdown-divider"></div>
             <div className="user-dropdown-item">Help</div>
