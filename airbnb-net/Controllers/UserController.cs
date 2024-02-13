@@ -53,7 +53,7 @@ namespace airbnb_net.Controllers
         {
             return await _mediator.Send(new GetUserByIdQuery(_userIdGetter.UserId));
         }
-
+        
         // PUT: api/User/5
         [HttpPut("{id:guid}")]
         [Authorize(Roles = "User")]

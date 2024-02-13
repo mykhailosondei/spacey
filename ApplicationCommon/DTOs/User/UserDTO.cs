@@ -23,7 +23,7 @@ public class UserDTO : ILastAccessible
     
     public string PasswordHash { get; set; }
     
-    public Address Address { get; set; }
+    public Address? Address { get; set; }
     
     public DateTime BirthDate { get; set; }
     

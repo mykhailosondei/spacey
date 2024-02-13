@@ -11,11 +11,11 @@ public class UserUpdateDTO
     
     public string PhoneNumber { get; set; }
     
-    public Address Address { get; set; }
+    public string Address { get; set; }
     
-    public DateTime BirthDate { get; set; }
+    public DateTime? BirthDate { get; set; }
     
     public string Description { get; set; }
     
-    public ImageDTO Avatar { get; set; }
+    public ImageDTO? Avatar { get; set; }
 }
