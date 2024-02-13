@@ -5,8 +5,9 @@ import {BookingService} from "../services/BookingService";
 import {ListingService} from "../services/ListingService";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
 import {PropertyType} from "../values/PropertyType";
-import {HostService} from "../services/HostService";
 import {UserService} from "../services/UserService";
+import Trash from "./Icons/Trash";
+import {ReviewActionPopup} from "./ReviewActionPopup";
 
 interface TripProps {
     bookingId: string;
@@ -33,6 +34,11 @@ export const Trip = (props: TripProps) => {
             });
         });
     }, []);
+    
+    const reviewExists = () : boolean => {
+        console.log(!!booking?.review);
+        return !!booking?.review;
+    }
     
     function monthRange() {
         if(booking?.checkIn && booking?.checkOut) {
@@ -88,7 +94,20 @@ export const Trip = (props: TripProps) => {
         }
     }
 
+    function createReview() {
+        
+    }
+
+    function editReview() {
+        
+    }
+
+    function deleteReview() {
+        
+    }
+
     return (listing && booking && userName) ? <div className="trip">
+        <ReviewActionPopup bookingId={booking.id} onClose={() => {}} updateMode={false}></ReviewActionPopup>
         <div className="trip-info">
             <div className="flex-top-part">
                 <div className="header-large">{listing?.address.city}</div>
@@ -115,6 +134,20 @@ export const Trip = (props: TripProps) => {
         <div className="tp-image-section">
             <img src="https://placehold.co/400x400" alt="Joshua Tree"></img>
             <div className="days-left">{timeLeft()}</div>
+        </div>
+        <div className="action-review-container">
+            {!reviewExists() ? <div className="action-review-button" onClick={createReview}>
+                Create Review
+            </div> :
+                <>
+                    <div className="action-review-button" onClick={editReview}>
+                        Edit Review
+                    </div>
+                    <div className="delete-review-button" onClick={deleteReview}>
+                        <Trash/>
+                    </div>
+                </>
+            }
         </div>
     </div> : <></>;
 };
