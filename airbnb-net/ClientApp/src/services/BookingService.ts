@@ -36,8 +36,11 @@ export class BookingService {
     async create(booking:BookingCreateDTO) {
         return await this.http.Post(`${this.baseUrl}`, booking);
     }
-    async update(booking:BookingUpdateDTO) {
-        return await this.http.Put(`${this.baseUrl}`, booking);
+    async update(id: string, booking:BookingUpdateDTO) {
+        return await this.http.Put(`${this.baseUrl}/${id}`, booking);
+    }
+    async cancel(id:string) {
+        return await this.http.Post(`${this.baseUrl}/${id}/cancel`);
     }
     async delete(id:string) {
         return await this.http.Delete(`${this.baseUrl}/${id}`);

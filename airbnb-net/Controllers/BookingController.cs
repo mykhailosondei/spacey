@@ -71,5 +71,13 @@ namespace airbnb_net.Controllers
         {
             await _mediator.Send(new DeleteBookingCommand(id));
         }
+        
+        // GET: api/Booking/5/cancel
+        [HttpPost("{id:guid}/cancel")]
+        [Authorize(Roles = "User")]
+        public async Task Cancel(Guid id)
+        {
+            await _mediator.Send(new CancelBookingCommand(id));
+        }
     }
 }
