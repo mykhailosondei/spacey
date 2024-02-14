@@ -25,5 +25,6 @@ namespace airbnb_net.Controllers
             var result = await _autocompleteService.GetAutocomplete(query, limit);
             return Ok(result);
         }
+        
     }
 }

@@ -68,7 +68,6 @@ public class AuthService
         
         Guid userId = await _userCommandAccess.AddUser(user);
         
-        await _userCommandAccess.UpdateUser(user.Id, user);
         var userWithId = await _userQueryRepository.GetUserById(userId);
         Console.WriteLine(userWithId.ToBsonDocument());
         var userResultDTO = _mapper.Map<UserDTO>(userWithId);

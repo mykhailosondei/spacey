@@ -19,4 +19,8 @@ export class AutocompleteService {
     async getAutocompleteData(query: string, limit: number) {
         return await this.http.Get<string[]>(`${this.baseUrl}/?query=${query}&limit=${limit}`);
     }
+    
+    async getGeocode(query: string) {
+        return await this.http.Get<{Latitude: number, Longitude: number}>(`${this.baseUrl}/geocode/?query=${query}`);
+    }
 }
