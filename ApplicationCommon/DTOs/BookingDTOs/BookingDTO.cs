@@ -1,4 +1,5 @@
 using ApplicationCommon.DTOs.Review;
+using ApplicationCommon.Enums;
 using ApplicationCommon.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -31,7 +32,7 @@ public class BookingDTO : ILastAccessible
     public int TotalPrice { get; set; }
     
     [BsonIgnoreIfNull]
-    public bool IsCancelled { get; set; }
+    public BookingStatus Status { get; set; }
     
     [BsonIgnoreIfNull]
     public DateTime LastAccess { get; set; }

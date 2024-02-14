@@ -21,7 +21,4 @@ public class BookingUpdateDTO
     
     [BsonIgnoreIfNull]
     public int NumberOfGuests { get; set; }
-    
-    [BsonIgnoreIfNull]
-    public bool IsCancelled { get; set; }
 }

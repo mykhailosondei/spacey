@@ -1,3 +1,4 @@
+using ApplicationCommon.Enums;
 using ApplicationDAL.Attributes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -45,9 +46,8 @@ public class Booking
     [BsonSerializer(typeof(Int32Serializer))]
     public int TotalPrice { get; set; }
     
-    [BsonIgnoreIfNull]
-    [BsonSerializer(typeof(BooleanSerializer))]
-    public bool IsCancelled { get; set; }
+    [BsonRepresentation(BsonType.String)]
+    public BookingStatus Status { get; set; }
     
     [BsonIgnoreIfNull]
     [BsonRepresentation(BsonType.DateTime)]

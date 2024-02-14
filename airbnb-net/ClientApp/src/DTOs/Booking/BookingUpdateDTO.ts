@@ -5,5 +5,4 @@ export interface BookingUpdateDTO {
     userId: string;
     listingId: string;
     numberOfGuests?: number;
-    isCancelled?: boolean;
 }

@@ -1,4 +1,5 @@
 import {ReviewDTO} from "../Review/ReviewDTO";
+import {BookingStatus} from "../../values/BookingStatus";
 
 export interface BookingDTO  {
     id: string;
@@ -9,6 +10,6 @@ export interface BookingDTO  {
     review?: ReviewDTO | null;
     numberOfGuests?: number;
     totalPrice?: number;
-    isCancelled?: boolean;
+    status: BookingStatus;
     lastAccess: Date;
 }
