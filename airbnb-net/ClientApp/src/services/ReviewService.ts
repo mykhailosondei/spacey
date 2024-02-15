@@ -33,10 +33,10 @@ export class ReviewService{
         return result;
     }
     async create(review:ReviewCreateDTO) {
-        return await this.http.Post(`${this.baseUrl}`, review);
+        return await this.http.Post<string>(`${this.baseUrl}`, review);
     }
-    async update(review:ReviewUpdateDTO) {
-        return await this.http.Put(`${this.baseUrl}`, review);
+    async update(id: string, review:ReviewUpdateDTO) {
+        return await this.http.Put<void>(`${this.baseUrl}/${id}`, review);
     }
     async delete(id:string) {
         return await this.http.Delete(`${this.baseUrl}/${id}`);

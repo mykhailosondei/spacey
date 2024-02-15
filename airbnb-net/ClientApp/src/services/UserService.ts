@@ -35,8 +35,8 @@ export class UserService {
     async getFromToken() {
         return await this.http.Get<UserDTO>(`${this.baseUrl}/fromToken`);
     }
-    async update(user:UserUpdateDTO) {
-        return await this.http.Put(`${this.baseUrl}`, user);
+    async update(id : string,user:UserUpdateDTO) {
+        return await this.http.Put(`${this.baseUrl}/${id}`, user);
     }
     async delete(id:string) {
         return await this.http.Delete(`${this.baseUrl}/${id}`);
