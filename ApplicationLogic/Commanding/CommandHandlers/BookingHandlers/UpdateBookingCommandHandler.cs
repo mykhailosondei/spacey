@@ -1,4 +1,5 @@
 using ApplicationCommon.DTOs.BookingDTOs;
+using ApplicationCommon.Enums;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
@@ -47,6 +48,11 @@ public class UpdateBookingCommandHandler : BaseHandler, IRequestHandler<UpdateBo
         if(existingBooking.UserId != _userIdGetter.UserId)
         {
             throw new UnauthorizedAccessException("You are not authorized to update this booking.");
+        }
+        
+        if(existingBooking.Status == BookingStatus.Cancelled)
+        {
+            throw new InvalidOperationException("You cannot update a canceled booking.");
         }
 
         if (booking.CheckIn != existingBooking.CheckIn || booking.CheckOut != existingBooking.CheckOut)

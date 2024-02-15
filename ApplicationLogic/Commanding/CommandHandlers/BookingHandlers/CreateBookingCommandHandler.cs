@@ -1,4 +1,5 @@
 using ApplicationCommon.DTOs.BookingDTOs;
+using ApplicationCommon.Enums;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
@@ -11,6 +12,7 @@ using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using MongoDB.Driver.Linq;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.BookingHandlers;
 
@@ -48,7 +50,7 @@ public class CreateBookingCommandHandler : BaseHandler, IRequestHandler<CreateBo
         var bookings = await _bookingQueryRepository.GetBookingsByListingId(booking.ListingId);
 
         (DateTime CheckIn, DateTime CheckOut)[] existingBookings =
-            bookings.Select(b => (b.CheckIn, b.CheckOut)).ToArray();
+            bookings.Where(b => b.Status != BookingStatus.Active).Select(b => (b.CheckIn, b.CheckOut)).ToArray();
         
         if (BookingHelper.DateIntersects(booking.CheckIn, booking.CheckOut, existingBookings))
         {

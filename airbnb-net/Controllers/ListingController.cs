@@ -77,6 +77,7 @@ namespace airbnb_net.Controllers
             foreach (var bookingId in listing.BookingsIds)
             {
                 var booking = await _mediator.Send(new GetBookingByIdQuery(bookingId));
+                if(booking.Status != BookingStatus.Active) continue;
                 for (DateTime i = booking.CheckIn; i <= booking.CheckOut; i = i.AddDays(1))
                 {
                     unavailableDates.Add(i);
