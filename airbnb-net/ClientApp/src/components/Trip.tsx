@@ -8,6 +8,9 @@ import {PropertyType} from "../values/PropertyType";
 import {UserService} from "../services/UserService";
 import Trash from "./Icons/Trash";
 import {ReviewActionPopup} from "./ReviewActionPopup";
+import {ReviewService} from "../services/ReviewService";
+import {BookingStatus} from "../values/BookingStatus";
+import {UpdateBookingPopup} from "./UpdateBookingPopup";
 
 interface TripProps {
     bookingId: string;
@@ -22,7 +25,13 @@ export const Trip = (props: TripProps) => {
     const bookingService = useMemo(() => {return BookingService.getInstance()}, []);
     const listingService = useMemo(() => {return ListingService.getInstance()}, []);
     const userService = useMemo(() => {return UserService.getInstance()}, []);
+    const reviewService = useMemo(() => {return ReviewService.getInstance()}, []);
 
+    const [actionPopupVisible, setActionPopupVisible] = useState<boolean>(false);
+    const [bookingUpdatePopupVisible, setBookingUpdatePopupVisible] = useState<boolean>(false);
+    const [reviewDeletionInProgress, setReviewDeletionInProgress] = useState<boolean>(false);
+    const [bookingCancellationInProgress, setBookingCancellationInProgress] = useState<boolean>(false);
+    
     useEffect(() => {
         bookingService.get(props.bookingId).then((result) => {
             setBooking(result.data);
@@ -33,7 +42,7 @@ export const Trip = (props: TripProps) => {
                 });
             });
         });
-    }, []);
+    }, [actionPopupVisible, reviewDeletionInProgress, bookingCancellationInProgress]);
     
     const reviewExists = () : boolean => {
         console.log(!!booking?.review);
@@ -82,6 +91,7 @@ export const Trip = (props: TripProps) => {
     }
 
     function timeLeft() {
+        if (booking?.status !== BookingStatus.Active) return "Booking cancelled";
         if(booking?.checkOut) {
             const end = new Date(booking.checkOut);
             const now = new Date();
@@ -94,60 +104,99 @@ export const Trip = (props: TripProps) => {
         }
     }
 
-    function createReview() {
-        
+    function openPopup() {
+        setActionPopupVisible(true);   
     }
-
-    function editReview() {
-        
+    
+    function closePopup() {
+        setActionPopupVisible(false);
+        setBookingUpdatePopupVisible(false);
     }
 
     function deleteReview() {
-        
+        setReviewDeletionInProgress(true);
+        if(booking?.review) {
+            reviewService.delete(booking?.review.id).then(() => {
+                setReviewDeletionInProgress(false);
+            });
+        }
+    }
+    
+    function cancelBooking() {
+        setBookingCancellationInProgress(true);
+        if(booking) {
+            bookingService.cancel(booking.id).then(() => {
+                setBookingCancellationInProgress(false);
+            });
+        }
+    }
+    
+    function updateBooking() {
+        setBookingUpdatePopupVisible(true);
     }
 
-    return (listing && booking && userName) ? <div className="trip">
-        <ReviewActionPopup bookingId={booking.id} onClose={() => {}} updateMode={false}></ReviewActionPopup>
-        <div className="trip-info">
-            <div className="flex-top-part">
-                <div className="header-large">{listing?.address.city}</div>
-                <div className={"reg-text-small"}>{PropertyType[listing!.propertyType]} hosted by {userName}</div>
+    function getUpdateMode() {
+        return reviewExists();
+    }
+
+    return (listing && booking && userName) ? <>
+        {bookingUpdatePopupVisible &&
+            <UpdateBookingPopup booking={booking} onClose={closePopup}></UpdateBookingPopup>}
+        {actionPopupVisible &&
+            <ReviewActionPopup bookingId={booking.id} reviewId={booking.review?.id} onClose={closePopup}
+                               updateMode={getUpdateMode()}></ReviewActionPopup>}
+        <div className="trip">
+            <div className="action-review-container left-n15 flex-vertical">
+                {booking.status === BookingStatus.Active &&
+                    <div className="action-review-button" onClick={cancelBooking}>
+                        Cancel Booking
+                    </div>}
+                <button className="action-review-button margin-t10" onClick={updateBooking}
+                        disabled={booking.status !== BookingStatus.Active}>
+                    Edit Booking
+                </button>
             </div>
-            <div className="horizontal-divider"></div>
-            <div className="flex-bottom-part">
-                <div className="flex-left-part">
-                    <div className="tp-dates">
-                        <div className="reg-text-med">{monthRange()}</div>
-                        <div className="reg-text-med">{dateRange()}</div>
-                        <div className="reg-text-small">{yearRange()}</div>
+            <div className="trip-info">
+                <div className="flex-top-part">
+                    <div className="header-large">{listing?.address.city}</div>
+                    <div className={"reg-text-small"}>{PropertyType[listing!.propertyType]} hosted by {userName}</div>
+                </div>
+                <div className="horizontal-divider"></div>
+                <div className="flex-bottom-part">
+                    <div className="flex-left-part">
+                        <div className="tp-dates">
+                            <div className="reg-text-med">{monthRange()}</div>
+                            <div className="reg-text-med">{dateRange()}</div>
+                            <div className="reg-text-small">{yearRange()}</div>
+                        </div>
+                    </div>
+
+                    <div className="vertical-divider"></div>
+                    <div className="flex-right-part">
+                        <div className="reg-text-med">{listing.address.street}</div>
+                        <div className="reg-text-med">{listing.address.city}</div>
+                        <div className="reg-text-small">{listing.address.country}</div>
                     </div>
                 </div>
-                
-                <div className="vertical-divider"></div>
-                <div className="flex-right-part">
-                    <div className="reg-text-med">{listing.address.street}</div>
-                    <div className="reg-text-med">{listing.address.city}</div>
-                    <div className="reg-text-small">{listing.address.country}</div>
-                </div>
+            </div>
+            <div className="tp-image-section">
+                <img src="https://placehold.co/400x400" alt="Joshua Tree"></img>
+                <div className="days-left">{timeLeft()}</div>
+            </div>
+            <div className="action-review-container">
+                {!reviewExists() ? <div className="action-review-button" onClick={openPopup}>
+                        Create Review
+                    </div> :
+                    <>
+                        <div className="action-review-button" onClick={openPopup}>
+                            Edit Review
+                        </div>
+                        <div className="delete-review-button" onClick={deleteReview}>
+                            <Trash/>
+                        </div>
+                    </>
+                }
             </div>
         </div>
-        <div className="tp-image-section">
-            <img src="https://placehold.co/400x400" alt="Joshua Tree"></img>
-            <div className="days-left">{timeLeft()}</div>
-        </div>
-        <div className="action-review-container">
-            {!reviewExists() ? <div className="action-review-button" onClick={createReview}>
-                Create Review
-            </div> :
-                <>
-                    <div className="action-review-button" onClick={editReview}>
-                        Edit Review
-                    </div>
-                    <div className="delete-review-button" onClick={deleteReview}>
-                        <Trash/>
-                    </div>
-                </>
-            }
-        </div>
-    </div> : <></>;
+    </> : <></>;
 };
