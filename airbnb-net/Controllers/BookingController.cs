@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.BookingDTOs;
+using ApplicationCommon.Enums;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
@@ -45,6 +46,13 @@ namespace airbnb_net.Controllers
         public async Task<BookingDTO> Get(Guid id)
         {
             return await _mediator.Send(new GetBookingByIdQuery(id));
+        }
+        
+        [HttpGet("fromTokenByStatus")]
+        [Authorize (Roles = "Host")]
+        public async Task<IEnumerable<BookingDTO>> GetByStatus([FromQuery] BookingStatus status)
+        {
+            return await _mediator.Send(new GetBookingsByStatusQuery(status));
         }
         
         // POST: api/Booking

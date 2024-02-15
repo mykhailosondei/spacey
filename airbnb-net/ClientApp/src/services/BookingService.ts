@@ -2,6 +2,7 @@ import {HttpCustomClient} from "./HttpCustomClient";
 import {BookingDTO} from "../DTOs/Booking/BookingDTO";
 import {BookingCreateDTO} from "../DTOs/Booking/BookingCreateDTO";
 import {BookingUpdateDTO} from "../DTOs/Booking/BookingUpdateDTO";
+import {BookingStatus} from "../values/BookingStatus";
 
 export class BookingService {
     //ts
@@ -33,6 +34,11 @@ export class BookingService {
         }));
         return result;
     }
+    
+    async getFromTokenByStatus(status:BookingStatus) {
+        return await this.http.Get<BookingDTO[]>(`${this.baseUrl}/fromTokenByStatus?status=${status}`);
+    }
+    
     async create(booking:BookingCreateDTO) {
         return await this.http.Post(`${this.baseUrl}`, booking);
     }
