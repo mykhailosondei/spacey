@@ -20,4 +20,5 @@ public interface IListingQueryRepository
     public Task<IEnumerable<Listing>> GetListingsByCountry(Address address);
     public Task<IEnumerable<Listing>> GetListingsByStreet(Address address);
     public Task<IEnumerable<Listing>> GetListingsByPipeline(PipelineDefinition<Listing, Listing> pipeline);
+    public Task<IEnumerable<Listing>> GetListingsByHostFilter(Guid hostId, int? bedrooms, int? beds, int? guests, long? amenities);
 }

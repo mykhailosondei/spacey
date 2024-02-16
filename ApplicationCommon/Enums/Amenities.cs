@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace ApplicationCommon.Enums;
 
 [Flags]
-public enum Amenities
+public enum Amenities : long
 {
     None = 0,
     Wifi = 1 << 0,

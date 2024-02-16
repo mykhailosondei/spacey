@@ -101,4 +101,35 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
     {
         return await _collection.Aggregate(pipeline).ToListAsync();
     }
+
+    public async Task<IEnumerable<Listing>> GetListingsByHostFilter(Guid hostId, int? bedrooms, int? beds, int? guests, long? amenities)
+    {
+        if (zeroOrNull(bedrooms) && zeroOrNull(beds) && zeroOrNull(guests) && amenities == null)
+        {
+            return await GetListingsByHostId(hostId);
+        }
+        var filter = Builders<Listing>.Filter.Eq("Host.Id", hostId);
+        if (!zeroOrNull(bedrooms))
+        {
+            filter &= Builders<Listing>.Filter.Gte("NumberOfRooms", bedrooms);
+        }
+        if (!zeroOrNull(beds))
+        {
+            filter &= Builders<Listing>.Filter.Gte("NumberOfBathrooms", beds);
+        }
+        if (!zeroOrNull(guests))
+        { 
+            filter &= Builders<Listing>.Filter.Gte("NumberOfGuests", guests);
+        }
+        if (amenities != null)
+        {
+            filter &= Builders<Listing>.Filter.BitsAllSet("Amenities", amenities.Value);
+        }
+        return await _collection.Find(filter).ToListAsync();
+    }
+    
+    private bool zeroOrNull(int? value)
+    {
+        return value is 0 or null;
+    }
 }

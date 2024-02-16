@@ -92,6 +92,13 @@ namespace airbnb_net.Controllers
             return await _mediator.Send(new GetListingsByPropertyTypeQuery(propertyType));
         }
         
+        [HttpGet("ofHost/filter")]
+        [Authorize (Roles = "Host")]
+        public async Task<IEnumerable<ListingDTO>> GetByFilter(int? bedrooms, int? beds, int? guests, [FromQuery(Name = "amenities[]")] string[]? amenities)
+        {
+            return await _mediator.Send(new GetListingsByHostFilterQuery(bedrooms, beds, guests, amenities));
+        }
+        
         [HttpGet("boundingBox")]
         public async Task<IEnumerable<ListingDTO>> Get(double x1, double y1, double x2, double y2)
         {
