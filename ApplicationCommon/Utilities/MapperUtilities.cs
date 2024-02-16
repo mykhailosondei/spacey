@@ -6,11 +6,11 @@ public static class MapperUtilities
 {
     public static Amenities ConstructAmenitiesFromStringArray(string[] amenities)
     {
-        return (Amenities)amenities.Aggregate(0, (current, amenity) =>
+        return (Amenities)amenities.Aggregate(0L, (current, amenity) =>
         {
             if (Enum.TryParse(typeof(Amenities), amenity, out object? parsedAmenity))
             {
-                return current | (int)Enum.Parse(typeof(Amenities), amenity);
+                return current | (long)Enum.Parse(typeof(Amenities), amenity);
             }
             throw new ArgumentException($"Amenity {amenity} is not valid.");
         });
