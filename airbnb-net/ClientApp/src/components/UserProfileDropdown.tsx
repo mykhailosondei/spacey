@@ -63,10 +63,15 @@ const UserProfileDropdown : React.FC = () => {
         }
     }
 
+    function goToTrips() {
+        window.location.href = `/trips`;
+    }
+
     function returnDropdown(){
         return <div className="user-dropdown">
             <div className="user-dropdown-item" onClick={goToProfile}>Profile</div>
             <div className="user-dropdown-item">Account</div>
+            {isAuthenticated() && <div className="user-dropdown-item" onClick={goToTrips}>Trips</div>}
             <div className="user-dropdown-divider"></div>
             <div className="user-dropdown-item">Help</div>
             {isAuthenticated() ?

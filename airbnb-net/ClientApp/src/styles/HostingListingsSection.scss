@@ -115,7 +115,7 @@
     user-select: none;
     position: relative;
     &:hover{
-        filter: brightness(0.95);
+        background-color: rgb(245,245,245);
         cursor: pointer;
     }
     &:active{

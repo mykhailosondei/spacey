@@ -2,6 +2,7 @@
 
 import {useEffect, useRef, useState} from "react";
 import {useMapResults} from "../Contexts/MapResultsProvider";
+import {useNavigate} from "react-router-dom";
 
 interface BingMapsProps {
     center?: {latitude: number, longitude: number};
@@ -44,8 +45,9 @@ export default function BingMaps(props: BingMapsProps) {
             center: constructMapOptions().center,
             zoom: constructMapOptions().zoom
         });
-        Maps.Events.addHandler(map, 'viewchangeend', () => {
-            console.log(map.getCenter());
+        
+        Microsoft.Maps.Events.addHandler(map, 'viewchangeend', function () {
+            console.log(map.getBounds());
         });
         
         pushPins.forEach(pin => {
@@ -56,8 +58,12 @@ export default function BingMaps(props: BingMapsProps) {
     const mapsLocationFromLocation = (location: {longitude: number, latitude: number}) => {
         return new _window.Microsoft.Maps.Location(location.latitude, location.longitude);
     }
+    
 
     useEffect(() => {
+        _window.onerror = (e: any) => {
+            alert(e);
+        }
         if(_window.Microsoft) {
             try {
                 loadMap();

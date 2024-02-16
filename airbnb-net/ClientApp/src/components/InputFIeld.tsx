@@ -35,7 +35,7 @@ const InputField: React.FC<InputFieldProps> = (props) => {
 
     return <div className={props.className}>
         <div className={"input-container " + (inputInvalid ? "invalid-container" : "")}>
-            <label className={"input-label " + (inputValue != '' ? "active " : "")}>{props.label}</label>
+            <div className={"input-label " + (inputValue != '' ? "active " : "")}>{props.label}</div>
             <div className="input-field-holder">
                 <input
                     className={"input-field" + (inputInvalid ? " input-invalid" : "")}

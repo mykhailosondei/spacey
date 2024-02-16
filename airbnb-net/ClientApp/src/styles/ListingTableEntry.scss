@@ -13,10 +13,10 @@
 }
 
 .listing-table-entry-image {
-    height: 45px;
-    transform: translateY(-16px);
     line-height: 0;
     vertical-align: middle;
-    display: block;
-    width: 80px;
+    display: inline-block;
+    height: 60px;
+    margin-right: 8px;
+    border-radius: 8px;
 }

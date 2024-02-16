@@ -6,6 +6,13 @@ $picture-bottom-margin:12px;
 }
 
 .listing-box {
+  img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-position: unset;
+    object-fit: cover;
+  }
   display: flex;
   flex-direction: column;
   background: transparent;
@@ -230,13 +237,6 @@ $picture-bottom-margin:12px;
   min-height: 1px;
 }
 
-img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  object-position: unset;
-  object-fit: cover;
-}
 /*.arrow-container {
   display: flex;
   position: absolute;

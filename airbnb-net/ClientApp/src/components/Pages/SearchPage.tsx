@@ -6,7 +6,8 @@ import GeneralListingHolder from "../GeneralListingHolder";
 import BingMaps from "../../BingMaps/BingMaps";
 import "../../styles/SearchPage.scss";
 import {MapResultsProvider} from "../../Contexts/MapResultsProvider";
-
+import React, {useEffect, useMemo} from "react";
+import {AutocompleteService} from "../../services/AutocompleteService";
 
 export const SearchPage = () => {
     
@@ -17,7 +18,6 @@ export const SearchPage = () => {
     const checkOut = query.get("checkOut");
     const guests = query.get("guests");
     const propertyType = query.get("propertyType");
-    
     
     const whereText = ()=> {
         console.log(where);
@@ -50,6 +50,8 @@ export const SearchPage = () => {
         return guestsNumber + " guests";
     }
     
+    const MemoizedBingMaps = React.memo(BingMaps);
+    
     return <div className="search-page">
         <NavBar searchMode={{where:whereText(), dates:datesText(), guests: formatGuests(guests)}}></NavBar>
         <PropertyTypeSlider></PropertyTypeSlider>
@@ -63,8 +65,9 @@ export const SearchPage = () => {
                     propertyType: propertyType ?? undefined,
                     guests: guests ?? undefined,
                     boundingBox: {x1: 90, y1: -90, x2: 180, y2: -180}
-                }}/>
-                <BingMaps></BingMaps>
+                }}
+                />
+                <MemoizedBingMaps></MemoizedBingMaps>
             </div>
         </MapResultsProvider>
     </div>;

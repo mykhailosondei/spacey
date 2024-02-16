@@ -57,7 +57,7 @@ const NavBar: React.FC<NavBarButtonProps> = (props : NavBarButtonProps) => {
     }
     
     const buttonNotNone = () => buttonAtTarget !== NavBarButton.NONE;
-
+    
     function formatGuests(guests: number) {
         if (guests === 0) {
             return "";

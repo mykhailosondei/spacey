@@ -39,13 +39,13 @@ export function AuthStateProvider(props: any) {
     
     useEffect(() => {
         authService.isInRole("Host").then((result) => {
-            if(result) {
+            if(result.data) {
                 console.log("Authenticated host");
                 setState(AuthenticationState.AuthenticatedHost);
             }
             else {
                 authService.isInRole("User").then((result) => {
-                    if(result) {
+                    if(result.data) {
                         console.log("Authenticated user");
                         setState(AuthenticationState.AuthenticatedUser);
                     }else {

@@ -20,7 +20,9 @@ export const ListingTableEntry = (props:ListingTableEntryProps) => {
     
     return <tr className={"listing-row"}>
         <td className="listing-table-entry-data-cell" data-column={"LISTING"}>
-            {columnImage()}
+            <span>
+                {columnImage()}
+            </span>
             <b>{props.listing.title}</b>
         </td>
         <td className="listing-table-entry-data-cell" data-column={"PRICE"}>{PriceFromListing(props.listing)}</td>
