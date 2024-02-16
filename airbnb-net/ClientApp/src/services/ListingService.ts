@@ -4,6 +4,7 @@ import {ListingCreateDTO} from "../DTOs/Listing/ListingCreateDTO";
 import {ListingUpdateDTO} from "../DTOs/Listing/ListingUpdateDTO";
 import {AxiosRequestConfig} from "axios";
 import {SearchConfig} from "../values/SearchConfig";
+import {ListingFilter} from "../components/HostingListingsSection";
 
 export class ListingService {
     http: HttpCustomClient;
@@ -68,5 +69,9 @@ export class ListingService {
     
     async getBySearch(config: SearchConfig) {
        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search`, {params: config});
+    }
+
+    async getListingsByFilterFromToken(filterState: ListingFilter) {
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/ofHost/filter`, {params: filterState});
     }
 }

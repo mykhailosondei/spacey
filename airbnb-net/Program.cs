@@ -42,8 +42,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

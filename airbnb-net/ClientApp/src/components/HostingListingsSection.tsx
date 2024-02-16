@@ -1,19 +1,28 @@
-import React, {useEffect, useMemo} from "react";
+import React, {Component, useEffect, useMemo} from "react";
 import {ListingsTable} from "./ListingsTable";
 import "../styles/HostingListingsSection.scss"
 import {DropdownSVG} from "../DropdownSVG";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
-import {AuthService} from "../services/AuthService";
 import {ListingService} from "../services/ListingService";
 import axios from "axios";
 import {useHost} from "../Contexts/HostContext";
-import {useUser} from "../Contexts/UserContext";
 import {UserService} from "../services/UserService";
+import {RoomsAndBedsDropdown} from "./RoomsAndBedsDropdown";
+import {AmenitiesDropdown} from "./AmenitiesDropdown";
+
+export interface ListingFilter{
+    bedrooms?: number;
+    beds?: number;
+    guests?: number;
+    amenities?: string[];
+}
 
 export const HostingListingsSection = () => {
-    const filterDropdowns = ["Rooms and beds", "Amenities", "Status", "More filters"];
+    const filterDropdowns = ["Rooms and beds", "Amenities"];
     const [currentDropdown, setCurrentDropdown] = React.useState(0);
     const {host} = useHost();
+    
+    const [filterState, setFilterState] = React.useState<ListingFilter>({});
     
     const [listingsState, setListingsState] = React.useState([] as ListingDTO[]);
     const listingService = useMemo(() => {return ListingService.getInstance()}, []);
@@ -26,12 +35,8 @@ export const HostingListingsSection = () => {
         
         try
         {
-            console.log("host: ", host)
-            let getListingsForHostPromise = Promise.all(host!.listingsIds.map((listingId) => {
-                return listingService.get(listingId);
-            }));
-            await getListingsForHostPromise.then((listings) => {
-                setListingsState(listings.map((listing) => {return  listing.data}));
+            await listingService.getListingsByFilterFromToken(filterState).then((listings) => {
+                setListingsState(listings.data);
             });
         }
         catch (e) 
@@ -47,11 +52,11 @@ export const HostingListingsSection = () => {
         return () => {
             source.cancel();
         }
-    }, []);
+    }, [filterState]);
     
     useEffect(() => {
         const handleClick = (e : MouseEvent) => {
-            if(!(e.target as HTMLElement).closest(".filter-dropdown")) {
+            if(!(e.target as HTMLElement).closest("#dropdown")) {
                 setCurrentDropdown(-1);
             }
         };
@@ -62,13 +67,29 @@ export const HostingListingsSection = () => {
         }
     }, []);
     
+    const handleFilterChange = (filter : ListingFilter) => {
+        console.log("HERE", filter, filterState);
+        setFilterState(filter);
+        setCurrentDropdown(-1);
+    }
+    
+    const dropdowns : JSX.Element[] = [<RoomsAndBedsDropdown onApplyClick={handleFilterChange} filter={filterState}/> as JSX.Element, <AmenitiesDropdown onApplyClick={handleFilterChange} filter={filterState}/> as JSX.Element];
+
+    function clearFilter() {
+        setFilterState({});
+    }
+
+    function isFilterEmpty() : boolean {
+        return Object.keys(filterState).length == 0;
+    }
+
     return <>
         <div className="listings-section">
             <div className="filter-actions-container">
                 <div className="amount-and-create-button">
                     <div className="listings-amount">
                         <h1>
-                            {1} listing
+                            {listingsState.length} listing{listingsState.length != 1 ? "s" : ""}
                         </h1> 
                     </div>
                     <button className="create-button">
@@ -103,11 +124,16 @@ export const HostingListingsSection = () => {
                     </div>
                     <div className="filter-dropdowns">
                         {filterDropdowns.map((dropdown, index) => {
-                            return <div className={"filter-dropdown " + (currentDropdown == index ? "filter-dropdown-selected" : "") }
-                                        onClick={() => setCurrentDropdown(index)}>
-                                {dropdown} <DropdownSVG/>
+                            return <div id={"dropdown"} style={{position:"relative"}}>
+                                <div
+                                    className={"filter-dropdown " + (currentDropdown == index ? "filter-dropdown-selected" : "")}
+                                    onClick={() => setCurrentDropdown(index)}>
+                                    {dropdown} <DropdownSVG/>
+                                </div>
+                                {currentDropdown == index ? dropdowns[index] : <></>}
                             </div>
                         })}
+                        <div className={"filter-dropdown clear-filters" + (isFilterEmpty() ? "" : " cf-highlight")} onClick={clearFilter}>Clear filters</div>
                     </div>
                 </div>
             </div>
