@@ -29,7 +29,7 @@ public class GetListingsByHostFilterQueryHandler : BaseHandler, IRequestHandler<
         {
             amenities = (long)MapperUtilities.ConstructAmenitiesFromStringArray(request.Amenities);
         }
-        var listings = await _listingQueryRepository.GetListingsByHostFilter(hostId, request.Bedrooms, request.Beds, request.Guests, amenities);
+        var listings = await _listingQueryRepository.GetListingsByHostFilter(hostId, request.Bedrooms, request.Beds, request.Guests, amenities, request.Search);
         
         return _mapper.Map<IEnumerable<ListingDTO>>(listings);
     }
