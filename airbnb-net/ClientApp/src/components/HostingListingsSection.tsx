@@ -15,6 +15,7 @@ export interface ListingFilter{
     beds?: number;
     guests?: number;
     amenities?: string[];
+    search?: string;
 }
 
 export const HostingListingsSection = () => {
@@ -73,6 +74,15 @@ export const HostingListingsSection = () => {
         setCurrentDropdown(-1);
     }
     
+    const handleSearchChange = (e : React.KeyboardEvent<HTMLInputElement>) => {
+        if(e.key !== 'Enter') return;
+        if(new RegExp("^( )*$").test(e.currentTarget.value)) {
+            setFilterState({...filterState, search: undefined});
+            return;
+        }
+        setFilterState({...filterState, search: e.currentTarget.value});
+    }
+    
     const dropdowns : JSX.Element[] = [<RoomsAndBedsDropdown onApplyClick={handleFilterChange} filter={filterState}/> as JSX.Element, <AmenitiesDropdown onApplyClick={handleFilterChange} filter={filterState}/> as JSX.Element];
 
     function clearFilter() {
@@ -80,7 +90,7 @@ export const HostingListingsSection = () => {
     }
 
     function isFilterEmpty() : boolean {
-        return Object.keys(filterState).length == 0;
+        return Object.keys(filterState).length == 0 || (Object.keys(filterState).length == 1 && (filterState.search === undefined || filterState.search === ""));
     }
 
     return <>
@@ -120,7 +130,7 @@ export const HostingListingsSection = () => {
                              aria-hidden="true" role="presentation" focusable="false">
                             <path fill="none" d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"></path>
                         </svg>
-                        <input type="text" className="listing-filter-input" placeholder={"Search listings"}/>
+                        <input type="text" onKeyDown={handleSearchChange} className="listing-filter-input" placeholder={"Search listings"}/>
                     </div>
                     <div className="filter-dropdowns">
                         {filterDropdowns.map((dropdown, index) => {

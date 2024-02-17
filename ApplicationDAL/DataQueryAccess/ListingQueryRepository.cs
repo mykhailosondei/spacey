@@ -127,7 +127,11 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
         }
         if (search != null)
         {
-            filter &= Builders<Listing>.Filter.Text(search);
+            filter &= Builders<Listing>.Filter.Text(search, new TextSearchOptions()
+            {
+                CaseSensitive = false,
+                DiacriticSensitive = false
+            });
         }
         return await _collection.Find(filter).ToListAsync();
     }
