@@ -1,0 +1,122 @@
+.listing-create-page {
+    width: 100vw;
+    height: 100vh;
+}
+
+.lcp-header {
+    height: 80px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.lcp-body {
+    height: calc(100% - 160px);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.lcp-footer {
+    height: 80px;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+}
+
+.lcpf-progress-bar {
+    height: 6px;
+    width: 100%;
+    background-color: rgb(221, 221, 221);
+}
+
+.lcp-footer-content {
+    height: calc(100% - 6px);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 40px;
+}
+
+.black-underline-hover-btn {
+    color: black;
+    text-decoration: underline;
+    height: 48px;
+    padding: 0 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    align-items: center;
+    &:hover {
+        cursor: pointer;
+        background-color: #eee;
+    }
+}
+
+.lcpf-progress-bar-fill {
+    height: 100%;
+    background-color: rgb(34, 34, 34);
+    transition: 600ms;
+}
+
+.lcp-header-content {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 40px;
+}
+
+.creator-wrapper {
+    max-width: 640px;
+    margin-top: auto;
+    margin-bottom: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.creator-wrapper-title {
+    font-size: 30px;
+    font-weight: 500;
+    color: rgb(34, 34, 34);
+}
+
+.creator-wrapper-subtitle {
+    font-size: 20px;
+    color: rgb(113, 113, 113);
+}
+
+.icon-label-btn {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 88px;
+    box-sizing: border-box;
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid rgb(221, 221, 221);
+    position: relative;
+    &:hover {
+        cursor: pointer;
+    &::after{
+        content: "";
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: -2px;
+        left: -2px;
+        border: 2px solid black;
+        border-radius: inherit;
+    }
+    }
+}
