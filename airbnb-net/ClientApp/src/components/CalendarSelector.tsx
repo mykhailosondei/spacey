@@ -168,7 +168,7 @@ export const CalendarSelector = (props:CalendarSelectorProps) => {
                 </div>
             </div>
         </div>
-        <div className="clear-dates-button" onClick={() => {
+        <div className="white-on-black-btn" onClick={() => {
             setStartDate(null);
             setEndDate(null)
         }}>Clear dates

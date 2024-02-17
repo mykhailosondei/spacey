@@ -134,7 +134,7 @@ export const ReviewActionPopup = (props : ReviewActionPopupProps) => {
                     <div className="up-form-row">
                         <div className={"lower-button-container"}>
                             {error && <div className="error-message">An error occurred</div>}
-                            <button className="clear-dates-button custom-width rap-submit" onClick={onSubmit}>{invalid == true ? "Please fill out all the fields" : "Submit"}</button>
+                            <button className="white-on-black-btn custom-width rap-submit" onClick={onSubmit}>{invalid == true ? "Please fill out all the fields" : "Submit"}</button>
                         </div>
                     </div>
                 </div>

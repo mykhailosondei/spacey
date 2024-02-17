@@ -54,7 +54,7 @@ export const AmenitiesDropdown = (props: AmenitiesDropdownProps) => {
             <div className="dropdown-section">
                 <div className="align-d-buttons">
                     <div className="cancel-button custom-width" onClick={clearAllSelection}>Clear</div>
-                    <div className="clear-dates-button custom-width margin-0" onClick={onApplyClick}>Apply</div>
+                    <div className="white-on-black-btn custom-width margin-0" onClick={onApplyClick}>Apply</div>
                 </div>
             </div>
         </div>

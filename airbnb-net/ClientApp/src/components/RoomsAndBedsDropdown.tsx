@@ -63,7 +63,7 @@ export const RoomsAndBedsDropdown = (props: RoomsAndBedsDropdownProps) => {
                 <div className="dropdown-section">
                     <div className="align-d-buttons">
                         <div className="cancel-button custom-width" onClick={clearAllSelection}>Clear</div>
-                        <div className="clear-dates-button custom-width margin-0" onClick={() => props.onApplyClick({...props.filter, bedrooms: bedrooms, beds: beds, guests: guests})}>Apply</div>
+                        <div className="white-on-black-btn custom-width margin-0" onClick={() => props.onApplyClick({...props.filter, bedrooms: bedrooms, beds: beds, guests: guests})}>Apply</div>
                     </div>
                 </div>
             </div>

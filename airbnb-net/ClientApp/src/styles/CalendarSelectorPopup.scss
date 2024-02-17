@@ -39,14 +39,17 @@
     justify-content: flex-end;
 }
 
-.clear-dates-button, .cancel-button {
+.white-on-black-btn, .cancel-button {
     height: 48px;
     border-radius: 8px;
     padding: 0 12px;
     &:not(.cancel-button) {
         background-color: rgb(71,71,71);
+        &:hover {
+            background-color: rgb(56,56,56);
+        }
         color: white;
-    } 
+    }
     margin-right: 12px;
     border: 1px solid black;
     display: flex;

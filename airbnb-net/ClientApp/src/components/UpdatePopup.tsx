@@ -81,7 +81,7 @@ export const UpdatePopup = (props: UpdatePopupProps) => {
                         <InputField type={"text"} label={"Location"} value={location} onChange={(e)=>{setLocation(e.target.value)}} className={"input-container"} isValid={(s)=>true} onInvalid={(bool)=>{}}></InputField>
                     </div>
                 </div>
-                <div className="clear-dates-button custom-width" onClick={updateTheUser}>Save</div>
+                <div className="white-on-black-btn custom-width" onClick={updateTheUser}>Save</div>
             </div>
         </div>
     </div>;
