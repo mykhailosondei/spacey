@@ -1,0 +1,19 @@
+.text-input-area {
+    width: 90%;
+    display: flex;
+    font-size: 24px;
+    border-radius: 8px;
+    flex-direction: column;
+    max-height: 300px;
+    overflow: hidden;
+    border: 1px solid #d3d3d3;
+    resize: none;
+    outline: none;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    &.invalid {
+        background-color: #fff3f3;
+        border: 1px solid red;
+    }
+}
