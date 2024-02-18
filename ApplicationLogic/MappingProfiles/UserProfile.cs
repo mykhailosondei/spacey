@@ -34,7 +34,7 @@ public class UserProfile : Profile
             (src, dest, member, context) => AddressFromString(src.Address, context.Items["BingMapsKey"].ToString()!).Result));
     }
 
-    private static async Task<Address> AddressFromString(string address, string key)
+    public static async Task<Address> AddressFromString(string address, string key)
     {
         if (string.IsNullOrEmpty(address))
         {
