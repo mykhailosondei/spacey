@@ -1,3 +1,5 @@
+@use "variables";
+
 .listing-create-page {
     width: 100vw;
     height: 100vh;
@@ -45,7 +47,7 @@
 .black-underline-hover-btn {
     color: black;
     text-decoration: underline;
-    height: 48px;
+    height: 42px;
     padding: 0 12px;
     border-radius: 8px;
     display: flex;
@@ -195,7 +197,7 @@
 
 .readonly-creator {
     box-sizing: border-box;
-    padding: 32px 120px;
+    padding: 32px 20%;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -291,4 +293,42 @@
     font-size: 64px;
     font-weight: 600;
     color: rgb(34, 34, 34);
+}
+
+.next-button {
+    &:disabled {
+        background-color: rgb(221, 221, 221);
+        color: white;
+        border: none;
+        &:hover {
+            cursor: not-allowed;
+            background-color: rgb(221, 221, 221);
+        }
+    }
+    &.publish{
+        background-color: variables.$brand-color;
+        &:hover {
+            background-color: variables.$brand-color;
+            filter: brightness(110%);
+        }
+    }
+    &.publishing{
+        background-color: rgb(221, 221, 221);
+        &:hover {
+            background-color: rgb(221, 221, 221);
+            filter: brightness(110%);
+        }
+    }
+}
+
+.string-edit-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.amenities-edit-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

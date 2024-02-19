@@ -40,9 +40,11 @@
 }
 
 .white-on-black-btn, .cancel-button {
-    height: 48px;
+    height: 42px;
     border-radius: 8px;
     padding: 0 12px;
+    font-size: inherit;
+    font-weight: inherit;
     &:not(.cancel-button) {
         background-color: rgb(71,71,71);
         &:hover {

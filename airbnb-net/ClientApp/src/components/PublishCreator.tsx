@@ -2,6 +2,7 @@ import {ListingCreateDTO} from "../DTOs/Listing/ListingCreateDTO";
 import "../styles/PublishCreator.scss";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import StarFilled from "./Icons/StarFilled";
 
 export const PublishCreator = (props: { listing: ListingCreateDTO }) => {
     
@@ -9,14 +10,6 @@ export const PublishCreator = (props: { listing: ListingCreateDTO }) => {
 
     useEffect(() => {
         console.log(props.listing)
-        if(!props.listing.title) {
-            navigate("/create-listing/title");
-            return;
-        }
-        if(!props.listing.description) {
-            navigate("/create-listing/description");
-            return;
-        }
         if(!props.listing.propertyType) {
             navigate("/create-listing/property-type");
             return;
@@ -29,14 +22,22 @@ export const PublishCreator = (props: { listing: ListingCreateDTO }) => {
             navigate("/create-listing/amenities");
             return;
         }
-        if(!props.listing.pricePerNight) {
-            navigate("/create-listing/price");
-            return;
-        }
         /*if(!props.listing.imagesUrls) {
             navigate("/create-listing/photos");
             return;
         }*/
+        if(!props.listing.title) {
+            navigate("/create-listing/title");
+            return;
+        }
+        if(!props.listing.description) {
+            navigate("/create-listing/description");
+            return;
+        }
+        if(!props.listing.pricePerNight) {
+            navigate("/create-listing/price");
+            return;
+        }
     }, []);
     
     return <div className="publish-creator">
@@ -48,8 +49,19 @@ export const PublishCreator = (props: { listing: ListingCreateDTO }) => {
                     <img src={"https://placehold.co/1080"} alt=""/>
                 </div>
                 <div className="lpc-bottom">
-                    <div className="title-and-review"></div>
-                    <div className="lcp-price"></div> 
+                    <div className="title-and-review">
+                        <span>
+                            {props.listing.title}
+                        </span>
+                        <span>New <StarFilled/></span>
+                    </div>
+                    <div className="lcp-price">
+                        <b>
+                            $
+                            {props.listing.pricePerNight}
+                        </b>
+                        &nbsp;night
+                    </div> 
                 </div>
             </div>
         </div>

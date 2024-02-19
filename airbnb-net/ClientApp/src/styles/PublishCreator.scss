@@ -35,3 +35,28 @@
         border-radius: 10px;
     }
 }
+
+.lpc-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+}
+
+.title-and-review {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0.2rem;
+    span{
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        svg {
+            height: 1rem !important;
+            width: 1rem !important;
+        }
+    }
+}
