@@ -7,7 +7,7 @@ export interface ListingUpdateDTO {
     id?: string;
     title: string;
     description: string;
-    address: Address;
+    address: string;
     propertyType: PropertyType;
     pricePerNight: number;
     numberOfRooms: number;

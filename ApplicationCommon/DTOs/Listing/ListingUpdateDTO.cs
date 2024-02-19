@@ -14,7 +14,7 @@ public class ListingUpdateDTO
 
     public string Description { get; set; }
 
-    public Address Address { get; set; }
+    public string Address { get; set; }
 
     [BsonRepresentation(BsonType.String)]
     public PropertyType PropertyType { get; set; }

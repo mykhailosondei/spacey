@@ -16,9 +16,7 @@ public class UpdateListingCommandValidator : AbstractValidator<UpdateListingComm
         RuleFor(r => r.Listing.NumberOfBathrooms).NotEmpty().GreaterThan(0);
         RuleFor(r => r.Listing.NumberOfGuests).NotEmpty().GreaterThan(0);
         RuleFor(r => r.Listing.Address).NotNull();
-        RuleFor(r => r.Listing.Address.Country).NotEmpty().MaximumLength(50);
-        RuleFor(r => r.Listing.Address.City).NotEmpty().MaximumLength(50);
-        RuleFor(r => r.Listing.Address.Street).NotEmpty().MaximumLength(50);
+        RuleFor(r => r.Listing.Address).NotEmpty().MaximumLength(150);
         RuleFor(r => r.Listing.Amenities).NotNull();
     }
 }

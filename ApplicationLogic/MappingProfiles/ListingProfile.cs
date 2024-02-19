@@ -25,7 +25,9 @@ public class ListingProfile : Profile
         CreateMap<ListingUpdateDTO, ListingDTO>()
             #region Mapping
             .ForMember(dest => dest.Host,
-                opt => opt.MapFrom(src => new HostDTO { Id = src.HostId }));
+                opt => opt.MapFrom(src => new HostDTO { Id = src.HostId }))
+            .ForMember(dest => dest.Address, opt => opt.MapFrom(
+                (src, dest, member, context) => UserProfile.AddressFromString(src.Address, context.Items["BingMapsKey"].ToString()!).Result));;;
             #endregion
         CreateMap<ListingDTO, Listing>()
             #region Mapping
