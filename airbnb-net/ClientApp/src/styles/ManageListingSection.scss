@@ -22,19 +22,21 @@
 }
 
 .lush-title {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 600;
     color: rgb(34, 34, 34);
 }
 
 .change-listing {
     font-size: 14px;
+    user-select: none;
     color: rgb(113, 113, 113);
     display: flex;
     align-items: center;
     gap: 4px;
     width: fit-content;
     padding: 4px;
+    position: relative;
     &:hover {
         background-color: #EBEBEB;
     }
@@ -77,6 +79,7 @@
 
 .lus-header {
     margin-top: 32px;
+    position: relative;
 }
 
 .lus-nav-btn {
@@ -145,6 +148,7 @@
 }
 
 .string-edit-mode {
+    position: relative;
     display: flex;
     border: 1px solid rgb(221, 221, 221);
     border-radius: 16px;
@@ -156,4 +160,80 @@
     display: flex;
     justify-content: space-between;
     margin-top: 12px;
+}
+
+.selector {
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #EBEBEB;
+    font-size: 16px;
+    padding: 16px;
+    &:disabled{
+        background-color: #f7f7f7;
+        appearance: none;
+        color: #666666;
+    }
+}
+
+.lus-body {
+    margin-top: 24px;
+}
+
+.change-listing-selector {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    z-index: 1000;
+}
+
+.cls-search {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    outline: none;
+    background-color: white;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    border: 1px solid #EBEBEB;
+    font-size: 16px;
+    svg{
+        color: #666666;
+    }
+}
+
+.cls-search-input {
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 16px;
+}
+
+.cls-results {
+    width: 100%;
+    background-color: white;
+    border: 1px solid #EBEBEB;
+    border-top: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.cls-result{
+    padding: 16px;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:not(:last-child){
+        border-bottom: 1px solid #EBEBEB;
+    }
+    &:hover {
+        background-color: #f7f7f7;
+    }
 }
