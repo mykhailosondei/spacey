@@ -4,15 +4,15 @@ import {HostingNavBar} from "../HostingNavBar";
 import {HostingInboxSection} from "../HostingInboxSection";
 import {HostingListingsSection} from "../HostingListingsSection";
 import {HostingMainSection} from "../HostingMainSection";
-import {HostProvider, useHost} from "../../Contexts/HostContext";
-import {useUser} from "../../Contexts/UserContext";
+import {useHost} from "../../Contexts/HostContext";
 import {AuthService} from "../../services/AuthService";
 import {HostService} from "../../services/HostService";
+import {ManageListingSection} from "../ManageListingSection";
 
 export const HostingPage = () => {
     let location = useLocation();
     let currentDestination = 0;
-    if(location.pathname.includes("listings")) {
+    if(location.pathname.includes("listing")) {
         currentDestination = 1;
     }
     else if(location.pathname.includes("inbox")) {
@@ -39,6 +39,7 @@ export const HostingPage = () => {
             <Routes>
                 <Route path="" element={<HostingMainSection/>}/>
                 <Route path="/listings" element={<HostingListingsSection/>}/>
+                <Route path="/listing/:id" element={<ManageListingSection/>}/>
                 <Route path="/inbox" element={<HostingInboxSection/>}/>
             </Routes>
             <Outlet/>
