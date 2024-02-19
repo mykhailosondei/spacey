@@ -135,6 +135,10 @@
     font-size: 0.8rem;
     margin-top: 5px;
     margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: visibility 0.2s ease-in-out;
 }
 
 .current-rating {

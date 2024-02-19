@@ -121,11 +121,15 @@ export const ListingCreatePage = () => {
         return false;
     }
 
+    function goToHosting() {
+        navigate("/hosting");
+    }
+
     return <div className={"listing-create-page"}>
         <div className="lcp-header">
             <div className="lcp-header-content">
                 <Logo/>
-                <div className="black-underline-hover-btn">Save & exit</div> 
+                <div className="black-underline-hover-btn" onClick={goToHosting}>Exit</div> 
             </div>
         </div>
         <div className="lcp-body">

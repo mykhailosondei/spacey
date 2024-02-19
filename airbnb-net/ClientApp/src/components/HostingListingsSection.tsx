@@ -9,6 +9,7 @@ import {useHost} from "../Contexts/HostContext";
 import {UserService} from "../services/UserService";
 import {RoomsAndBedsDropdown} from "./RoomsAndBedsDropdown";
 import {AmenitiesDropdown} from "./AmenitiesDropdown";
+import {useNavigate} from "react-router-dom";
 
 export interface ListingFilter{
     bedrooms?: number;
@@ -20,7 +21,7 @@ export interface ListingFilter{
 
 export const HostingListingsSection = () => {
     const filterDropdowns = ["Rooms and beds", "Amenities"];
-    const [currentDropdown, setCurrentDropdown] = React.useState(0);
+    const [currentDropdown, setCurrentDropdown] = React.useState(-1);
     const {host} = useHost();
     
     const [filterState, setFilterState] = React.useState<ListingFilter>({});
@@ -92,6 +93,12 @@ export const HostingListingsSection = () => {
     function isFilterEmpty() : boolean {
         return Object.keys(filterState).length == 0 || (Object.keys(filterState).length == 1 && (filterState.search === undefined || filterState.search === ""));
     }
+    
+    const navigate = useNavigate();
+
+    function goToCreateListing() {
+        navigate("/create-listing/start")
+    }
 
     return <>
         <div className="listings-section">
@@ -102,7 +109,7 @@ export const HostingListingsSection = () => {
                             {listingsState.length} listing{listingsState.length != 1 ? "s" : ""}
                         </h1> 
                     </div>
-                    <button className="create-button">
+                    <button className="create-button" onClick={goToCreateListing}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                              style={{
                                  display: 'block',

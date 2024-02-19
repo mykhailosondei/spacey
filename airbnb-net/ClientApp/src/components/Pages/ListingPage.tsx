@@ -22,7 +22,9 @@ import {UserService} from "../../services/UserService";
 
 export const ListingPage = () => {
     
-    const {id} = useParams();
+    const {id, preview} = useParams();
+    
+    const previewMode = preview === "preview";
     
     const [listing, setListing] = React.useState<ListingDTO>({} as ListingDTO);
     const [listingLoaded, setListingLoaded] = React.useState<boolean>(false);
@@ -100,10 +102,11 @@ export const ListingPage = () => {
                     <ListingAmenities amenities={listing.amenities}></ListingAmenities>
                     <CalendarSelector listing={listing}></CalendarSelector>
                 </div>
-                <CalendarSelectorPopupProvider><BookingWindow listing={listing}></BookingWindow></CalendarSelectorPopupProvider>
+                {!previewMode ? <CalendarSelectorPopupProvider><BookingWindow
+                    listing={listing}></BookingWindow></CalendarSelectorPopupProvider>
+                    : <></>}
             </div>
                 {reviewsLoaded && <ReviewsSection reviews={reviews}></ReviewsSection>}
-            {/*<HostInfoSection></HostInfoSection>*/}
         </div>
     </> : <></>;
 }

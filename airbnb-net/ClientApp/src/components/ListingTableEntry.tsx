@@ -2,6 +2,7 @@ import React from 'react';
 import "../styles/ListingTableEntry.scss";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
 import {Address} from "../values/Address";
+import {useNavigate} from "react-router-dom";
 
 interface ListingTableEntryProps {
     listing: ListingDTO;
@@ -18,7 +19,13 @@ export const ListingTableEntry = (props:ListingTableEntryProps) => {
         }
     }
     
-    return <tr className={"listing-row"}>
+    const navigate = useNavigate();
+
+    function goToListingManage() {
+        navigate("/hosting/listing/" + props.listing.id);
+    }
+
+    return <tr className={"listing-row"} onClick={goToListingManage}>
         <td className="listing-table-entry-data-cell" data-column={"LISTING"}>
             <span>
                 {columnImage()}
