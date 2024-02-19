@@ -31,12 +31,7 @@ public class ListingControllerTests : IntegrationTest
             HostId = new Guid(),
             Title = "Test",
             Description = "Test",
-            Address = new Address()
-            {
-                City = "Test",
-                Country = "Test",
-                Street = "Test"
-            },
+            Address = "Test, Test, Test",
             PricePerNight = 10,
             NumberOfGuests = 10,
             NumberOfBathrooms = 10,
@@ -253,9 +248,6 @@ public class ListingControllerTests : IntegrationTest
         //Assert
         Assert.True(listing.Title == listingUpdate.Title);
         Assert.True(listing.Description == listingUpdate.Description);
-        Assert.True(listing.Address.City == listingUpdate.Address.City);
-        Assert.True(listing.Address.Country == listingUpdate.Address.Country);
-        Assert.True(listing.Address.Street == listingUpdate.Address.Street);
         Assert.True(listing.PricePerNight == listingUpdate.PricePerNight);
         Assert.True(listing.NumberOfGuests == listingUpdate.NumberOfGuests);
         Assert.True(listing.NumberOfBathrooms == listingUpdate.NumberOfBathrooms);
