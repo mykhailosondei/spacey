@@ -50,8 +50,8 @@ export class ListingService {
     async create(listing:ListingCreateDTO) {
         return await this.http.Post(`${this.baseUrl}`, listing);
     }
-    async update(listing:ListingUpdateDTO) {
-        return await this.http.Put(`${this.baseUrl}`, listing);
+    async update(id: string, listing:ListingUpdateDTO) {
+        return await this.http.Put(`${this.baseUrl}/${id}`, listing);
     }
     async delete(id:string) {
         return await this.http.Delete(`${this.baseUrl}/${id}`);

@@ -6,8 +6,10 @@ using ApplicationLogic.Abstract;
 using ApplicationLogic.Commanding.Commands.ListingCommands;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.HostIdLogic;
+using ApplicationLogic.Options;
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.ListingHandlers;
 
@@ -17,18 +19,20 @@ public class UpdateListingCommandHandler : BaseHandler, IRequestHandler<UpdateLi
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IHostIdGetter _hostIdGetter;
     private readonly IPublisher _publisher;
+    private readonly BingMapsConnectionOptions _bingMapsConnectionOptions;
     
-    public UpdateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter, IPublisher publisher) : base(mapper)
+    public UpdateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter, IPublisher publisher, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
     {
         _listingCommandAccess = listingCommandAccess;
         _listingQueryRepository = listingQueryRepository;
         _hostIdGetter = hostIdGetter;
         _publisher = publisher;
+        _bingMapsConnectionOptions = bingMapsConnectionOptions.Value;
     }
 
     public async Task Handle(UpdateListingCommand request, CancellationToken cancellationToken)
     {
-        var listingDTO = _mapper.Map<ListingDTO>(request.Listing);
+        var listingDTO = _mapper.Map<ListingDTO>(request.Listing, options => options.Items["BingMapsKey"] = _bingMapsConnectionOptions.BingMapsKey);
         var listing = _mapper.Map<Listing>(listingDTO);
             
         var existingListing = await _listingQueryRepository.GetListingById(request.Id);
