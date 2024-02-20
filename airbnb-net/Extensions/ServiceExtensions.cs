@@ -11,6 +11,7 @@ using ApplicationDAL.Interfaces;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.BackgroundServices;
+using ApplicationLogic.CloudStorage;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Jwt;
 using ApplicationLogic.MappingProfiles;
@@ -52,6 +53,8 @@ public static class ServiceExtensions
         services.AddScoped<IListingDeletor, ListingCommandAccess>();
         services.AddScoped<IBookingDeletor, BookingCommandAccess>();
         services.AddScoped<IReviewDeletor, ReviewCommandAccess>();
+        
+        services.AddScoped<ICloudStorage, AzureCloudStorage>();
         
         services.AddScoped<JwtFactory>();
         services.AddScoped<ITokenGenerator>(s => s.GetService<JwtFactory>()!);
