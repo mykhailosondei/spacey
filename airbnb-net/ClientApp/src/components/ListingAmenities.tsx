@@ -17,6 +17,7 @@ export const ListingAmenities = (props: { amenities: string[] }) => {
         <h3>What this place offers</h3>
         <div className={"amenities"}>
             {props.amenities.map((amenity) => {
+                if(amenity == "TV") amenity = "Tv";
                 const SvgIcon = importSVG(amenity);
                 return <div className={"amenity"}>
                     <Suspense fallback={<></>}><SvgIcon></SvgIcon></Suspense>

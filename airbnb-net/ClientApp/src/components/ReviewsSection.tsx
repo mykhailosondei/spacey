@@ -97,7 +97,11 @@ export const ReviewsSection = (props: ReviewsSectionProps) => {
     let ratingsArray = props.reviews.map((review) => {return review.ratings});
     
     return <div className="reviews-section">
-        <Ratings ratingsArray={ratingsArray}></Ratings>
+        {ratingsArray.length > 0 ? <Ratings ratingsArray={ratingsArray}></Ratings> : <div>
+            <div className="horizontal-divider"></div>
+            <div className="header-medium">No reviews yet</div>
+            <div className="reg-text-med">Be the first to book and review this place!</div>
+        </div>}
         <Reviews reviewsArray={props.reviews}></Reviews>
         <div className="horizontal-divider"></div>
     </div>;

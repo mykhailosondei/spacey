@@ -41,10 +41,13 @@ export const ListingTableEntry = (props:ListingTableEntryProps) => {
 }
 
 const LocationNameFromAddress = (address: Address) => {
-    const cityName = address.city[0].toUpperCase() + address.city.slice(1).toLowerCase();
     const countryName = address.country[0].toUpperCase() + address.country.slice(1).toLowerCase();
+    if(address.city){
+        const cityName = address.city[0].toUpperCase() + address.city.slice(1).toLowerCase();
+        return cityName + ", " + countryName;
+    }
     
-    return cityName + ", " + countryName
+    return countryName
 }
 
 const PriceFromListing = (listing: ListingDTO) => {

@@ -5,6 +5,7 @@ import {HostDTO} from "../DTOs/Host/HostDTO";
 import {BookingService} from "../services/BookingService";
 import {BookingStatus} from "../values/BookingStatus";
 import {BookingCard} from "./BookingCard";
+import NoBookings from "./Icons/NoBookings";
 
 interface ActionButton {
     name: string,
@@ -69,9 +70,10 @@ export const BookingManager : React.FC<BookingManagerProps> = (props : BookingMa
                 })}
             </div>
             <div className="booking-container">
-                {bookings.map((booking) => {
+                {bookings.length > 0 ? bookings.map((booking) => {
                     return <BookingCard booking={booking}/>;
-                })}
+                }) :
+                    <div className="no-bookings"><NoBookings/> You don’t have any guests <br/> checking out today <br/> or tomorrow.</div>}
             </div>
         </div>
     </>

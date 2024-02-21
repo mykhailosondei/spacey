@@ -6,6 +6,7 @@ import {HostDTO} from "../DTOs/Host/HostDTO";
 import {HostService} from "../services/HostService";
 import {UserDTO} from "../DTOs/User/UserDTO";
 import {UserService} from "../services/UserService";
+import {ReactComponent as DefaultAvatar} from "../values/svgs/default-profile.svg";
 
 export const ListingInfo = (props: { listing: ListingDTO }) => {
     
@@ -49,8 +50,8 @@ export const ListingInfo = (props: { listing: ListingDTO }) => {
             <div className="host-info">
                 {isLoaded ?
                     <div>
-                        <img className="host-profile-picture" src={isLoaded ? user.avatar?.url : ""}
-                               alt="avatar"/>
+                        {user.avatar?.url ? <img className="host-profile-picture" src={isLoaded ? user.avatar?.url : ""}
+                                                 alt="avatar"/> : <div className="host-profile-picture"><DefaultAvatar/></div>}
                         <div className="host-info-text">
                             <b className="host-name">
                                 Hosted by {user.name}
@@ -83,5 +84,6 @@ export const ListingInfo = (props: { listing: ListingDTO }) => {
 }
 
 const addressToString = (address: { street: string, city: string, country: string }) => {
+    if (!address.city) return `${address.country}`;
     return `${address.city}, ${address.country}`;
 }
