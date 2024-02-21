@@ -30,6 +30,14 @@ export function UserProvider(props: any) {
         setUser
     }), [user]);
     
+    useEffect(() => {
+        if(authenticationState === AuthenticationState.AuthenticatedUser) {
+            userService.getFromToken().then((user) => {
+                setUser(user.data);
+            });
+        }
+    }, [authenticationState]);
+    
     return (
         <UserContext.Provider value={value}>
             {props.children}

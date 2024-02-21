@@ -10,7 +10,7 @@ export const PublishCreator = (props: { listing: ListingCreateDTO }) => {
 
     useEffect(() => {
         console.log(props.listing)
-        if(!props.listing.propertyType) {
+        if(props.listing.propertyType === undefined || props.listing.propertyType === null) {
             navigate("/create-listing/property-type");
             return;
         }
@@ -22,10 +22,10 @@ export const PublishCreator = (props: { listing: ListingCreateDTO }) => {
             navigate("/create-listing/amenities");
             return;
         }
-        /*if(!props.listing.imagesUrls) {
+        if(!props.listing.imagesUrls || props.listing.imagesUrls.length < 5) {
             navigate("/create-listing/photos");
             return;
-        }*/
+        }
         if(!props.listing.title) {
             navigate("/create-listing/title");
             return;
@@ -46,7 +46,7 @@ export const PublishCreator = (props: { listing: ListingCreateDTO }) => {
         <div className="publish-creator-content">
             <div className="listing-publish-card">
                 <div className="lpc-image">
-                    <img src={"https://placehold.co/1080"} alt=""/>
+                    <img src={props.listing.imagesUrls[0].url} alt=""/>
                 </div>
                 <div className="lpc-bottom">
                     <div className="title-and-review">

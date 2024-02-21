@@ -8,6 +8,7 @@ import React, {useMemo} from "react";
 import {UserService} from "../services/UserService";
 import {UserUpdateDTO} from "../DTOs/User/UserUpdateDTO";
 import {ImageDTO} from "../DTOs/Image/ImageDTO";
+import {ImageUploadService} from "../services/ImageUploadService";
 
 interface UpdatePopupProps {
     onClose: () => void;
@@ -25,6 +26,10 @@ export const UpdatePopup = (props: UpdatePopupProps) => {
     const [about, setAbout] = React.useState<string>(props.user.description ?? "");
     const aboutIsValid = (s:string) => true;
     
+    const [image, setImage] = React.useState<ImageDTO | null>(props.user.avatar);
+    
+    const imageUploadService = useMemo(() => {return ImageUploadService.getInstance()}, []);
+    
     const addressFormatted = () => {
         if(!props.user.address) return "";
         if(!props.user.address.street || !props.user.address.city || !props.user.address.country) return "";
@@ -41,13 +46,39 @@ export const UpdatePopup = (props: UpdatePopupProps) => {
         user.phoneNumber = phone;
         user.description = about;
         user.address = location;
-        user.avatar = props.user.avatar ?? null;
+        user.avatar = image ?? props.user.avatar;
         userService.update(props.user.id, user).then((result) => {
             if(result) {
                 props.onClose();
                 window.location.reload();
             }
         });
+    }
+
+    function onFileSelected(event: React.ChangeEvent<HTMLInputElement>) {
+        if(event.target.files){
+            imageUploadService.uploadImage(event.target.files[0]).then((result) => {
+                if(result.status === 200){
+                    setImage({url: result.data});
+                }
+            });
+        }
+    }
+
+    function selectImage() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.style.display = 'none';
+        input.multiple = false;
+
+        input.addEventListener('change', (event) => {
+            onFileSelected(event as unknown as React.ChangeEvent<HTMLInputElement>);
+        });
+
+        document.body.appendChild(input);
+
+        input.click();
     }
 
     return <div>
@@ -61,8 +92,8 @@ export const UpdatePopup = (props: UpdatePopupProps) => {
             </div>
             <div className="up-body">
                 <div className="upop-avatar">
-                    {props.user.avatar ? <img src={props.user.avatar.url} alt="avatar"/> : <DefaultAvatar></DefaultAvatar>}
-                    <div className="up-avatar-overlay">
+                    {image ? <img src={image.url} alt="avatar"/> : <DefaultAvatar></DefaultAvatar>}
+                    <div className="up-avatar-overlay" onClick={selectImage}>
                         <Photo></Photo>  
                         <input type={"image"} value={""} className="change-avatar"/>
                     </div>
