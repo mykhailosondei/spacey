@@ -248,6 +248,15 @@ export function ManageListingSection() {
         });
     }
 
+    function deleteListing() {
+        if (!host) return;
+        listingService.delete(id!).then((response) => {
+            if(response.status === 200) {
+                window.location.href = "/hosting/listings";
+            }
+        });
+    }
+
     return listing && <div className={"listing-update-section"}>
         <div className="lus-header">
             <div className="lush-top">
@@ -299,7 +308,11 @@ export function ManageListingSection() {
                     <ListingDetail name={"Pricing"}>
                         <PriceEditItem name={"Price per night"} value={listing.pricePerNight} onSubmit={onSubmitPrice}/>
                     </ListingDetail>
+                    <div className="delete-listing">
+                        <button className="delete-button" onClick={deleteListing}>Delete listing</button>
+                    </div>
                 </div>
+                
             </div>
         </div>
     </div>;
