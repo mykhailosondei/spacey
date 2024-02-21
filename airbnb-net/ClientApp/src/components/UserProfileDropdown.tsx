@@ -88,14 +88,12 @@ const UserProfileDropdown : React.FC = () => {
     }
     
     function userAvatar(){
-        if (user){
-            if (user!.avatar){
-                return <img src={user!.avatar.url} alt="user avatar" className="user-avatar-image"/>
-            }else
-            {
-                return <DefaultAvatar/>
-            }
-        }else
+        console.log("USER AVATAR");
+        console.log(user);
+        if(!user) return <DefaultAvatar/>
+        if (user!.avatar){
+            return <img src={user!.avatar.url} alt="user avatar" className="user-avatar-image"/>
+        } else
         {
             return <DefaultAvatar/>
         }

@@ -82,7 +82,7 @@ export const UserProfilePage: React.FC = () => {
                 <div className="up-profile-card">
                     <div className="up-name-and-avatar">
                         <div className="up-avatar">
-                            <DefaultAvatar></DefaultAvatar>
+                            {user.avatar.url ? <img src={user.avatar.url} alt={""}></img> : <DefaultAvatar></DefaultAvatar>}
                         </div>
                         <div className="up-name">
                             <div className="header-medium">{user.name}</div>

@@ -50,7 +50,7 @@ export const BookingCard = (props: BookingCardProps) => {
                     {props.booking.status !== BookingStatus.Cancelled ? <span>{guest.phoneNumber}</span> : <span style={{color:"red"}}>Cancelled</span>}
                 </div>}
                 <div className="bc-avatar">
-                    <DefaultAvatar/>
+                    {guest && guest.avatar ? <img src={guest.avatar.url} alt=""/> : <DefaultAvatar/>}
                 </div>
             </div>
         </div>

@@ -180,7 +180,7 @@ export const Trip = (props: TripProps) => {
                 </div>
             </div>
             <div className="tp-image-section">
-                <img src="https://placehold.co/400x400" alt="Joshua Tree"></img>
+                <img src={listing.imagesUrls[0].url} alt="Joshua Tree"></img>
                 <div className="days-left">{timeLeft()}</div>
             </div>
             <div className="action-review-container">

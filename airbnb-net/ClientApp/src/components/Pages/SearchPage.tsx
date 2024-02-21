@@ -8,6 +8,7 @@ import "../../styles/SearchPage.scss";
 import {MapResultsProvider} from "../../Contexts/MapResultsProvider";
 import React, {useEffect, useMemo} from "react";
 import {AutocompleteService} from "../../services/AutocompleteService";
+import {GoogleMap, useJsApiLoader} from "@react-google-maps/api";
 
 export const SearchPage = () => {
     
@@ -23,6 +24,8 @@ export const SearchPage = () => {
         console.log(where);
         return (where === "" || !where) ? "Anywhere" : where!;
     };
+
+    console.log("RELOADING");
     
     const getMonthName = (date: string)=>{
         return convertDateToUTC(new Date(date)).toLocaleDateString('default', {month: 'short'});
@@ -56,6 +59,8 @@ export const SearchPage = () => {
         <NavBar searchMode={{where:whereText(), dates:datesText(), guests: formatGuests(guests)}}></NavBar>
         <PropertyTypeSlider></PropertyTypeSlider>
 
+        
+        
         <MapResultsProvider>
             <div className="listings-and-map">
                 <GeneralListingHolder searchConfig={{
@@ -67,7 +72,6 @@ export const SearchPage = () => {
                     boundingBox: {x1: 90, y1: -90, x2: 180, y2: -180}
                 }}
                 />
-                <MemoizedBingMaps></MemoizedBingMaps>
             </div>
         </MapResultsProvider>
     </div>;
