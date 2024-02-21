@@ -1,6 +1,7 @@
 using airbnb_net.Extensions;
 using airbnb_net.Middlewares;
 using ApplicationLogic;
+using ApplicationLogic.CloudStorage;
 using ApplicationLogic.Options;
 using ApplicationLogic.PipelineBehaviors;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -22,6 +23,9 @@ builder.Services.RegisterCustomServices();
 
 builder.Services.Configure<BingMapsConnectionOptions>(
     builder.Configuration.GetSection(key: nameof(BingMapsConnectionOptions)));
+
+builder.Services.Configure<AzureCloudStorageOptions>(
+    builder.Configuration.GetSection(key: nameof(AzureCloudStorageOptions)));
 
 builder.Services.ConfigureJwt(config);
 builder.Services.AddMediatR(x =>
