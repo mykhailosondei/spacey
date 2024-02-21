@@ -61,9 +61,8 @@ export default function BingMaps(props: BingMapsProps) {
     
 
     useEffect(() => {
-        _window.onerror = (e: any) => {
-            alert(e);
-        }
+        _window.onerror = (e: any) => {}
+        
         if(_window.Microsoft) {
             try {
                 loadMap();
@@ -72,8 +71,9 @@ export default function BingMaps(props: BingMapsProps) {
                 console.log(e);
             }
         } else {
+            console.log("Loading Bing Maps");
             const script = document.createElement('script');
-            script.src = `https://www.bing.com/api/maps/mapcontrol?callback=loadMap&key=${process.env.REACT_APP_BING_MAPS_KEY}`;
+            script.src = `https://www.bing.com/api/maps/mapcontrol?branch=release&callback=loadMap&key=${process.env.REACT_APP_BING_MAPS_KEY}`;
             script.async = true;
             script.defer = true;
             document.body.appendChild(script);

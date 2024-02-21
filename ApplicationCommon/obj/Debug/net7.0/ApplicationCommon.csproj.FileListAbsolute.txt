@@ -1,0 +1,17 @@
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/ApplicationCommon.deps.json
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/ApplicationCommon.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/ApplicationCommon.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Bson.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Driver.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Bson.xml
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/bin/Debug/net7.0/MongoDB.Driver.xml
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.csproj.AssemblyReference.cache
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.GeneratedMSBuildEditorConfig.editorconfig
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.AssemblyInfoInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.AssemblyInfo.cs
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.csproj.CoreCompileInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.csproj.CopyComplete
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/refint/ApplicationCommon.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ApplicationCommon.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/obj/Debug/net7.0/ref/ApplicationCommon.dll
