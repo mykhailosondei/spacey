@@ -55,12 +55,43 @@ public class UserProfile : Profile
         }
 
         var result = response.ResourceSets[0].Resources[0] as Location;
+        
+        if (result == null)
+        {
+            throw new Exception("Error while geocoding address.");
+        }
+        
+        var locationRequest = new ReverseGeocodeRequest()
+        {
+            Point = result.Point.GetCoordinate(),
+            BingMapsKey = key
+        };
+        
+        var locationResponse = await locationRequest.Execute();
+        
+        if (locationResponse.StatusCode != 200)
+        {
+            throw new Exception("Error while geocoding address.");
+        }
+        
+        var locationResult = locationResponse.ResourceSets[0].Resources[0] as Location;
+
+        if (locationResult == null)
+        {
+            throw new Exception("Error while geocoding address.");
+        }
+        
         var addressStruct = new Address()
         {
-            Street = result.Address.AddressLine,
-            City = result.Address.Locality,
-            Country = result.Address.CountryRegion
+            Street = locationResult.Address.AddressLine,
+            City = locationResult.Address.Locality,
+            Country = locationResult.Address.CountryRegion
         };
+
+        if (addressStruct.Street == null || addressStruct.City == null || addressStruct.Country == null)
+        {
+            throw new Exception("Error while geocoding address.");
+        }
         
         return addressStruct;
     }

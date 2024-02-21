@@ -33,6 +33,7 @@ public class CreateListingCommandHandler : BaseHandler, IRequestHandler<CreateLi
     public async Task<Guid> Handle(CreateListingCommand request, CancellationToken cancellationToken)
     {
         var listingDTO = _mapper.Map<ListingDTO>(request.Listing, options => options.Items["BingMapsKey"] = _bingMapsConnectionOptions.BingMapsKey);
+        
         var listing = _mapper.Map<Listing>(listingDTO);
         
         var host = await _hostQueryRepository.GetHostById(request.Listing.HostId);
