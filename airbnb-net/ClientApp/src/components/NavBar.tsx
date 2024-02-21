@@ -3,7 +3,7 @@ import React from 'react';
 import '../styles/NavBar.scss';
 import UserProfileDropdown from "./UserProfileDropdown";
 import {usePopup} from "../Contexts/PopupContext";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useParams, useSearchParams} from "react-router-dom";
 import Cross from "./Icons/Cross";
 import Lens from "./Icons/Lens";
 import {NavBarDropdownGuests} from "./NavBarDropdownGuests";
@@ -36,6 +36,8 @@ const NavBar: React.FC<NavBarButtonProps> = (props : NavBarButtonProps) => {
     const [buttonAtTarget, setButtonAtTarget] = React.useState<NavBarButton>(NavBarButton.NONE);
     
     const [guests, setGuests] = React.useState<number>(1);
+    
+    const location = useLocation();
     
     const setButtonAt = (button: NavBarButton) => {
         if(!isSearchBarOpen) return;
@@ -82,6 +84,15 @@ const NavBar: React.FC<NavBarButtonProps> = (props : NavBarButtonProps) => {
                 return !searchMode ? "Add guests" : props.searchMode?.guests;
         }
     }
+    
+    const searchQuery = () => {
+        const additional = `?where=${whereQuery}&checkIn=${formatDate(startDate)}&checkOut=${formatDate(endDate)}&guests=${guests}`;
+        const propertyType = new URLSearchParams(location.search).get("propertyType");
+        if (propertyType !== undefined) {
+            return `${additional}&propertyType=${propertyType}`;
+        }
+        return additional;
+    }
 
     return (
         <div className="navbar">
@@ -113,7 +124,7 @@ const NavBar: React.FC<NavBarButtonProps> = (props : NavBarButtonProps) => {
                         <div className={"word w-fit" + (!isSearchBarOpen ? " grayword":"")}>{isSearchBarOpen?"Who":smallButtonTitle(NavBarButton.GUESTS)}</div>
                         {isSearchBarOpen && <input className="search-bar-input" value={formatGuests(guests)} placeholder={"Add guests"}></input>}
                         <div className={"search-icon-btn" + (isSearchBarOpen? " search-icon-bigger" : "") + (buttonNotNone()?" button-selected":"")}>
-                            {searchAvailable() && <Link className={"link"} to={{pathname:"/search", search:`?where=${whereQuery}&checkIn=${startDate?.toLocaleDateString()??""}&checkOut=${endDate?.toLocaleDateString()??""}&guests=${guests}`}}/>}
+                            {searchAvailable() && <Link className={"link"} to={{pathname:"/search", search : searchQuery()}}/>}
                             <Lens className="search-icon"></Lens>
                             {buttonNotNone() && <div className="search-icon-text">Search</div>}
                         </div>

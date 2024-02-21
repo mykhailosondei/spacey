@@ -14,6 +14,8 @@ import {ListingUpdateDTO} from "../DTOs/Listing/ListingUpdateDTO";
 import {useHost} from "../Contexts/HostContext";
 import {PropertyType} from "../values/PropertyType";
 import {ChangeListingSelector} from "./ChangeListingSelector";
+import {PhotosEditItem} from "./PhotosEditItem";
+import {ImageDTO} from "../DTOs/Image/ImageDTO";
 
 export function ManageListingSection() {
     
@@ -26,6 +28,7 @@ export function ManageListingSection() {
     const [changeListingOpen, setChangeListingOpen] = React.useState(false);
     
     const [scrollY, setScrollY] = React.useState(0);
+    
     
     const {host} = useHost();
     
@@ -234,7 +237,17 @@ export function ManageListingSection() {
     const previewListing = () => {
         window.open(`/listing/${id}?preview=true`, `_blank`);
     };
-    
+
+    function onSubmitPhotos(value: ImageDTO[]) {
+        if (!host) return;
+        const newListing: ListingUpdateDTO = {...listing!, hostId: host.id, address: `${listing?.address.street}, ${listing?.address.city}, ${listing?.address.country}`, imagesUrls: value};
+        listingService.update(id!, newListing).then((response) => {
+            if(response.status === 200) {
+                setListing({...listing!, imagesUrls: value});
+            }
+        });
+    }
+
     return listing && <div className={"listing-update-section"}>
         <div className="lus-header">
             <div className="lush-top">
@@ -262,7 +275,9 @@ export function ManageListingSection() {
                     </div>
                 </div>
                 <div className="right-content">
-                    <ListingDetail name={"Photos"}></ListingDetail>
+                    <ListingDetail name={"Photos"}>
+                        <PhotosEditItem value={listing.imagesUrls} onSubmit={onSubmitPhotos}></PhotosEditItem>
+                    </ListingDetail>
                     <ListingDetail name={"Listing basics"}>
                         <StringEditItem name={"Title"} value={listing.title} isValid={(value) => value.length < 32 } onSubmit={onSubmitTitle}></StringEditItem>
                         <StringEditItem name={"Description"} value={listing.description} isValid={(value) => value.length < 500} onSubmit={onSubmitDescription}></StringEditItem>

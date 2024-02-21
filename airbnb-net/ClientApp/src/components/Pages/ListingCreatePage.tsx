@@ -16,19 +16,13 @@ import {FinishSetupReadonlyCreator} from "../FinishSetupReadonlyCreator";
 import {PriceCreator} from "../PriceCreator";
 import {PublishCreator} from "../PublishCreator";
 import {ListingService} from "../../services/ListingService";
+import {PhotosCreator} from "./PhotosCreator";
 
 interface ICreatePage {
     route: string;
     creatorTitles?: { title: string, subtitle: string};
     component: JSX.Element;
     validation?: (listing: ListingCreateDTO) => boolean;
-}
-
-function PhotosCreator(props: {
-    setListing: (value: (((prevState: ListingCreateDTO) => ListingCreateDTO) | ListingCreateDTO)) => void,
-    listing: ListingCreateDTO
-}) {
-    return <div></div>
 }
 
 export const ListingCreatePage = () => {
@@ -60,7 +54,10 @@ export const ListingCreatePage = () => {
             component: <AmenitiesCreator listing={listing} setListing={setListing}/>,
             creatorTitles: {title: "What amenities do you offer?", subtitle: "Select all that apply."},
             validation: (listing) => listing.amenities !== undefined},
-        {route: "photos", component: <PhotosCreator listing={listing} setListing={setListing}/>, creatorTitles: {title: "Photos", subtitle: "Showcase your space. You can always add more later."}},
+        {route: "photos", component: <PhotosCreator listing={listing} setListing={setListing}/>,
+            creatorTitles: {title: "Photos", subtitle: "Showcase your space. You can always add more later."},
+            validation: (listing) => listing.imagesUrls !== undefined && listing.imagesUrls.length >= 5
+        },
         {route: "title", 
             component: <TitleCreator listing={listing} setListing={setListing}/>, 
             creatorTitles: {title: "Now, let's give your place a title", subtitle: "Make sure it's clear and descriptive. You can always change it later."},
