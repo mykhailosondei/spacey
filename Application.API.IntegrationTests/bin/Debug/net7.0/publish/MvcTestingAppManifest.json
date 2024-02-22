@@ -1,0 +1,6 @@
+{
+  "airbnb-net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "~",
+  "ApplicationCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "~",
+  "ApplicationDAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "~",
+  "ApplicationLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "~"
+}

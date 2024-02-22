@@ -1,0 +1,10 @@
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/bin/Release/netstandard2.0/BingMapsRESTToolkit.deps.json
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/bin/Release/netstandard2.0/BingMapsRESTToolkit.dll
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/bin/Release/netstandard2.0/BingMapsRESTToolkit.pdb
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/Release/netstandard2.0/BingMapsRESTToolkit.Standard.csproj.AssemblyReference.cache
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/Release/netstandard2.0/BingMapsRESTToolkit.Standard.GeneratedMSBuildEditorConfig.editorconfig
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/Release/netstandard2.0/BingMapsRESTToolkit.Standard.AssemblyInfoInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/Release/netstandard2.0/BingMapsRESTToolkit.Standard.AssemblyInfo.cs
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/Release/netstandard2.0/BingMapsRESTToolkit.Standard.csproj.CoreCompileInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/Release/netstandard2.0/BingMapsRESTToolkit.dll
+/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/Release/netstandard2.0/BingMapsRESTToolkit.pdb

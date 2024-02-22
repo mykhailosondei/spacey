@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "http://localhost:3000",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "/home/mykhailo/RiderProjects/airbnb-net/airbnb-net/ClientApp/",
+"MaxTimeoutInSeconds": "120"
+}
+}

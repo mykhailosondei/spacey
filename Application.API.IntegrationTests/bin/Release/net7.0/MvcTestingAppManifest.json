@@ -1,0 +1,6 @@
+{
+  "airbnb-net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/mykhailo\/RiderProjects\/airbnb-net\/airbnb-net",
+  "ApplicationCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/mykhailo\/RiderProjects\/airbnb-net\/ApplicationCommon",
+  "ApplicationDAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/mykhailo\/RiderProjects\/airbnb-net\/ApplicationDAL",
+  "ApplicationLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/mykhailo\/RiderProjects\/airbnb-net\/ApplicationLogic"
+}
