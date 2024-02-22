@@ -135,3 +135,13 @@
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Mono.Cecil.Rocks.dll
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Mono.Cecil.dll
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/NetArchTest.Rules.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Azure.Core.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Azure.Storage.Blobs.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Azure.Storage.Common.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/Microsoft.Bcl.AsyncInterfaces.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/System.IO.Hashing.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/System.Memory.Data.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/BingMapsRESTToolkit.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/StackExchange.Redis.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/BingMapsRESTToolkit.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/bin/Debug/net7.0/StackExchange.Redis.xml

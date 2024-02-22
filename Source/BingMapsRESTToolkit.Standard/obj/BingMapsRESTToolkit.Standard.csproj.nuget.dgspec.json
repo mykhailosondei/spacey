@@ -1,0 +1,80 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/BingMapsRESTToolkit.Standard.csproj": {}
+  },
+  "projects": {
+    "/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/BingMapsRESTToolkit.Standard.csproj": {
+      "version": "1.1.5",
+      "restore": {
+        "projectUniqueName": "/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/BingMapsRESTToolkit.Standard.csproj",
+        "projectName": "BingMapsRESTToolkit",
+        "projectPath": "/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/BingMapsRESTToolkit.Standard.csproj",
+        "packagesPath": "/home/mykhailo/.nuget/packages/",
+        "outputPath": "/home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mykhailo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.19.1, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "System.Runtime.Serialization.Json": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Runtime.Serialization.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Threading.Tasks.Parallel": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.116/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

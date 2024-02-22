@@ -77,7 +77,7 @@ const LoginPopup : React.FC = () => {
                         <div className="login-header-text"><span className={"really-bold"}>Log in</span></div>
                     </div>
                     <div className="login-body">
-                        <h3>Welcome to Airbnb</h3>
+                        <h3>Welcome to Spacey</h3>
                             <InputField className={"input-container"} 
                                         value={inputValue} 
                                         label={"Email"} 
