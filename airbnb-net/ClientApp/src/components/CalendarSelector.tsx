@@ -36,7 +36,7 @@ export const CalendarSelector = (props:CalendarSelectorProps) => {
     
     const [currentHoveredDate, setCurrentHoveredDate] = React.useState<Date | null>(null);
     
-    const [currentMonth, setCurrentMonth] = React.useState<Date>(new Date(2024,0,1));
+    const [currentMonth, setCurrentMonth] = React.useState<Date>(new Date());
     
     const previousMonth = (date: Date) => {
         const isJanuary = date.getMonth() === 0;

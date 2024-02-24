@@ -57,6 +57,7 @@ const CalendarMonth = (props:CalendarMonthProps) => {
     }
     
     const isDateUnavailable = (date : Date) : boolean => {
+        if(date.getTime() < new Date().getTime()) return true;
         return props.unavailableDates.some((unavailableDate) => {
             return unavailableDate.toDateString() === date.toDateString();
         });
@@ -100,9 +101,7 @@ const CalendarMonth = (props:CalendarMonthProps) => {
     }
     
     const isDayUnavailable = (day : Day) : " calendar-day-unavailable" | " " => {
-        switch (props.unavailableDates.some((date) => {
-            return date.toDateString() === day.date.toDateString();
-        })){
+        switch (isDateUnavailable(day.date)){
             case true:
                 return " calendar-day-unavailable";
             default:
