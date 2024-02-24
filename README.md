@@ -1,5 +1,5 @@
 
-# [Spacey](https://spacey-net.azurewebsites.net/)
+# ![](/airbnb-net/ClientApp/src/values/svgs/Exclude.svg) [Spacey](https://spacey-net.azurewebsites.net/)
 
 ## About
 
