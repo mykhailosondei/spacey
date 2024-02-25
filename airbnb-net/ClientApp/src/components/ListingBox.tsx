@@ -86,7 +86,7 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
         pictureArray.push(<a className="image-ref">
             <div className="image-holder">
                 <div className="image-container">
-                    <img src={props.listing.imagesUrls[i].url} alt={i.toString()+' picture'}></img>
+                    <img src={props.listing.imagesUrls[i].url} alt={""}></img>
                 </div>
             </div>
         </a>)

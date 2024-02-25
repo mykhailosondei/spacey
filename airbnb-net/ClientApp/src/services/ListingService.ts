@@ -5,6 +5,8 @@ import {ListingUpdateDTO} from "../DTOs/Listing/ListingUpdateDTO";
 import {AxiosRequestConfig} from "axios";
 import {SearchConfig} from "../values/SearchConfig";
 import {ListingFilter} from "../components/HostingListingsSection";
+import {types} from "sass";
+import Number = types.Number;
 
 export class ListingService {
     http: HttpCustomClient;
@@ -23,8 +25,10 @@ export class ListingService {
         return ListingService.instance;
     }
     
-    async getAll(config:AxiosRequestConfig = {}) {
-        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}`, config);
+    async getAll(from?: number, to?:number, config:AxiosRequestConfig = {}) {
+        const fromParam = from !== undefined ? `?from=${from}` : ""
+        const toParam = to !== undefined ? `&to=${to}` : ""
+        return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/${fromParam}${toParam}`, config);
     }
     async get(id:string, config:AxiosRequestConfig = {}) {
         return await this.http.Get<ListingDTO>(`${this.baseUrl}/${id}`, config);

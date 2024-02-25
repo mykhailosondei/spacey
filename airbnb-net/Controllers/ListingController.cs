@@ -50,10 +50,7 @@ namespace airbnb_net.Controllers
         [HttpGet]
         public async Task<IEnumerable<ListingDTO>> Get(uint from = 0, uint to = int.MaxValue)
         {
-            Console.WriteLine(from);
-            Console.WriteLine(to);
             var result = await _mediator.Send(new GetAllListingsQuery(from, to));
-            Console.WriteLine(result.Count());
             return result;
         }
         
