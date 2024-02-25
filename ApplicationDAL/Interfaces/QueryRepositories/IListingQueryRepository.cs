@@ -12,6 +12,7 @@ public interface IListingQueryRepository
     public Task<Listing> GetListingById(Guid id);
 
     public Task<IEnumerable<Listing>> GetAllListings();
+    public Task<IEnumerable<Listing>> GetAllListings(uint from, uint to);
 
     public Task<IEnumerable<Listing>> GetListingsByHostId(Guid hostId);
     public Task<IEnumerable<Listing>> GetListingsByPropertyType(string requestPropertyType);

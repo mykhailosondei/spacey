@@ -19,7 +19,7 @@ public class GetAllListingsQueryHandler : BaseHandler, IRequestHandler<GetAllLis
 
     public async Task<IEnumerable<ListingDTO>> Handle(GetAllListingsQuery request, CancellationToken cancellationToken)
     {
-        var result = await _listingQueryRepository.GetAllListings();
+        var result = await _listingQueryRepository.GetAllListings(request.From, request.To);
 
         if (!result.Any())
         {

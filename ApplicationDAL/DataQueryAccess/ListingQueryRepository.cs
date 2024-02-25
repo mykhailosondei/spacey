@@ -29,6 +29,11 @@ public class ListingQueryRepository : BaseQueryRepository, IListingQueryReposito
         return await _collection.Find(new BsonDocument()).ToListAsync();
     }
     
+    public async Task<IEnumerable<Listing>> GetAllListings(uint from, uint to)
+    {
+        return await _collection.Find(new BsonDocument()).Skip((int)from).Limit((int)(to - from)).ToListAsync();
+    }
+    
     public async Task<IEnumerable<Listing>> GetListingsByHostId(Guid hostId)
     {
         var filter = Builders<Listing>.Filter.Eq("Host.Id", hostId);
