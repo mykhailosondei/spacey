@@ -1,4 +1,5 @@
 using System.Reflection;
+using ApplicationCommon.Enums;
 using ApplicationDAL.Utilities;
 using ApplicationDAL.Attributes;
 using ApplicationDAL.DataCommandAccess.Abstract;
@@ -23,6 +24,7 @@ public class BookingCommandAccess : BaseAccessHandler, IBookingDeletor, IBooking
     public async Task<Guid> AddBooking(Booking booking)
     {
         booking.Id = Guid.NewGuid();
+        booking.Status = BookingStatus.Active;
         await _collection.InsertOneAsync(booking);
         await UpdateListingBookingsIdsOnBookingAdd(booking.ListingId, booking);
         await UpdateUserBookingsIdsOnBookingAdd(booking.UserId, booking);

@@ -66,7 +66,7 @@ public class UpdateBookingCommandHandler : BaseHandler, IRequestHandler<UpdateBo
 
             var bookings = await _bookingQueryRepository.GetBookingsByListingId(booking.ListingId);
             
-            var existingBookings = bookings.Select(b => (b.CheckIn, b.CheckOut)).ToArray();
+            var existingBookings = bookings.Where(b => b.Status == BookingStatus.Active && b.Id != booking.Id).Select(b => (b.CheckIn, b.CheckOut)).ToArray();
             
             if (BookingHelper.DateIntersects(booking.CheckIn, booking.CheckOut, existingBookings))
             {
