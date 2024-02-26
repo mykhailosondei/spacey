@@ -3,6 +3,7 @@ interface PropertyTypeDictionary {
 }
 
 export const propertyTypeDictionary: PropertyTypeDictionary = {
+    All: 'https://a0.muscache.com/pictures/b887040f-0968-4174-9a4f-2d41f8728248.jpg',
     House: 'https://a0.muscache.com/pictures/4d7580e1-4ab2-4d26-a3d6-97f9555ba8f9.jpg',
     Apartment: 'https://a0.muscache.com/pictures/21cfc7c9-5457-494d-9779-7b0c21d81a25.jpg',
     Condo: 'https://a0.muscache.com/pictures/3271df99-f071-4ecf-9128-eb2d2b1f50f0.jpg',

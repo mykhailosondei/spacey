@@ -7,8 +7,9 @@ import {PropertyType} from "../values/PropertyType";
 import {useLocation, useNavigate} from "react-router-dom";
 
 export const PropertyTypeSlider : React.FC = () => {
+    const propertyType = new URLSearchParams(useLocation().search).get("propertyType");
     const propertyTypes = ["House", "Apartment", "Condo", "Townhouse", "Studio", "Mansion", "Cottage", "Castle", "Treehouse", "Boat", "RV", "Tent", "Villa", "Bungalow", "Loft", "Farmhouse", "Chalet", "Cabin", "Other"];
-    const [selectedPropertyTypeIndex, setSelectedPropertyTypeIndex] = useState<number>(0);
+    const [selectedPropertyTypeIndex, setSelectedPropertyTypeIndex] = useState<number>(propertyType ? propertyTypes.indexOf(propertyType) : 0);
     
     const [scrollerWindowWidth, setScrollerWindowWidth] = useState<number>(0);
     const [scrollerItemsWidth, setScrollerItemsWidth] = useState<number>(0);
@@ -77,6 +78,10 @@ export const PropertyTypeSlider : React.FC = () => {
     
     const isRightArrowVisible = () =>{ return scrollerOffset < scrollerItemsWidth - scrollerWindowWidth;}
 
+    const propertyTypeValid = (propertyType : string | null) => {
+        return (propertyType && propertyType !== "null" && propertyTypes.includes(propertyType));
+    }
+    
     return <>
         <div className={'property-type-slider'}>
             <div className={'side-padding'}>

@@ -7,6 +7,7 @@ import {HostService} from "../services/HostService";
 import {UserDTO} from "../DTOs/User/UserDTO";
 import {UserService} from "../services/UserService";
 import {ReactComponent as DefaultAvatar} from "../values/svgs/default-profile.svg";
+import {Link} from "react-router-dom";
 
 export const ListingInfo = (props: { listing: ListingDTO }) => {
     
@@ -50,8 +51,12 @@ export const ListingInfo = (props: { listing: ListingDTO }) => {
             <div className="host-info">
                 {isLoaded ?
                     <div>
-                        {user.avatar?.url ? <img className="host-profile-picture" src={isLoaded ? user.avatar?.url : ""}
-                                                 alt="avatar"/> : <div className="host-profile-picture"><DefaultAvatar/></div>}
+                        <div>
+                            {user.avatar?.url ? <img className="host-profile-picture" src={isLoaded ? user.avatar?.url : ""} 
+                                                     alt="avatar"/> : <div className="host-profile-picture"><DefaultAvatar/></div>}
+                            <Link style={{position:"absolute", width: "100%", height: "100%", inset:0}} to={`/user/${user.id}`}/> 
+                        </div>
+                        
                         <div className="host-info-text">
                             <b className="host-name">
                                 Hosted by {user.name}

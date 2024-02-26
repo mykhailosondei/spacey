@@ -71,8 +71,10 @@ export class ListingService {
         return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search?place=${place}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}&propertyType=${propertyType}`);
     }*/
     
-    async getBySearch(config: SearchConfig) {
-       return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search`, {params: config});
+    async getBySearch(config: SearchConfig, from?: number, to?:number) {
+        const fromParam = from !== undefined ? `?from=${from}` : ""
+        const toParam = to !== undefined ? `&to=${to}` : ""
+       return await this.http.Get<ListingDTO[]>(`${this.baseUrl}/search${fromParam}${toParam}`, {params: config});
     }
 
     async getListingsByFilterFromToken(filterState: ListingFilter) {

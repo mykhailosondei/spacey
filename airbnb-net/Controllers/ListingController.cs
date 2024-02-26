@@ -120,13 +120,15 @@ namespace airbnb_net.Controllers
         }
         
         [HttpGet("search")]
-        public async Task<IEnumerable<ListingDTO>> Get(string? place, DateTime? checkIn, DateTime? checkOut, int? guests, PropertyType? propertyType)
+        public async Task<IEnumerable<ListingDTO>> Get(string? place, DateTime? checkIn, DateTime? checkOut, int? guests, PropertyType? propertyType, uint from, uint to = int.MaxValue)
         {
             _logger.LogInformation("Place: " + place);
             _logger.LogInformation("CheckIn: " + checkIn);
             _logger.LogInformation("CheckOut: " + checkOut);
             _logger.LogInformation("Guests: " + guests);
             _logger.LogInformation("PropertyType: " + propertyType);
+            _logger.LogInformation("From: " + from);
+            _logger.LogInformation("To: " + to);
             
             return await _mediator.Send(new GetListingsBySearchQuery()
             {
@@ -136,7 +138,9 @@ namespace airbnb_net.Controllers
                     new DateFilter(checkIn, checkOut),
                     new GuestsFilter(guests),
                     new PropertyTypeFilter(propertyType)
-                }
+                },
+                From = from,
+                To = to
             });
         }
         

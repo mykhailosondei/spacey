@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useMemo, useState} from 'react';
 import '../styles/ListingHolder.scss';
 import ListingBox from "./ListingBox";
 import {ListingService} from "../services/ListingService";
@@ -13,21 +13,34 @@ interface GeneralListingHolderProps {
     searchConfig?: SearchConfig;
 }
 
-const listingsPerRow : number = 6;
 
 const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:GeneralListingHolderProps) => {
     
     const holder = React.useRef<HTMLDivElement>(null);
+    
+    const [listingsPerRow, setListingsPerRow] = useState<number>(6);
     
     const [listings, setListings] = useState<ListingDTO[]>([]);
     
     const listingService = useMemo(() => {return  ListingService.getInstance()}, []);
     
     const [gettingMoreListings, setGettingMoreListings] = useState<boolean>(false);
+    const windowWidth = window.innerWidth;
     
     const location = useLocation();
     
     let apiURL : string = "";
+
+    useLayoutEffect(() => {
+        const handleResize = () => {
+            setListingsPerRow(Math.ceil(window.innerWidth / 350));
+        }
+        window.addEventListener('resize', handleResize);
+        setListingsPerRow(Math.ceil(window.innerWidth / 350));
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, []);
     
     const price = (pricePerNight: number) => {
         return `$${pricePerNight} CAD`;
@@ -37,7 +50,7 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
         if(!gettingMoreListings){
             setGettingMoreListings(true);
             if(props.searchConfig){
-                listingService.getBySearch(props.searchConfig).then((response) => {
+                listingService.getBySearch(props.searchConfig, listings.length, listings.length + 2 * listingsPerRow).then((response) => {
                     if(response.status === 200) {
                         setListings((listings) => [...listings, ...response.data]);
                         setGettingMoreListings(false);
@@ -45,7 +58,7 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
                 });
             }
             else {
-                listingService.getAll(listings.length, listings.length + listingsPerRow).then((response) => {
+                listingService.getAll(listings.length, listings.length + 2 * listingsPerRow).then((response) => {
                     if (response.status === 200) {
                         setListings((listings) => [...listings, ...response.data]);
                         setGettingMoreListings(false);
@@ -69,20 +82,22 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
                 const viewportHeight = visualViewport?.height || window.innerHeight;
                 
                 const difference = holderBottom - viewportHeight;
-                if(difference < listingBoxHeight / 2){
+                if(difference < 3 * listingBoxHeight / 2){
                     console.log(listings.length);
                     getMoreListings();
                     window.removeEventListener('scroll', handleScroll);
+                    window.removeEventListener('resize', handleScroll);
                 }
             }
         }
         window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleScroll);
     }, [listings.length]);
     
     React.useEffect(() => {
         console.log("new fetching");
         if(props.searchConfig){
-            listingService.getBySearch(props.searchConfig).then((listings) => {
+            listingService.getBySearch(props.searchConfig, 0, listingsPerRow * 3).then((listings) => {
                 if(listings.status === 200) {
                     setListings(listings.data);
                 }

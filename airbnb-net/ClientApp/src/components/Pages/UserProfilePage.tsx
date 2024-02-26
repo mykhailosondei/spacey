@@ -73,6 +73,32 @@ export const UserProfilePage: React.FC = () => {
     function closeUpdatePopup() {
         setUpdatePopupOpen(false);
     }
+    
+    const LivesIn = () => {
+        if (!user || !user.address || !user.address.country) return (<></>);
+        if(!user.address.city){
+            return <div className="lives-in">
+                <Globe></Globe>
+                Lives in {user.address.country}
+            </div>;
+        }
+        return <div className="lives-in">
+            <Globe></Globe>
+            Lives in {user.address.city}, {user.address.country}
+        </div>;
+    }
+    
+    const Description = () => {
+        if(!user || !user.description) 
+            return <>
+                <div className="header-medium">Description</div>
+                <div className="reg-text-med">No description</div>
+            </>;
+        return <div className="up-description">
+            <div className="header-medium">Description</div>
+            {user.description}
+        </div>;
+    }
 
     return user && <div>
         {updatePopupOpen && <UpdatePopup user={user} onClose={closeUpdatePopup}></UpdatePopup>}
@@ -103,24 +129,18 @@ export const UserProfilePage: React.FC = () => {
                 <div className="up-about">
                     <div className="header-large">About {user.name}</div>
                     {isMe && <button className="create-button custom-width margin-b20" onClick={openUpdatePopup}>Edit profile</button>}
-                    <div className="lives-in">
-                        <Globe></Globe>
-                        Lives in {user.address.city}, {user.address.country}
-                    </div>
-                    <div className="up-description">
-                        <div className="header-medium">Description</div>
-                        {user.description}
-                    </div>
+                    <LivesIn/>
+                    <Description/>
                 </div>
                 <div className="horizontal-divider"></div>
                 <div className="header-medium">Previous destinations</div>
                 <div className="up-listings">
-                    {yearNames.map((yearName) => {
+                    {yearNames.length > 0 ? yearNames.map((yearName) => {
                         return <div className="up-listing">
                             <div className="upl-year">{yearName.year}</div>
                             <div className="upl-location">{yearName.name}</div>
                         </div>
-                    })}
+                    }) : <div className="reg-text-med">No previous destinations</div>}
                 </div>
             </div>
         </div>

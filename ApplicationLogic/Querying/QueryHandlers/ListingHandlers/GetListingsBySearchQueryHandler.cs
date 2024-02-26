@@ -60,7 +60,7 @@ public class GetListingsBySearchQueryHandler : BaseHandler, IRequestHandler<GetL
             listingAndBookings = await filter.ApplyFilter(listingAndBookings);
         }
         
-        listings = listingAndBookings.Select(listingAndBookings => listingAndBookings.Listing).ToList();
+        listings = listingAndBookings.Select(listingAndBookings => listingAndBookings.Listing).Skip((int)request.From).Take((int)(request.To - request.From)).ToList();
         
         return listings;
     }
