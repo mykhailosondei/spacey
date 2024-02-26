@@ -68,6 +68,7 @@
     width: 50%;
     position: relative;
     border-top-right-radius: 12px;
+    background-color: #EBEBEB;
     border-bottom-right-radius: 12px;
     overflow: hidden;
     img {
@@ -101,6 +102,9 @@
     background-color: transparent;
     padding: 1rem 1rem;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .action-review-button{
@@ -230,4 +234,12 @@
 
 .margin-t10 {
     margin-top: 10px;
+}
+
+.review-ud-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 1rem;
 }

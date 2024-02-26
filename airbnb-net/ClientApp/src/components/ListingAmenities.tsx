@@ -28,5 +28,6 @@ export const ListingAmenities = (props: { amenities: string[] }) => {
             <div className="create-button custom-width">
                 Show all {props.amenities.length} amenities
             </div>
+        <div className="horizontal-divider"></div>
     </div>;
 }

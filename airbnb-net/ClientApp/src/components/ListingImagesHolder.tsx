@@ -6,22 +6,22 @@ export const ListingImagesHolder = (props: { images: ImageDTO[] }) => {
         <div className="listing-images-holder">
             <div className="padding-hack">
                 <div className="front-image listing-page-image">
-                    <img src={props.images[0].url} alt="front-image"/>
+                    <img src={props.images[0].url} alt=""/>
                 </div>
             <div className="next-two-images">
                 <div className="top-image listing-page-image">
-                    <img src={props.images[1].url} alt="top-image"/>
+                    <img src={props.images[1].url} alt=""/>
                 </div>
                 <div className="bottom-image listing-page-image">
-                    <img src={props.images[2].url} alt="bottom-image"/>
+                    <img src={props.images[2].url} alt=""/>
                 </div>
             </div>
             <div className="next-two-images move-further">
                 <div className="top-image listing-page-image">
-                    <img src={props.images[3].url} alt="top-image"/>
+                    <img src={props.images[3].url} alt=""/>
                 </div>
                 <div className="bottom-image listing-page-image">
-                    <img src={props.images[4].url} alt="bottom-image"/>
+                    <img src={props.images[4].url} alt=""/>
                 </div>
             </div>
             </div>

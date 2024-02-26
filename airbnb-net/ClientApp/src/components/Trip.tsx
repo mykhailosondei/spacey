@@ -11,6 +11,7 @@ import {ReviewActionPopup} from "./ReviewActionPopup";
 import {ReviewService} from "../services/ReviewService";
 import {BookingStatus} from "../values/BookingStatus";
 import {UpdateBookingPopup} from "./UpdateBookingPopup";
+import {useNavigate} from "react-router-dom";
 
 interface TripProps {
     bookingId: string;
@@ -21,6 +22,7 @@ export const Trip = (props: TripProps) => {
     const [booking, setBooking] = useState<BookingDTO | null>(null);
     const [listing, setListing] = useState<ListingDTO | null>(null);
     const [userName, setUserName] = useState<string>("");
+    const [hostId, setHostId] = useState<string>("");
     
     const bookingService = useMemo(() => {return BookingService.getInstance()}, []);
     const listingService = useMemo(() => {return ListingService.getInstance()}, []);
@@ -32,13 +34,16 @@ export const Trip = (props: TripProps) => {
     const [reviewDeletionInProgress, setReviewDeletionInProgress] = useState<boolean>(false);
     const [bookingCancellationInProgress, setBookingCancellationInProgress] = useState<boolean>(false);
     
+    const navigate = useNavigate();
+    
     useEffect(() => {
         bookingService.get(props.bookingId).then((result) => {
             setBooking(result.data);
             listingService.get(result.data.listingId).then((listingResult) => {
                 setListing(listingResult.data);
-                userService.get(listingResult.data.host.userId).then((host) => {
-                    setUserName(host.data.name);
+                setHostId(listingResult.data.host.id);
+                userService.get(listingResult.data.host.userId).then((userResponse) => {
+                    setUserName(userResponse.data.name);
                 });
             });
         });
@@ -139,6 +144,10 @@ export const Trip = (props: TripProps) => {
         return reviewExists();
     }
 
+    function handleMessageRedirect() {
+        navigate(`/messages/${hostId}`);
+    }
+
     return (listing && booking && userName) ? <>
         {bookingUpdatePopupVisible &&
             <UpdateBookingPopup booking={booking} onClose={closePopup}></UpdateBookingPopup>}
@@ -180,22 +189,23 @@ export const Trip = (props: TripProps) => {
                 </div>
             </div>
             <div className="tp-image-section">
-                <img src={listing.imagesUrls[0].url} alt="Joshua Tree"></img>
+                <img src={listing.imagesUrls[0].url} alt=""></img>
                 <div className="days-left">{timeLeft()}</div>
             </div>
             <div className="action-review-container">
                 {!reviewExists() ? <div className="action-review-button" onClick={openPopup}>
                         Create Review
                     </div> :
-                    <>
+                    <div className={"review-ud-actions"}>
                         <div className="action-review-button" onClick={openPopup}>
                             Edit Review
                         </div>
                         <div className="delete-review-button" onClick={deleteReview}>
                             <Trash/>
                         </div>
-                    </>
+                    </div>
                 }
+                <div className="action-review-button margin-t10" onClick={handleMessageRedirect}>Message Host</div>
             </div>
         </div>
     </> : <></>;

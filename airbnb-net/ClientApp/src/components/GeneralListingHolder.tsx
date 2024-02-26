@@ -25,11 +25,10 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
     const listingService = useMemo(() => {return  ListingService.getInstance()}, []);
     
     const [gettingMoreListings, setGettingMoreListings] = useState<boolean>(false);
-    const windowWidth = window.innerWidth;
+    
+    const [listingsLoading, setListingsLoading] = useState<boolean>(false);
     
     const location = useLocation();
-    
-    let apiURL : string = "";
 
     useLayoutEffect(() => {
         const handleResize = () => {
@@ -52,7 +51,8 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
             if(props.searchConfig){
                 listingService.getBySearch(props.searchConfig, listings.length, listings.length + 2 * listingsPerRow).then((response) => {
                     if(response.status === 200) {
-                        setListings((listings) => [...listings, ...response.data]);
+                        const listingsToAdd = response.data.filter((listing) => {return !listings.some((existingListing) => existingListing.id === listing.id)});
+                        setListings((listings) => [...listings, ...listingsToAdd]);
                         setGettingMoreListings(false);
                     }
                 });
@@ -60,13 +60,18 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
             else {
                 listingService.getAll(listings.length, listings.length + 2 * listingsPerRow).then((response) => {
                     if (response.status === 200) {
-                        setListings((listings) => [...listings, ...response.data]);
+                        const listingsToAdd = response.data.filter((listing) => {return !listings.some((existingListing) => existingListing.id === listing.id)});
+                        setListings((listings) => [...listings, ...listingsToAdd]);
                         setGettingMoreListings(false);
                     }
                 });
             }
         }
     }
+
+    useEffect(() => {
+        setListings([]);
+    }, [props.searchConfig]);
     
     const firstRender = React.useRef(true);
 
@@ -92,14 +97,16 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
         }
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleScroll);
-    }, [listings.length]);
+    }, [listings.length, location]);
     
     React.useEffect(() => {
         console.log("new fetching");
+        setListingsLoading(true);
         if(props.searchConfig){
             listingService.getBySearch(props.searchConfig, 0, listingsPerRow * 3).then((listings) => {
                 if(listings.status === 200) {
                     setListings(listings.data);
+                    setListingsLoading(false);
                 }
             });
         }
@@ -107,6 +114,7 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
             listingService.getAll(0, listingsPerRow * 3).then((listings) => {
                 if(listings.status === 200) {
                     setListings(listings.data);
+                    setListingsLoading(false);
                 }
             });
         }
@@ -116,9 +124,11 @@ const GeneralListingHolder : React.FC<GeneralListingHolderProps> = (props:Genera
     return (
         <>
             <div ref={holder} className={'listing-holder'} style={{gridTemplateColumns: `repeat(${listingsPerRow}, minmax(0, 1fr))`}}>
-                {listings.map((listing, index) => {
+                { listings.map((listing, index) => {
                     return <ListingBox key={index} listing={listing}/>
                 })}
+                {(listings.length == 0 && !listingsLoading) && <div className={"reg-text-med"}>No listings for this specific search.</div>}
+                {listingsLoading && <div className={"reg-text-med"}>Loading...</div>}
             </div>
         </>
     )

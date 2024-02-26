@@ -1,11 +1,13 @@
 import "../styles/BookingWindow.scss";
 import React from "react";
-import LeftArrow from "./Icons/LeftArrow";
 import {useSelectedDates} from "../Contexts/SelectedDatesProvider";
 import {CalendarSelectorPopup} from "./CalendarSelectorPopup";
 import {useCalendarSelectorPopup} from "../Contexts/CalendarSelectorPopupProvider";
 import ListingDTO from "../DTOs/Listing/ListingDTO";
-import {Link} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
+import {AuthenticationState, useAuthState} from "../Contexts/AuthStateProvider";
+import loginPopup from "./LoginPopup";
+import {PopupType, usePopup} from "../Contexts/PopupContext";
 
 interface BookingWindowProps {
     listing: ListingDTO;
@@ -16,6 +18,12 @@ export const BookingWindow = (props:BookingWindowProps) => {
     const {isOpen, setIsOpen} = useCalendarSelectorPopup();
     
     const {startDate, endDate} = useSelectedDates();
+    
+    const {setPopupType} = usePopup();
+    
+    const navigate = useNavigate();
+    
+    const {authenticationState} = useAuthState();
     
     const [numberOfGuests, setNumberOfGuests] = React.useState<number>(1);
     
@@ -31,17 +39,29 @@ export const BookingWindow = (props:BookingWindowProps) => {
         return 0;
     }
     
-    function netTotal() {
+    function netTotal(multiplier: number = 1) {
         if(startDate && endDate) {
-            return props.listing.pricePerNight * amountOfNights();
+            const string = (props.listing.pricePerNight * amountOfNights() * multiplier).toString();
+            return string.substring(0, string.indexOf('.') === -1 ? 8 : string.indexOf('.') + 3);
         }
-        return 0;
+        return "0";
     }
     
     function Total() {
-        return Math.floor(netTotal()) + Math.floor(netTotal() * 0.1) + Math.floor(netTotal() * 0.05);
+        return netTotal(1.15);
     }
     
+    
+    const isUserLoggedIn = ()=> authenticationState === AuthenticationState.AuthenticatedUser;
+
+    function handleReserve() {
+        if(isUserLoggedIn()) {
+            navigate(`/booking?checkIn=${startDate!.toLocaleDateString()}&checkOut=${endDate!.toLocaleDateString()}&guests=${numberOfGuests}&listingId=${props.listing.id}`);
+        }else {
+            setPopupType(PopupType.LOGIN);
+        }
+    }
+
     return <>
         <div className="booking-window-space">
             <div className="booking-window">
@@ -74,9 +94,7 @@ export const BookingWindow = (props:BookingWindowProps) => {
                         
                     </div>
                 </div>
-                {endDate && startDate ? <Link to={{ pathname:"/booking",
-                    search:`?checkIn=${startDate.toLocaleDateString()}&checkOut=${endDate.toLocaleDateString()}&guests=${numberOfGuests}&listingId=${props.listing.id}`
-                }} className="bw-button">Reserve</Link> : <div className="bw-button" onClick={openDateSelector}>Select dates</div>}
+                {endDate && startDate ? <div onClick={handleReserve} className="bw-button">Reserve</div> : <div className="bw-button" onClick={openDateSelector}>Select dates</div>}
                 <div className="bw-remark">You won't be charged yet.</div>
                 {endDate && startDate ? <div>
                     <div className="bw-calculations">
@@ -88,11 +106,11 @@ export const BookingWindow = (props:BookingWindowProps) => {
                         </div>
                         <div className="bw-calculation">
                             <div className="calculation-value">Cleaning fee</div>
-                            <div className="calculation-total">${netTotal() * 0.1}</div>
+                            <div className="calculation-total">${netTotal(0.1)}</div>
                         </div>
                         <div className="bw-calculation">
                             <div className="calculation-value">Service fee</div>
-                            <div className="calculation-total">${netTotal() * 0.05}</div>
+                            <div className="calculation-total">${netTotal(0.15)}</div>
                         </div>
                     </div>
                     <div className="horizontal-divider"></div>

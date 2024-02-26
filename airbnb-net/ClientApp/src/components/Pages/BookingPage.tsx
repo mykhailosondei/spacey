@@ -80,20 +80,13 @@ export const BookingPage = () => {
         if(listingId && startDate && endDate && numberOfGuests) {
             setBookingButtonState("in-process");
             bookingService.create({checkIn:startDate, checkOut:endDate, listingId:listingId,numberOfGuests:parseInt(numberOfGuests)}).then((response) => {
-                if(response) {
+                if(response.status === 200) {
                     setBookingButtonState("successful");
                 }else{
                     setBookingButtonState("unsuccessful");
                 }
             });
         }
-    }
-    
-    function handleConfirmClickMock() {
-        setBookingButtonState("in-process");
-        setTimeout(() => {
-            setBookingButtonState("successful");
-        }, 2000);
     }
 
     return <div>
