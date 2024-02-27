@@ -18,6 +18,7 @@ import {RequireLogin} from "./components/RequireLogin";
 import {UserProfilePage} from "./components/Pages/UserProfilePage";
 import {SearchPage} from "./components/Pages/SearchPage";
 import {ListingCreatePage} from "./components/Pages/ListingCreatePage";
+import {MessagesPage} from "./components/Pages/MessagesPage";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/trips/*" element={<RequireLogin><TripsPage/></RequireLogin>}></Route>
                     <Route path="/user/:id" element={<RequireLogin><UserProfilePage/></RequireLogin>}></Route>
                     <Route path={"/create-listing/*"} element={<RequireLogin><RequireSwitchToHost><ListingCreatePage/></RequireSwitchToHost></RequireLogin>}/>
+                    <Route path={"/messages"} element={<MessagesPage/>}/>
                 </Routes>
             </PopupProvider>
             </UserProvider>
