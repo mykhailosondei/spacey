@@ -10,7 +10,7 @@ public class Conversation
     public Guid Id { get; set; }
     
     [BsonRepresentation(BsonType.String)]
-    public Guid User1Id { get; set; }
+    public Guid UserId { get; set; }
     
     [BsonRepresentation(BsonType.String)]
     public Guid HostId { get; set; }
@@ -28,13 +28,17 @@ public class Conversation
 public class Message
 {
     [BsonId]
+    [BsonRepresentation(BsonType.String)]
     public Guid Id { get; set; }
     
     [BsonRepresentation(BsonType.String)]
     public Guid? UserId { get; set; }
     
+    [BsonRepresentation(BsonType.String)]
     public Guid? HostId { get; set; }
     
-    public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
+    
+    [BsonRepresentation(BsonType.DateTime)]
     public DateTime CreatedAt { get; set; }
 }
