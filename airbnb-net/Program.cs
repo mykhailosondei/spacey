@@ -2,6 +2,7 @@ using airbnb_net.Extensions;
 using airbnb_net.Middlewares;
 using ApplicationLogic;
 using ApplicationLogic.CloudStorage;
+using ApplicationLogic.Notifications;
 using ApplicationLogic.Options;
 using ApplicationLogic.PipelineBehaviors;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -28,6 +29,7 @@ builder.Services.Configure<AzureCloudStorageOptions>(
     builder.Configuration.GetSection(key: nameof(AzureCloudStorageOptions)));
 
 builder.Services.ConfigureJwt(config);
+builder.Services.AddSignalR();
 builder.Services.AddMediatR(x =>
 {
     x.Lifetime = ServiceLifetime.Scoped;
@@ -45,6 +47,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
+
 
 var app = builder.Build();
 
@@ -66,6 +69,7 @@ app.UseMiddleware<RoleMiddleware>();
 app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
+app.MapHub<NotificationHub>("/message");
 
 app.MapControllerRoute(
     name: "default",
