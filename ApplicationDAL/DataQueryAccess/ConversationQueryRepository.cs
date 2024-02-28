@@ -28,42 +28,9 @@ public class ConversationQueryRepository : BaseQueryRepository, IConversationQue
         return await _collection.Find(filter).ToListAsync();
     }
 
-    public async Task<List<Conversation>> GetConversationsByBookingId(Guid bookingId)
+    public async Task<Conversation> GetConversationByBookingId(Guid bookingId)
     {
         var filter = Builders<Conversation>.Filter.Eq("BookingId", bookingId);
-        return await _collection.Find(filter).ToListAsync();
-    }
-
-    public async Task<List<Message>> GetMessagesByConversationId(Guid conversationId)
-    { 
-        var filter = Builders<Conversation>.Filter.Eq("Id", conversationId);
-        var result = await _collection.Find(filter).SingleOrDefaultAsync();
-        return result.Messages;
-    }
-
-    public async Task<Message> GetMessageById(Guid messageId)
-    {
-        var filter = Builders<Conversation>.Filter.ElemMatch("Messages", Builders<Message>.Filter.Eq("Id", messageId));
-        var result = await _collection.Find(filter).SingleOrDefaultAsync();
-        return result.Messages.Find(x => x.Id == messageId)!;
-    }
-
-    public async Task<Conversation> GetConversationByUserIdAndBookingId(Guid userId, Guid bookingId)
-    {
-        var filter = Builders<Conversation>.Filter.And(
-            Builders<Conversation>.Filter.Eq("UserId", userId),
-            Builders<Conversation>.Filter.Eq("BookingId", bookingId)
-        );
-        return await _collection.Find(filter).SingleOrDefaultAsync();
-    }
-
-    public async Task<Conversation> GetConversationByUserIdAndHostIdAndBookingId(Guid userId, Guid hostId, Guid bookingId)
-    {
-        var filter = Builders<Conversation>.Filter.And(
-            Builders<Conversation>.Filter.Eq("UserId", userId),
-            Builders<Conversation>.Filter.Eq("HostId", hostId),
-            Builders<Conversation>.Filter.Eq("BookingId", bookingId)
-        );
         return await _collection.Find(filter).SingleOrDefaultAsync();
     }
 
@@ -72,15 +39,6 @@ public class ConversationQueryRepository : BaseQueryRepository, IConversationQue
         var filter = Builders<Conversation>.Filter.And(
             Builders<Conversation>.Filter.Eq("UserId", userId),
             Builders<Conversation>.Filter.Eq("HostId", hostId)
-        );
-        return await _collection.Find(filter).ToListAsync();
-    }
-
-    public async Task<List<Conversation>> GetConversationsByHostIdAndBookingId(Guid hostId, Guid bookingId)
-    {
-        var filter = Builders<Conversation>.Filter.And(
-            Builders<Conversation>.Filter.Eq("HostId", hostId),
-            Builders<Conversation>.Filter.Eq("BookingId", bookingId)
         );
         return await _collection.Find(filter).ToListAsync();
     }

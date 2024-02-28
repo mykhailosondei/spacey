@@ -27,7 +27,7 @@ namespace airbnb_net.Controllers
         
         [HttpPost]
         [Authorize(Roles = "Host, User")]
-        public async Task SendMessage(Guid conversationId, string messageContent)
+        public async Task SendMessage(Guid conversationId, [FromBody] string messageContent)
         {
             var isHost = _roleGetter.IsInRole("Host");
             var task = isHost switch {

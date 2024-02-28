@@ -49,6 +49,9 @@ public static class ServiceExtensions
         
         services.AddScoped<IListingCommandAccess,ListingCommandAccess>();
         services.AddScoped<IListingQueryRepository,ListingQueryRepository>();
+
+        services.AddScoped<IConversationCommandAccess, ConversationCommandAccess>();
+        services.AddScoped<IConversationQueryRepository, ConversationQueryRepository>();
         
         services.AddScoped<IListingDeletor, ListingCommandAccess>();
         services.AddScoped<IBookingDeletor, BookingCommandAccess>();
