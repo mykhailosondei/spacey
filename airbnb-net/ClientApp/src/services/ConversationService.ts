@@ -26,7 +26,7 @@ export default class ConversationService {
         return await this.http.Post(`${this.baseUrl}/${conversationId}`, {message});
     }
     
-    async create() {
-        return await this.http.Post(`${this.baseUrl}`);
+    async create(userId: string, hostId: string, bookingId: string) {
+        return await this.http.Post(`${this.baseUrl}?userId=${userId}&hostId=${hostId}&bookingId=${bookingId}`, {});
     }
 }
