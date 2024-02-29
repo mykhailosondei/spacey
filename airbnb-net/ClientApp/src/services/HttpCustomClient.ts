@@ -55,7 +55,8 @@ export class HttpCustomClient{
     }
     
     public async Get<T>(url: string, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
-        const response : AxiosResponse<T, any> = await axios.get<T>(this.baseUrl + url, {headers: this.headers, validateStatus: ()=>true, ...config});
+        config.headers = {...this.headers, ...config.headers};
+        const response : AxiosResponse<T, any> = await axios.get<T>(this.baseUrl + url, {validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Get<${url}> status:`);
         console.log(response.status);
         const responseResult = this.transformResponse<T>(response);
@@ -63,7 +64,8 @@ export class HttpCustomClient{
     }
     
     public async Post<T>(url: string, body: any = {}, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
-        const response : AxiosResponse<T, any> = await axios.post<T>(this.baseUrl + url, body, {headers: this.headers, validateStatus: ()=>true, ...config});
+        config.headers = {...this.headers, ...config.headers};
+        const response : AxiosResponse<T, any> = await axios.post<T>(this.baseUrl + url, body, {validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Post<${url}> status:`);
         console.log(response.status);
         const responseResult = this.transformResponse<T>(response);
@@ -71,7 +73,8 @@ export class HttpCustomClient{
     }
     
     public async Put<T>(url: string, body: any = {}, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
-        const response : AxiosResponse<T, any> = await axios.put<T>(this.baseUrl + url, body, {headers: this.headers, validateStatus: ()=>true, ...config});
+        config.headers = {...this.headers, ...config.headers};
+        const response : AxiosResponse<T, any> = await axios.put<T>(this.baseUrl + url, body, {validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Put<${url}> status:`);
         console.log(response.status);
         const responseResult = this.transformResponse<T>(response);
@@ -79,7 +82,8 @@ export class HttpCustomClient{
     }
     
     public async Delete<T>(url: string, config:AxiosRequestConfig = {}): Promise<HttpResponse<T>> {
-        const response : AxiosResponse<T, any> = await axios.delete<T>(this.baseUrl + url, {headers: this.headers, validateStatus: ()=>true, ...config});
+        config.headers = {...this.headers, ...config.headers};
+        const response : AxiosResponse<T, any> = await axios.delete<T>(this.baseUrl + url, {validateStatus: ()=>true, ...config});
         console.log(`HttpCustomClient.Delete<${url}> status:`);
         console.log(response.status);
         const responseResult = this.transformResponse<T>(response);

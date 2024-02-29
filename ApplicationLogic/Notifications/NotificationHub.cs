@@ -9,8 +9,6 @@ public class NotificationHub : Hub<INotificationClient>
 {
     public override async Task OnConnectedAsync()
     {
-        
-        
         await base.OnConnectedAsync();
     }
 
@@ -18,6 +16,8 @@ public class NotificationHub : Hub<INotificationClient>
     {
         await Clients.Client(Context.ConnectionId).ReceiveNotification(message);
     }
+    
+    
 }
 
 public interface INotificationClient

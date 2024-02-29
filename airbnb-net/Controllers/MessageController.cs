@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCommon.DTOs.Message;
 using ApplicationLogic.Commanding.Commands.MessageCommands;
 using ApplicationLogic.RoleLogic;
 using MediatR;
@@ -25,14 +26,15 @@ namespace airbnb_net.Controllers
             _roleGetter = roleGetter;
         }
         
-        [HttpPost]
+        [HttpPost("{conversationId:guid}")]
         [Authorize(Roles = "Host, User")]
-        public async Task SendMessage(Guid conversationId, [FromBody] string messageContent)
+        public async Task SendMessage(Guid conversationId, [FromBody] MessageCreateDTO messageCreate)
         {
+            Console.WriteLine(string.Join(", ", _roleGetter.Roles));
             var isHost = _roleGetter.IsInRole("Host");
             var task = isHost switch {
-                true => _mediator.Send(new SendMessageToHostCommand(conversationId, messageContent)),
-                false =>  _mediator.Send(new SendMessageToUserCommand(conversationId, messageContent))
+                true =>  _mediator.Send(new SendMessageToUserCommand(conversationId, messageCreate.MessageContent)),
+                false => _mediator.Send(new SendMessageToHostCommand(conversationId, messageCreate.MessageContent))
             };
             await task;
         }
