@@ -1,3 +1,50 @@
 .messages-page {
-    
+    width: 100vw;
+    height: 100vh;
+}
+
+.messages-windows-holder {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.messages-window {
+    height: 100%;
+    position: relative;
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        border-right: 1px solid #ebebeb;
+    }
+}
+
+.guest-conversations-holder {
+    flex: 0 1 375px;
+}
+
+.guest-conversation-details {
+    flex: 0 0 375px;
+}
+
+.conversation-holder {
+    flex: 1 1 0;
+}
+
+.mw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 24px;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    letter-spacing: normal;
+    border-bottom: 1px solid #ebebeb;
 }

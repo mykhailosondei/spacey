@@ -32,9 +32,10 @@ namespace airbnb_net.Controllers
             return await _mediator.Send(new CreateConversationCommand(userId, hostId, bookingId));
         }
         
-        [HttpGet("/request")]
-        public async Task<IEnumerable<Conversation>> GetConversations(ConversationsRequest request)
+        [HttpGet("request")]
+        public async Task<IEnumerable<Conversation>> GetConversations([FromQuery] Guid? userId, [FromQuery] Guid? hostId)
         {
+            var request = new ConversationsRequest(userId, hostId);
             return await _mediator.Send(new GetConversationsQuery(request));
         }
         
@@ -44,7 +45,7 @@ namespace airbnb_net.Controllers
             return await _mediator.Send(new GetConversationByIdQuery(conversationId));
         }
         
-        [HttpGet("/booking/{bookingId:guid}")]
+        [HttpGet("booking/{bookingId:guid}")]
         public async Task<Conversation> GetConversationByBookingId(Guid bookingId)
         {
             return await _mediator.Send(new GetConversationByBookingIdQuery(bookingId));

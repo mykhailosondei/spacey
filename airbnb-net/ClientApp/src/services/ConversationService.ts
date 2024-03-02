@@ -1,4 +1,5 @@
 import {HttpCustomClient} from "./HttpCustomClient";
+import {Conversation} from "../DTOs/Conversation/Conversation";
 
 export default class ConversationService {
     http: HttpCustomClient;
@@ -20,6 +21,10 @@ export default class ConversationService {
     
     async get(id: string) {
         return await this.http.Get(`${this.baseUrl}/${id}`);
+    }
+    
+    async getUserConversations(userId: string) {
+        return await this.http.Get<Conversation[]>(`${this.baseUrl}/request`, {params: {userId: userId}});
     }
     
     async sendMessage(conversationId: string, message: string) {

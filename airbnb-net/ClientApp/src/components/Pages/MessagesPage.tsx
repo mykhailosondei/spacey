@@ -7,33 +7,55 @@ import NavBar from "../NavBar";
 import {GuestConversationsHolder} from "../GuestConversationsHolder";
 import {ConversationHolder} from "../ConversationHolder";
 import {GuestConversationDetails} from "../GuestConversationDetails";
+import {Conversation} from "../../DTOs/Conversation/Conversation";
+import {useUser} from "../../Contexts/UserContext";
 
 export const MessagesPage = () => {
     
-    const connection = new SignalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7171/message",
-            {
-                accessTokenFactory: () => {
-                    return localStorage.getItem("token")!;
-                }
-            })
-        .build();
+    
+    const buildHubConnection = () => {
+        return new SignalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7171/message",
+                {
+                    accessTokenFactory: () => {
+                        return localStorage.getItem("token")!;
+                    }
+                })
+            .build();
+    }
+    
+    const { user } = useUser();
+    
+    const connection = useMemo(() => {return buildHubConnection()}, []);
     
     const conversationService = useMemo(() => {return ConversationService.getInstance()}, []);
     const messageService = useMemo(() => {return MessageService.getInstance()}, []);
     
-    connection.on("ReceiveMessage", function (user, message) {
-        console.log("Received message: " + message);
-    });
+    const [conversations, setConversations] = React.useState<Conversation[]>([]);
+    const [selectedConversationId, setSelectedConversationId] = React.useState<string>("");
+    
 
     useEffect(() => {
+        connection.on("ReceiveMessage", function (user, message) {
+            console.log("Received message: " + message);
+        });
         connection.start().then(function () {
             console.log("Connected to message hub");
         }).catch(function (err) {
             return console.error(err.toString());
         });
+        
     }, []);
 
+    useEffect(() => {
+        if (!user) return;
+        conversationService.getUserConversations(user.id).then((response) => {
+            setConversations(response.data);
+            setSelectedConversationId(response.data[0].id)
+        });
+    }, [user]);
+    
+    
     function sendCustomMessage() {
         messageService.sendMessage("454f8d36-56b2-4f5a-8bf3-597286c6a4c3", "Hello world!").then((response) => {
             console.log(response);
@@ -51,11 +73,11 @@ export const MessagesPage = () => {
     }
 
     return <div className={"messages-page"}>
-        <div className="up-nav-wrapper page-navbar-wrapper"><NavBar></NavBar></div>
+        <div className="up-nav-wrapper"><NavBar></NavBar></div>
         <div className="messages-windows-holder">
-            <GuestConversationsHolder conversations={[]} selectedConversationId={""}/>
-            <ConversationHolder conversation={{}}/>
-            <GuestConversationDetails conversation={{}}/>
+            <GuestConversationsHolder conversations={conversations} selectedConversationId={""}/>
+            <ConversationHolder />
+            <GuestConversationDetails />
         </div>
     </div>;
 };

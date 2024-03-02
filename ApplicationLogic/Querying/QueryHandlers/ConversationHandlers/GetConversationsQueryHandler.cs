@@ -31,6 +31,11 @@ public class GetConversationsQueryHandler : BaseHandler, IRequestHandler<GetConv
         Guid userId;
         Guid hostId;
 
+        if (!isByUserId && !isByHostId)
+        {
+            throw new ArgumentException("You must provide either a userId or a hostId");
+        }
+
         if (isByHostId && isByUserId)
         {
             userId = query.Request.UserId!.Value;
