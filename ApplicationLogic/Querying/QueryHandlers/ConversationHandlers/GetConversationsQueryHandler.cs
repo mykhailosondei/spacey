@@ -36,6 +36,8 @@ public class GetConversationsQueryHandler : BaseHandler, IRequestHandler<GetConv
             throw new ArgumentException("You must provide either a userId or a hostId");
         }
 
+        var result = new List<Conversation>();
+
         if (isByHostId && isByUserId)
         {
             userId = query.Request.UserId!.Value;
@@ -45,7 +47,8 @@ public class GetConversationsQueryHandler : BaseHandler, IRequestHandler<GetConv
             {
                 throw new UnauthorizedAccessException("You are not authorized to perform this action");
             }
-            return await _conversationQueryRepository.GetConversationsByUserIdAndHostId(userId, hostId);
+            result = await _conversationQueryRepository.GetConversationsByUserIdAndHostId(userId, hostId);
+            return result.OrderByDescending(x=> x.Messages.Last().CreatedAt);
         }
 
         if (isByUserId)
@@ -57,7 +60,8 @@ public class GetConversationsQueryHandler : BaseHandler, IRequestHandler<GetConv
                 throw new UnauthorizedAccessException("You are not authorized to perform this action");
             }
                 
-            return await _conversationQueryRepository.GetConversationsByUserId(userId);
+            result = await _conversationQueryRepository.GetConversationsByUserId(userId);
+            return result.OrderByDescending(x=> x.Messages.Last().CreatedAt);
         }
         
         hostId = query.Request.HostId!.Value;
@@ -67,6 +71,7 @@ public class GetConversationsQueryHandler : BaseHandler, IRequestHandler<GetConv
             throw new UnauthorizedAccessException("You are not authorized to perform this action");
         }
             
-        return await _conversationQueryRepository.GetConversationsByHostId(hostId);
+        result = await _conversationQueryRepository.GetConversationsByHostId(hostId);
+        return result.OrderByDescending(x=> x.Messages.Last().CreatedAt);
     }
 }

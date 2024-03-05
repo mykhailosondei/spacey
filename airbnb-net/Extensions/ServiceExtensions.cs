@@ -17,9 +17,11 @@ using ApplicationLogic.Jwt;
 using ApplicationLogic.MappingProfiles;
 using ApplicationLogic.RoleLogic;
 using ApplicationLogic.Services;
+using ApplicationLogic.SignalRIdProviders;
 using ApplicationLogic.UserIdLogic;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -73,6 +75,8 @@ public static class ServiceExtensions
         services.AddScoped<RoleStorageProvider>();
         services.AddScoped<IRoleSetter>(s => s.GetService<RoleStorageProvider>()!);
         services.AddScoped<IRoleGetter>(s => s.GetService<RoleStorageProvider>()!);
+        
+        services.AddSingleton<IUserIdProvider, HostUserIdProvider>();
         
         services.AddAutoMapper(ApplicationLogic.AssemblyMarker.Assembly);
         

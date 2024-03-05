@@ -65,7 +65,7 @@ public class SendMessageToHostCommandHandler : BaseHandler, IRequestHandler<Send
             throw new NotFoundException("Host");
         }
         
-        await _hubContext.Clients.All.ReceiveNotification("You have a new message from " + user.Name);
+        await _hubContext.Clients.User(conversation.HostId.ToString()).ReceiveNotification(conversation.Id.ToString());
     }
 
 }
