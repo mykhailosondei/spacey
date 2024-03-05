@@ -17,8 +17,8 @@ export const HostConversationHolder = (props: {
             Messages
         </div>
         <div className="mb-body">
-            {props.conversations.map((conversation, index) => {
-                return <ConversationCard showUser={true} conversation={conversation} key={index} isSelected={props.selectedConversationId === conversation.id} onClick={() => setSelected(conversation.id)}></ConversationCard>;
+            {props.conversations.map((conversation) => {
+                return <ConversationCard showUser={true} conversation={conversation} key={conversation.id} isSelected={props.selectedConversationId === conversation.id} onClick={() => setSelected(conversation.id)}></ConversationCard>;
             })}
         </div>
     </div>;

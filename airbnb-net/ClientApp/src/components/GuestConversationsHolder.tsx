@@ -14,7 +14,7 @@ export const GuestConversationsHolder = (props: { selectedConversationId: string
         </div>
         <div className="mb-body">
             {props.conversations.map((conversation, index) => {
-                return <ConversationCard showUser={false} conversation={conversation} key={index} isSelected={props.selectedConversationId === conversation.id} onClick={() => setSelected(conversation.id)}></ConversationCard>;
+                return <ConversationCard showUser={false} conversation={conversation} key={conversation.id} isSelected={props.selectedConversationId === conversation.id} onClick={() => setSelected(conversation.id)}></ConversationCard>;
             })}
         </div>
     </div>;

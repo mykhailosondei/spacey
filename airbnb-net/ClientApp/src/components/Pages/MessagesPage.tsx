@@ -35,15 +35,16 @@ export const MessagesPage = () => {
     
     const [conversations, setConversations] = React.useState<Conversation[]>([]);
     const [selectedConversationId, setSelectedConversationId] = React.useState<string>("");
-    
 
-    useEffect(() => {
-        connection.on("ReceiveNotification", function (notificationUser, message) {
-            console.log("Received message from user: " + notificationUser + " with message: " + message);
-            conversationService.getUserConversations(user!.id).then((response) => {
-                setConversations(response.data);
-            });
+    connection.on("ReceiveNotification", function (conversationId) {
+        console.log("Received message in conversation: " + conversationId);
+        conversationService.get(conversationId).then((response) => {
+            if(response.status === 200)
+                setConversations(prevState => [response.data, ...prevState.filter((c) => c.id !== response.data.id)]);
         });
+    });
+    
+    useEffect(() => {
         connection.start().then(function () {
             console.log("Connected to message hub");
         }).catch(function (err) {
@@ -77,7 +78,7 @@ export const MessagesPage = () => {
         messageService.sendMessage(selectedConversationId, messageText).then((response) => {
             if(response.status === 200) {
                 conversationService.get(selectedConversationId).then((response) => {
-                    setConversations(prevState => [...prevState.filter((c) => c.id !== selectedConversationId), response.data]);
+                    setConversations(prevState => [ response.data, ...prevState.filter((c) => c.id !== selectedConversationId)]);
                 });
             }
         });
