@@ -26,10 +26,10 @@ namespace airbnb_net.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<Guid> CreateConversation(Guid userId, Guid hostId, Guid bookingId)
+        [HttpPost("{bookingId:guid}")]
+        public async Task<Guid> CreateConversation(Guid bookingId)
         {
-            return await _mediator.Send(new CreateConversationCommand(userId, hostId, bookingId));
+            return await _mediator.Send(new CreateConversationCommand(bookingId));
         }
         
         [HttpGet("request")]

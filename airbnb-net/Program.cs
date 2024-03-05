@@ -64,16 +64,13 @@ if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-    app.UseCors("WebSockets");
-}
-else
-{
-    app.UseCors("AllowAll");
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
+app.UseRouting(); 
+//app.UseCors("AllowAll");
+app.UseCors("WebSockets");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserIdMiddleware>();

@@ -16,8 +16,6 @@ public class NotificationHub : Hub<INotificationClient>
     {
         await Clients.Client(Context.ConnectionId).ReceiveNotification(message);
     }
-    
-    
 }
 
 public interface INotificationClient
