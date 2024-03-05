@@ -4,6 +4,7 @@ import {HostDTO} from "../DTOs/Host/HostDTO";
 import {UserDTO} from "../DTOs/User/UserDTO";
 import {AuthenticationState, useAuthState} from "./AuthStateProvider";
 import {UserService} from "../services/UserService";
+import {HostService} from "../services/HostService";
 
 
 const UserContext = createContext<{ user: UserDTO | null, 
@@ -23,6 +24,7 @@ export function useUser() {
 export function UserProvider(props: any) {
     const [user, setUser] = useState<UserDTO | null>(null);
     const userService = useMemo(() => {return UserService.getInstance()}, []);
+    const hostService = useMemo(() => {return HostService.getInstance()}, []);
     const {authenticationState} = useAuthState();
     
     const value = useMemo(() => ( {
@@ -33,7 +35,19 @@ export function UserProvider(props: any) {
     useEffect(() => {
         if(authenticationState === AuthenticationState.AuthenticatedUser) {
             userService.getFromToken().then((user) => {
-                setUser(user.data);
+                if (user.status === 200) {
+                    setUser(user.data);
+                }else if (user.status === 401) {
+                    hostService.getFromToken().then((host) => {
+                        if (host.status === 200) {
+                            userService.get(host.data.userId).then((user) => {
+                                if (user.status === 200) {
+                                    setUser(user.data);
+                                }
+                            });
+                        }
+                    });
+                }
             });
         }
     }, [authenticationState]);

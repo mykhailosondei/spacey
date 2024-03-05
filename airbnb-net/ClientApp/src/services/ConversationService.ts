@@ -20,7 +20,7 @@ export default class ConversationService {
     }
     
     async get(id: string) {
-        return await this.http.Get(`${this.baseUrl}/${id}`);
+        return await this.http.Get<Conversation>(`${this.baseUrl}/${id}`);
     }
     
     async getUserConversations(userId: string) {
@@ -33,5 +33,13 @@ export default class ConversationService {
     
     async create(userId: string, hostId: string, bookingId: string) {
         return await this.http.Post(`${this.baseUrl}?userId=${userId}&hostId=${hostId}&bookingId=${bookingId}`, {});
+    }
+
+    async getHostConversations(hostId: string) {
+        return await this.http.Get<Conversation[]>(`${this.baseUrl}/request`, {params: {hostId: hostId}});
+    }
+
+    async createByBooking(bookingId: string) {
+        return await this.http.Post<string>(`${this.baseUrl}/${bookingId}`, {});
     }
 }

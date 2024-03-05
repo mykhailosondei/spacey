@@ -145,7 +145,7 @@ export const Trip = (props: TripProps) => {
     }
 
     function handleMessageRedirect() {
-        navigate(`/messages/${hostId}`);
+        navigate(`/messages/booking/${booking!.id}`);
     }
 
     return (listing && booking && userName) ? <>

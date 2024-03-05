@@ -9,9 +9,11 @@ import {ConversationHolder} from "../ConversationHolder";
 import {GuestConversationDetails} from "../GuestConversationDetails";
 import {Conversation} from "../../DTOs/Conversation/Conversation";
 import {useUser} from "../../Contexts/UserContext";
+import {useParams} from "react-router-dom";
 
 export const MessagesPage = () => {
     
+    const {bookingId} = useParams();
     
     const buildHubConnection = () => {
         return new SignalR.HubConnectionBuilder()
@@ -36,48 +38,64 @@ export const MessagesPage = () => {
     
 
     useEffect(() => {
-        connection.on("ReceiveMessage", function (user, message) {
-            console.log("Received message: " + message);
+        connection.on("ReceiveNotification", function (notificationUser, message) {
+            console.log("Received message from user: " + notificationUser + " with message: " + message);
+            conversationService.getUserConversations(user!.id).then((response) => {
+                setConversations(response.data);
+            });
         });
         connection.start().then(function () {
             console.log("Connected to message hub");
         }).catch(function (err) {
             return console.error(err.toString());
         });
-        
     }, []);
 
     useEffect(() => {
         if (!user) return;
         conversationService.getUserConversations(user.id).then((response) => {
             setConversations(response.data);
-            setSelectedConversationId(response.data[0].id)
+            setSelectedConversationId(response.data[0]?.id || "");
         });
     }, [user]);
+
+    useEffect(() => {
+        if(bookingId) {
+            conversationService.createByBooking(bookingId).then((response) => {
+                if (response.status === 200) {
+                    conversationService.get(response.data).then((response) => {
+                        setConversations(prevState => [...prevState, response.data]);
+                        setSelectedConversationId(response.data.id);
+                    });
+                }
+            });
+        }
+    }, []);
     
     
-    function sendCustomMessage() {
-        messageService.sendMessage("454f8d36-56b2-4f5a-8bf3-597286c6a4c3", "Hello world!").then((response) => {
-            console.log(response);
+    function sendCustomMessage(messageText: string) {
+        messageService.sendMessage(selectedConversationId, messageText).then((response) => {
+            if(response.status === 200) {
+                conversationService.get(selectedConversationId).then((response) => {
+                    setConversations(prevState => [...prevState.filter((c) => c.id !== selectedConversationId), response.data]);
+                });
+            }
         });
     }
-
-    function newConversation() {
-        conversationService.create(
-            "4961f9a3-9251-4c45-a251-a34101991c38",
-            "964b10b5-a47c-4a64-a4ab-1f96bd5820ec",
-            "93178b36-1f09-4baf-92dc-941a520a3473"
-        ).then((response) => {
-            console.log(response);
-        });
+    
+    const getSelectedConversation = () => {
+        return conversations.find((c) => c.id === selectedConversationId)!;
     }
 
-    return <div className={"messages-page"}>
+    return conversations.length !== 0 ? <div className={"messages-page"}>
         <div className="up-nav-wrapper"><NavBar></NavBar></div>
         <div className="messages-windows-holder">
-            <GuestConversationsHolder conversations={conversations} selectedConversationId={""}/>
-            <ConversationHolder />
+            <GuestConversationsHolder conversations={conversations} selectedConversationId={selectedConversationId} setSelectedConversationId={setSelectedConversationId}/>
+            <ConversationHolder conversation={getSelectedConversation()} sendMessage={sendCustomMessage} />
             <GuestConversationDetails />
         </div>
-    </div>;
+    </div> : <h1>
+        You have no conversations!
+        <a href="/">Go home</a> 
+    </h1>;
 };
