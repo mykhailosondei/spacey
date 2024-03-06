@@ -42,13 +42,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
     {
-        builder.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-    options.AddPolicy("WebSockets", builder =>
-    {
-        builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
+        builder.SetIsOriginAllowed(_ => true)
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()
@@ -69,8 +63,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting(); 
-//app.UseCors("AllowAll");
-app.UseCors("WebSockets");
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserIdMiddleware>();

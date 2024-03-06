@@ -20,6 +20,8 @@ public class Conversation
     [BsonRepresentation(BsonType.String)]
     public Guid BookingId { get; set; }
     
+    public bool IsRead { get; set; }
+    
     [BsonRepresentation(BsonType.DateTime)]
     public DateTime CreatedAt { get; set; }
     

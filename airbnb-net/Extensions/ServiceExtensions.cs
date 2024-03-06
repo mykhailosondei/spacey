@@ -7,6 +7,7 @@ using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.DbHelper;
+using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
@@ -24,6 +25,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson.Serialization;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
@@ -85,6 +87,12 @@ public static class ServiceExtensions
             var connectionString = "mongodb+srv://compassuser:wBzZ4kD5ejcI1FWf@democluster.4nn3xhe.mongodb.net/";
             var databaseName = "airbnb";
             return new MongoDbContext(connectionString, databaseName);
+        });
+        
+        BsonClassMap.RegisterClassMap<Conversation>(conversation =>
+            {
+            conversation.AutoMap();
+            conversation.GetMemberMap(c => c.IsRead).SetDefaultValue(true);
         });
         
         services.AddValidatorsFromAssembly(ApplicationLogic.AssemblyMarker.Assembly);

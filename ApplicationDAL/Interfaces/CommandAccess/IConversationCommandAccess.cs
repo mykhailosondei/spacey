@@ -1,3 +1,5 @@
+using ApplicationDAL.Entities;
+
 namespace ApplicationDAL.Interfaces.CommandAccess;
 
 public interface IConversationCommandAccess
@@ -6,4 +8,5 @@ public interface IConversationCommandAccess
     Task SendMessageToHost(Guid conversationId, Guid userId, string messageContent);
     Task<Guid> CreateConversation(Guid userId, Guid hostId, Guid bookingId);
     Task DeleteConversation(Guid conversationId);
+    Task UpdateConversation(Guid id, Conversation conversation);
 }

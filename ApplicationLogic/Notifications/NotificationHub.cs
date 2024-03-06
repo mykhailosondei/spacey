@@ -21,4 +21,5 @@ public class NotificationHub : Hub<INotificationClient>
 public interface INotificationClient
 {
     Task ReceiveNotification(string message);
+    Task ReadNotification(string message);
 }

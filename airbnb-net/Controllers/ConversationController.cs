@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCommon.Structs;
 using ApplicationDAL.Entities;
+using ApplicationLogic.Commanding.CommandHandlers.ConversationHandlers;
 using ApplicationLogic.Commanding.Commands.ConversationCommands;
 using ApplicationLogic.Querying.Queries.ConversationQueries;
 using MediatR;
@@ -43,6 +44,12 @@ namespace airbnb_net.Controllers
         public async Task<Conversation> GetConversation(Guid conversationId)
         {
             return await _mediator.Send(new GetConversationByIdQuery(conversationId));
+        }
+        
+        [HttpPost("{conversationId:guid}/read")]
+        public async Task MarkConversationAsRead(Guid conversationId)
+        {
+            await _mediator.Send(new MarkConversationAsReadCommand(conversationId));
         }
         
         [HttpGet("booking/{bookingId:guid}")]

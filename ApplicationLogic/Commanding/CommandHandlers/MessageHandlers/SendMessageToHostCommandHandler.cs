@@ -56,14 +56,18 @@ public class SendMessageToHostCommandHandler : BaseHandler, IRequestHandler<Send
             throw new UnauthorizedAccessException("You are not allowed to send messages to this conversation");
         }
         
-        await _conversationCommandAccess.SendMessageToHost(request.ConversationId, userId, request.MessageContent);
-        
         var host = await _hostQueryRepository.GetHostById(conversation.HostId);
         
         if (host is null)
         {
             throw new NotFoundException("Host");
         }
+        
+        conversation.IsRead = false;
+        
+        await _conversationCommandAccess.UpdateConversation(conversation.Id, conversation);
+        
+        await _conversationCommandAccess.SendMessageToHost(request.ConversationId, userId, request.MessageContent);
         
         await _hubContext.Clients.User(conversation.HostId.ToString()).ReceiveNotification(conversation.Id.ToString());
     }

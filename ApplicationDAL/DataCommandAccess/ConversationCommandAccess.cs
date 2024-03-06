@@ -58,4 +58,10 @@ public class ConversationCommandAccess : BaseAccessHandler, IConversationCommand
         var filter = Builders<Conversation>.Filter.Eq("Id", conversationId);
         await _collection.DeleteOneAsync(filter);
     }
+
+    public Task UpdateConversation(Guid id, Conversation conversation)
+    {
+        var filter = Builders<Conversation>.Filter.Eq("Id", id);
+        return _collection.ReplaceOneAsync(filter, conversation);
+    }
 }

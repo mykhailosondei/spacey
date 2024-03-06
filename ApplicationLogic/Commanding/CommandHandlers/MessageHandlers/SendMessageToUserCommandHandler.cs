@@ -52,14 +52,18 @@ public class SendMessageToUserCommandHandler : BaseHandler ,IRequestHandler<Send
             throw new UnauthorizedAccessException("You are not allowed to send messages to this conversation");
         }
         
-        await _conversationCommandAccess.SendMessageToUser(request.ConversationId, hostId, request.MessageContent);
-        
         var receiver = await _userQueryRepository.GetUserById(conversation.UserId);
 
         if (receiver is null)
         {
             throw new NotFoundException("Receiver");
         }
+        
+        conversation.IsRead = false;
+        
+        await _conversationCommandAccess.UpdateConversation(conversation.Id, conversation);
+        
+        await _conversationCommandAccess.SendMessageToUser(request.ConversationId, hostId, request.MessageContent);
         
         await _hubContext.Clients.User(conversation.UserId.ToString()).ReceiveNotification(conversation.Id.ToString());
     }
