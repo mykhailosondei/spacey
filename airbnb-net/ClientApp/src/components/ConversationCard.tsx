@@ -8,6 +8,8 @@ import {BookingDTO} from "../DTOs/Booking/BookingDTO";
 import {BookingService} from "../services/BookingService";
 import {ListingService} from "../services/ListingService";
 import {HostService} from "../services/HostService";
+import {useUser} from "../Contexts/UserContext";
+import {useHost} from "../Contexts/HostContext";
 
 export const ConversationCard = (props: { conversation: Conversation, showUser: boolean, isSelected: boolean, onClick: Function }) => {
 
@@ -56,7 +58,13 @@ export const ConversationCard = (props: { conversation: Conversation, showUser: 
         return new Date(date).toLocaleDateString("en-US", {month: "short", day: "numeric"}); 
     }
     
-    return user && <div className={"conversation-card"} onClick={() => props.onClick()}>
+    const showUnread = () => {
+        if(props.conversation.isRead) return false;
+        return (props.showUser && props.conversation.messages[props.conversation.messages.length - 1].userId !== null)
+            || (!props.showUser && props.conversation.messages[props.conversation.messages.length - 1].hostId !== null);
+    }
+    
+    return user && <div className={`conversation-card ${showUnread() ? "unread" : ""}`} onClick={() => props.onClick()}>
         <div className={`cc-contents ${props.isSelected ? "cc-active" : ""}`}>
             <div className="cc-avatar-holder">
                 <div className="cc-user-avatar">

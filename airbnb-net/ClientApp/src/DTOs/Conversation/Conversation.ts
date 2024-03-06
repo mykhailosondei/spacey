@@ -7,4 +7,5 @@ export interface Conversation {
     messages: Message[];
     bookingId: string;
     createdAt: Date;
+    isRead: boolean;
 }

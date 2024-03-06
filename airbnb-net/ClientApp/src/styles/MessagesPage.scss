@@ -53,6 +53,11 @@
 .conversation-card {
     margin: 12px;
     user-select: none;
+    &.unread{
+        * {
+            font-weight: 800;
+        }
+    }
 }
 
 .cc-contents {
@@ -272,4 +277,17 @@
 
 .ch-message-text {
     user-select: text;
+}
+
+.read-divider {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 0 6px 24px;
+    color: #717171;
+    font-size: 14px;
+    user-select: none;
+    line-height: 16px;
+    letter-spacing: normal;
+    font-weight: 500;
 }

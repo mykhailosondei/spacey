@@ -84,6 +84,7 @@ export const ConversationHolder = (props: { conversation: Conversation, sendMess
         <div ref={conversationRef} className={`mw-body mw-conversation ${isFaded ? "top-fade" : ""}`}>
             <div className="ch-content">
                 {messagesAndDateDividers}
+                {props.conversation.isRead ? <div className="read-divider">Read</div> : null}
             </div>
             <div className="mw-footer">
                 <div className="mw-input">
