@@ -43,6 +43,7 @@ function App() {
                     <Route path={"/create-listing/*"} element={<RequireLogin><RequireSwitchToHost><ListingCreatePage/></RequireSwitchToHost></RequireLogin>}/>
                     <Route path={"/messages"} element={<MessagesPage/>}/>
                     <Route path={"/messages/booking/:bookingId"} element={<MessagesPage/>}/>
+                    <Route path={"/messages/:conversationId"} element={<MessagesPage/>}/>
                 </Routes>
             </PopupProvider>
             </UserProvider>
