@@ -22,6 +22,24 @@ export const ConversationHolder = (props: { conversation: Conversation, sendMess
     
     const userService = useMemo(() => {return UserService.getInstance()}, []);
     const hostService = useMemo(() => {return HostService.getInstance()}, []);
+    
+    useEffect(() => {
+        userService.get(props.conversation.userId).then((response) => {
+            setUser(response.data);
+        });
+        hostService.get(props.conversation.hostId).then((response) => {
+            if(!response.data) return;
+            userService.get(response.data.userId).then((user) => {
+                setHostUser(user.data);
+            });
+        });
+    }, []);
+    
+    const scrollToBottom = () => {
+        if (conversationRef.current) {
+            conversationRef.current.scrollTop = conversationRef.current.scrollHeight - conversationRef.current.clientHeight;
+        }
+    }
 
     useEffect(() => {
         const result : JSX.Element[] = [];
@@ -41,7 +59,12 @@ export const ConversationHolder = (props: { conversation: Conversation, sendMess
             )
         }
         setMessagesAndDateDividers(result);
-    }, [props.conversation]);
+    }, [props.conversation, user]);
+    
+    useEffect(() => {
+        scrollToBottom();
+    }, [messagesAndDateDividers]);
+    
     
     useEffect(() => {
         if (conversationRef.current) {
@@ -57,18 +80,8 @@ export const ConversationHolder = (props: { conversation: Conversation, sendMess
             });
         }
     }, [props.conversation]);
-
-    useEffect(() => {
-        userService.get(props.conversation.userId).then((response) => {
-            setUser(response.data);
-        });
-        hostService.get(props.conversation.hostId).then((response) => {
-            if(!response.data) return;
-            userService.get(response.data.userId).then((user) => {
-                setHostUser(user.data);
-            });
-        });
-    }, []);
+    
+    
     
     const handleSendMessage = () => {
         if (inputRef.current) {
@@ -76,7 +89,14 @@ export const ConversationHolder = (props: { conversation: Conversation, sendMess
             inputRef.current.value = "";
         }
     }
-    
+
+    function handleInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === "Enter") {
+            handleSendMessage();
+        }
+        scrollToBottom();
+    }
+
     return <div className={"conversation-holder messages-window"}>
         <div className="mw-header">
             Conversation
@@ -88,7 +108,7 @@ export const ConversationHolder = (props: { conversation: Conversation, sendMess
             </div>
             <div className="mw-footer">
                 <div className="mw-input">
-                    <input ref={inputRef} type="text" placeholder={"Type a message"}/>
+                    <input ref={inputRef} onKeyDown={event => handleInputKeyDown(event)} type="text" placeholder={"Type a message"}/>
                 </div>
                 <div className="mw-send" onClick={handleSendMessage}>
                     <Send/>

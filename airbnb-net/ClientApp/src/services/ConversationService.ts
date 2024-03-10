@@ -46,4 +46,8 @@ export default class ConversationService {
     async createByBooking(bookingId: string) {
         return await this.http.Post<string>(`${this.baseUrl}/${bookingId}`, {});
     }
+
+    async getByBooking(bookingId: string) {
+        return await this.http.Get<Conversation>(`${this.baseUrl}/booking/${bookingId}`);
+    }
 }
