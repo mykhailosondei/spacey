@@ -26,6 +26,13 @@ public class GlobalExceptionHandlingMiddleware
             var json = JsonConvert.SerializeObject(ex);
             await context.Response.WriteAsync(json);
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+            context.Response.ContentType = "application/json";
+            var json = JsonConvert.SerializeObject(ex);
+            await context.Response.WriteAsync(json);
+        }
         
     }
 }
