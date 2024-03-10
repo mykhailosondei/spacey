@@ -23,6 +23,9 @@
 }
 
 .guest-conversations-holder {
+    @media (max-width: 1300px) {
+        display: none;
+    }
     flex: 0 1 375px;
 }
 
@@ -179,7 +182,7 @@
 .ch-message-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% - 36px - 16px);
 }
 
 .ch-message-name-and-time {
@@ -277,6 +280,7 @@
 
 .ch-message-text {
     user-select: text;
+    overflow-wrap: break-word;
 }
 
 .read-divider {
@@ -290,4 +294,109 @@
     line-height: 16px;
     letter-spacing: normal;
     font-weight: 500;
+}
+
+.cc-name {
+    svg{
+        transform: scaleY(1.1);
+    }
+}
+
+.cc-unread {
+    svg {
+        color: lightgray;
+    }
+}
+
+.cc-read {
+    svg {
+        color: #111111;
+    }
+}
+
+.gcd-general-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 24px 24px 0 24px;
+}
+
+.gcd-avatar-holder {
+    width: 60px;
+    height: 100%;
+}
+
+.gray-bold {
+    color: #717171;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.gcd-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    align-items: flex-start;
+}
+
+.gcd-about-host {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    padding: 0 24px;
+}
+
+.ch-message-name-bigger {
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: normal;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.gcd-about-section {
+    display: flex;
+    gap: 8px;
+    margin: 2px 0;
+    align-items: center;
+    svg {
+        color: #111111;
+        fill: #111111;
+        height: 24px !important;
+        width: 24px !important;
+        path{
+            fill: #111111;
+        }
+    }
+}
+
+.profile-link {
+    color: #111111;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 12px;
+    font-weight: 500;
+}
+
+.gcd-booking-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 24px;
+}
+
+.booking-detail-value {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: normal;
+    color: grey;
+}
+
+.gcd-body {
+    overflow-y: scroll;
 }

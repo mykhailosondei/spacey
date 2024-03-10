@@ -6,26 +6,29 @@ import MessageService from "../../services/MessageService";
 import NavBar from "../NavBar";
 import {GuestConversationsHolder} from "../GuestConversationsHolder";
 import {ConversationHolder} from "../ConversationHolder";
-import {GuestConversationDetails} from "../GuestConversationDetails";
+import {ConversationDetails} from "../ConversationDetails";
 import {Conversation} from "../../DTOs/Conversation/Conversation";
 import {useUser} from "../../Contexts/UserContext";
-import {useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {ConnectionService} from "../../services/ConnectionService";
 
 export const MessagesPage = () => {
     
-    const {bookingId} = useParams();
+    const {bookingId, conversationId} = useParams();
     
     const connectionService = useMemo(() => {return ConnectionService.getInstance()}, []);
     
     const { user } = useUser();
     
+    const navigate = useNavigate();
     
     const conversationService = useMemo(() => {return ConversationService.getInstance()}, []);
     const messageService = useMemo(() => {return MessageService.getInstance()}, []);
     
     const [conversations, setConversations] = React.useState<Conversation[]>([]);
     const [selectedConversationId, setSelectedConversationId] = React.useState<string>("");
+    
+    const location = useLocation();
 
     
     useEffect(() => {
@@ -60,16 +63,20 @@ export const MessagesPage = () => {
             }
         });
     }
-
-    useEffect(() => {
+    
+    const loadConversations = () => {
         if (!user) return;
         conversationService.getUserConversations(user.id).then((response) => {
             setConversations(response.data);
-            setSelectedConversationId(response.data[0]?.id || "");
         });
-    }, [user]);
-
-    useEffect(() => {
+        if (conversationId) {
+            if(conversations.find((c) => c.id === conversationId)) {
+                setSelectedConversationId(conversationId);
+            }else {
+                setSelectedConversationId("");
+            }
+            return;
+        }
         if(bookingId) {
             conversationService.createByBooking(bookingId).then((response) => {
                 if (response.status === 200) {
@@ -79,11 +86,20 @@ export const MessagesPage = () => {
                     });
                 }
             });
+            conversationService.getByBooking(bookingId).then((response) => {
+                if (response.status === 200) {
+                    setSelectedConversationId(response.data.id || "");
+                }
+            });
         }
-    }, []);
+    }
+
+    useEffect(() => {
+        loadConversations();
+    }, [user, location.pathname]);
     
     
-    function sendCustomMessage(messageText: string) {
+    async function sendCustomMessage(messageText: string) {
         messageService.sendMessage(selectedConversationId, messageText).then((response) => {
             if(response.status === 200) {
                 conversationService.get(selectedConversationId).then((response) => {
@@ -94,15 +110,20 @@ export const MessagesPage = () => {
     }
     
     const getSelectedConversation = () => {
-        return conversations.find((c) => c.id === selectedConversationId)!;
+        return conversations.find((c) => c.id === selectedConversationId) || conversations[0];
+    }
+    
+    const selectConversation = (conversationId: string) => {
+        //setSelectedConversationId(conversationId);
+        navigate(`/messages/${conversationId}`)
     }
 
     return conversations.length !== 0 ? <div className={"messages-page"}>
         <div className="up-nav-wrapper"><NavBar></NavBar></div>
         <div className="messages-windows-holder">
-            <GuestConversationsHolder conversations={conversations} selectedConversationId={selectedConversationId} setSelectedConversationId={setSelectedConversationId}/>
+            <GuestConversationsHolder conversations={conversations} selectedConversationId={selectedConversationId} setSelectedConversationId={selectConversation}/>
             <ConversationHolder conversation={getSelectedConversation()} sendMessage={sendCustomMessage} />
-            <GuestConversationDetails />
+            <ConversationDetails conversation={getSelectedConversation()} />
         </div>
     </div> : <h1>
         You have no conversations!

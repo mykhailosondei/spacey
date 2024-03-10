@@ -1,12 +1,10 @@
-import * as SignalR from "@microsoft/signalr";
 import React, {useEffect, useMemo} from "react";
 import ConversationService from "../services/ConversationService";
 import MessageService from "../services/MessageService";
 import {Conversation} from "../DTOs/Conversation/Conversation";
 import {useHost} from "../Contexts/HostContext";
 import {ConversationHolder} from "./ConversationHolder";
-import {GuestConversationDetails} from "./GuestConversationDetails";
-import {GuestConversationsHolder} from "./GuestConversationsHolder";
+import {ConversationDetails} from "./ConversationDetails";
 import "../styles/HostingInboxSection.scss";
 import {HostConversationHolder} from "./HostConversationHolder";
 import {ConnectionService} from "../services/ConnectionService";
@@ -28,7 +26,6 @@ export const HostingInboxSection = () => {
         connectionService.addMessageListener("ReceiveNotification", (conversationId: string) => {
             console.log("Received message in conversation: " + conversationId);
             if(conversationId === selectedConversationId){
-                console.log("Marking as read right away");
                 markAsRead(conversationId);
             }
             conversationService.get(conversationId).then((response) => {
@@ -72,21 +69,20 @@ export const HostingInboxSection = () => {
         return conversations.find((c) => c.id === selectedConversationId)!;
     }
     
-    const sendMessage = (messageText: string) => {
-        messageService.sendMessage(selectedConversationId, messageText).then((response) => {
-            if(response.status === 200) {
-                conversationService.get(selectedConversationId).then((response) => {
-                    setConversations(prevState => [response.data, ...prevState.filter((c) => c.id !== selectedConversationId)]);
-                });
-            }
-        });
+    const sendMessage = async (messageText: string) => {
+        let response = await messageService.sendMessage(selectedConversationId, messageText);
+        if (response.status === 200) {
+            conversationService.get(selectedConversationId).then((response) => {
+                setConversations(prevState => [response.data, ...prevState.filter((c) => c.id !== selectedConversationId)]);
+            });
+        }
     }
-    
+
     return conversations.length !== 0 ? <div className={"hosting-inbox-section"}>
         <div className="messages-windows-holder">
             <HostConversationHolder conversations={conversations} setSelectedConversationId={setSelectedConversationId} selectedConversationId={selectedConversationId} />
             <ConversationHolder conversation={getSelectedConversation()} sendMessage={sendMessage}/>
-            <GuestConversationDetails conversation={getSelectedConversation()} />
+            <ConversationDetails isHostMode={true} conversation={getSelectedConversation()} />
         </div>
     </div> : <div className={"hosting-inbox-section"}>No conversations</div>;
 }
