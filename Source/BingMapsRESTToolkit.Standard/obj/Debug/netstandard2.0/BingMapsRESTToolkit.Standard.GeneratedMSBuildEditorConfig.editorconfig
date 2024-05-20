@@ -1,3 +1,5 @@
 is_global = true
 build_property.RootNamespace = BingMapsRESTToolkit
 build_property.ProjectDir = /home/mykhailo/RiderProjects/airbnb-net/Source/BingMapsRESTToolkit.Standard/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -6,6 +6,7 @@ import {UserDTO} from "../DTOs/User/UserDTO";
 import {UserService} from "../services/UserService";
 import {PropertyType} from "../values/PropertyType";
 import {BookingStatus} from "../values/BookingStatus";
+import {Link} from "react-router-dom";
 
 interface BookingCardProps {
     booking: BookingDTO;
@@ -55,7 +56,7 @@ export const BookingCard = (props: BookingCardProps) => {
             </div>
         </div>
         {props.booking.status !== BookingStatus.Cancelled && <div className="bc-footer">
-            <div className="bc-message">Message</div>
+            <Link to={`inbox/booking/${props.booking.id}`} className="bc-message">Message</Link>
             <div className="bc-call">Call</div>
         </div>}
     </div>;

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IBOrp78MfrLPkg0N0d8xfZAOOwycgo7ITY8JGuNj/bG8TnqwEQWZZiP3PMOFnItmvZFoMGX2h85ucpYbs6AToA==",
+  "dgSpecHash": "xlNKx6P47scJ9kev2OrtyJo4PtVyrrocgIGWJbic3YDdZACnt1o+mpBY/GG2amR8iJkAW2r1B6LkOUu/vRM/dQ==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic.Tests.Static/ApplicationLogic.Tests.Static.csproj",
   "expectedPackageFiles": [
@@ -101,7 +101,9 @@
     "/home/mykhailo/.nuget/packages/system.xml.xdocument/4.3.0/system.xml.xdocument.4.3.0.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/system.xml.xmldocument/4.3.0/system.xml.xmldocument.4.3.0.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/system.xml.xmlserializer/4.3.0/system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "/home/mykhailo/.nuget/packages/zstdsharp.port/0.6.2/zstdsharp.port.0.6.2.nupkg.sha512"
+    "/home/mykhailo/.nuget/packages/zstdsharp.port/0.6.2/zstdsharp.port.0.6.2.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/microsoft.netcore.app.ref/7.0.17/microsoft.netcore.app.ref.7.0.17.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.17/microsoft.aspnetcore.app.ref.7.0.17.nupkg.sha512"
   ],
   "logs": []
 }

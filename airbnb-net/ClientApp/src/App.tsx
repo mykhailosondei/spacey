@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import './App.scss';
 import {Route, Routes} from "react-router-dom";
 import {UserProvider} from "./Contexts/UserContext";
@@ -23,6 +23,10 @@ import {MessagesPage} from "./components/Pages/MessagesPage";
 function App() {
 
     const listingService = useMemo(() => {return ListingService.getInstance()}, []);
+
+    useEffect(() => {
+        document.title = "Spacey | Home Sharing, Simplified.";
+    }, []);
     
   return (
       <>

@@ -58,6 +58,20 @@ namespace airbnb_net.Controllers
             return await _mediator.Send(new GetConversationByBookingIdQuery(bookingId));
         }
         
+        [HttpGet("listing/{listingId:guid}")]
+        public async Task<IEnumerable<Conversation>> GetConversationsByListingId(Guid listingId)
+        {
+            return await _mediator.Send(new GetConversationsByListingIdQuery(listingId));
+        }
+        
+        
+        ///
+
+        /// Deletes a conversation by its ID.
+        /// 
+
+        /// The ID of the conversation to delete.
+        /// No content (HTTP status code 204).
         [HttpDelete("{conversationId:guid}")]
         public async Task DeleteConversation(Guid conversationId)
         {

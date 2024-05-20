@@ -8,8 +8,9 @@
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.AssemblyInfoInputs.cache
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.AssemblyInfo.cs
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.csproj.CoreCompileInputs.cache
-/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.csproj.CopyComplete
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.dll
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/refint/ApplicationDAL.dll
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.pdb
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ref/ApplicationDAL.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/ApplicationDAL.sourcelink.json
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationDAL/obj/Debug/net7.0/Applicat.5DBAD9D8.Up2Date

@@ -11,7 +11,6 @@ using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
-using ApplicationLogic.BackgroundServices;
 using ApplicationLogic.CloudStorage;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Jwt;
@@ -96,22 +95,6 @@ public static class ServiceExtensions
         });
         
         services.AddValidatorsFromAssembly(ApplicationLogic.AssemblyMarker.Assembly);
-        
-        services.AddStackExchangeRedisCache(options =>
-        {
-            options.ConfigurationOptions = new()
-            {
-                AbortOnConnectFail = false,
-                Password = "MSmQBJVyE2LweeEFqKjYOOaJctkubqau",
-                EndPoints = { "redis-16876.c267.us-east-1-4.ec2.cloud.redislabs.com:16876" }
-            };
-        });
-        
-        services.AddSingleton<IConnectionMultiplexer>(
-            ConnectionMultiplexer.Connect("redis-16876.c267.us-east-1-4.ec2.cloud.redislabs.com:16876,password=MSmQBJVyE2LweeEFqKjYOOaJctkubqau")
-            );
-
-        services.AddHostedService<AccessBasedCacheInvalidator>();
         
         CollectionGetter.Initialize(services.BuildServiceProvider().GetService<IMongoDbContext>()!);
     }

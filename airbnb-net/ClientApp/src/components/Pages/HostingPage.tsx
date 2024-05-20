@@ -41,6 +41,7 @@ export const HostingPage = () => {
                 <Route path="/listings" element={<HostingListingsSection/>}/>
                 <Route path="/listing/:id" element={<ManageListingSection/>}/>
                 <Route path="/inbox" element={<HostingInboxSection/>}/>
+                <Route path="/inbox/booking/:bookingId" element={<HostingInboxSection/>}/>
             </Routes>
             <Outlet/>
     </>

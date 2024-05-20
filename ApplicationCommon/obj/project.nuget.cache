@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OXaCG9Dg04Y+83Q00zdBc+A+Ae9IIwv9U9e2YRu9TRIRDWie4XrENNRj8uEGK5iTXkYhxQrB2yIp+QB3K5j49Q==",
+  "dgSpecHash": "e/HRVib3snJbONDi/0OzUdUSNkiIoLHpr+xa9FL4J1E3Z91BE6rFLMBeBG32k4X3bHnky8vI/f3hUOHKaxpCXQ==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/ApplicationCommon/ApplicationCommon.csproj",
   "expectedPackageFiles": [
@@ -19,7 +19,9 @@
     "/home/mykhailo/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/system.text.encodings.web/4.7.2/system.text.encodings.web.4.7.2.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/system.text.json/4.7.2/system.text.json.4.7.2.nupkg.sha512",
-    "/home/mykhailo/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    "/home/mykhailo/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/microsoft.netcore.app.ref/7.0.17/microsoft.netcore.app.ref.7.0.17.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.17/microsoft.aspnetcore.app.ref.7.0.17.nupkg.sha512"
   ],
   "logs": []
 }

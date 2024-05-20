@@ -19,6 +19,7 @@
           "MediatR": "12.1.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.10",
           "NetArchTest.Rules": "1.3.2",
+          "BingMapsRESTToolkit.Reference": "1.1.5.0",
           "StackExchange.Redis": "2.0.0.0"
         },
         "runtime": {
@@ -816,6 +817,14 @@
           "BingMapsRESTToolkit.dll": {}
         }
       },
+      "BingMapsRESTToolkit.Reference/1.1.5.0": {
+        "runtime": {
+          "BingMapsRESTToolkit.dll": {
+            "assemblyVersion": "1.1.5.0",
+            "fileVersion": "1.1.4.0"
+          }
+        }
+      },
       "StackExchange.Redis/2.0.0.0": {
         "runtime": {
           "StackExchange.Redis.dll": {
@@ -1453,6 +1462,11 @@
     },
     "BingMapsRESTToolkit/1.1.5": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BingMapsRESTToolkit.Reference/1.1.5.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     },

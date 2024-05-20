@@ -4,7 +4,7 @@
     }
     border-radius: 12px;
     height: 100%;
-    width: 25%;
+    min-width: calc(25% - 13.5px);
     position: relative;
     background-color: white;
     display: flex;
@@ -93,4 +93,6 @@
 
 .bc-message {
     border-right: 1px solid #aaaaaa;
+    color: black;
+    text-decoration: none;
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "O+ReFEw1I7LAzGAdk0ncpLmRFpo55ODiqdc0I2Q5Q7J17zpkpKOWKUd7crV2kXZmAUntibkvNrqauCTvZk23BA==",
+  "dgSpecHash": "tNbYaFdIbw5nEaj18nuSaK9jPNmAeG9Y3G6ijOFVlOdfm72evdBsF120rxl3wXqsbrxvv/Pm62EqZACAB2QkCg==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/Application.API.IntegrationTests/Application.API.IntegrationTests.csproj",
   "expectedPackageFiles": [
@@ -279,7 +279,9 @@
     "/home/mykhailo/.nuget/packages/xunit.extensibility.core/2.4.2/xunit.extensibility.core.2.4.2.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/xunit.extensibility.execution/2.4.2/xunit.extensibility.execution.2.4.2.nupkg.sha512",
     "/home/mykhailo/.nuget/packages/xunit.runner.visualstudio/2.4.5/xunit.runner.visualstudio.2.4.5.nupkg.sha512",
-    "/home/mykhailo/.nuget/packages/zstdsharp.port/0.6.2/zstdsharp.port.0.6.2.nupkg.sha512"
+    "/home/mykhailo/.nuget/packages/zstdsharp.port/0.6.2/zstdsharp.port.0.6.2.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/microsoft.netcore.app.ref/7.0.17/microsoft.netcore.app.ref.7.0.17.nupkg.sha512",
+    "/home/mykhailo/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.17/microsoft.aspnetcore.app.ref.7.0.17.nupkg.sha512"
   ],
   "logs": []
 }

@@ -15,26 +15,14 @@ namespace ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 public class GetListingByIdQueryHandler : BaseHandler, IRequestHandler<GetListingByIdQuery, ListingDTO>
 {
     private readonly IListingQueryRepository _listingQueryRepository;
-    private readonly IDistributedCache _distributedCache;
     
-    public GetListingByIdQueryHandler(IMapper mapper, IListingQueryRepository listingQueryRepository, IDistributedCache distributedCache) : base(mapper)
+    public GetListingByIdQueryHandler(IMapper mapper, IListingQueryRepository listingQueryRepository) : base(mapper)
     {
         _listingQueryRepository = listingQueryRepository;
-        _distributedCache = distributedCache;
     }
 
     public async Task<ListingDTO> Handle(GetListingByIdQuery request, CancellationToken cancellationToken)
     {
-        var cacheKey = $"listing-{request.Id}";
-        var cachedListing = await _distributedCache.GetStringAsync(cacheKey);
-        
-        if (cachedListing != null)
-        {
-            var cachedListingDTO = BsonSerializer.Deserialize<ListingDTO>(cachedListing);
-            cachedListingDTO.LastAccess = DateTime.UtcNow;
-            await _distributedCache.SetStringAsync($"listing-{request.Id}-timestamp", JsonConvert.SerializeObject(cachedListingDTO.LastAccess));
-            return cachedListingDTO;
-        }
         
         var result = await _listingQueryRepository.GetListingById(request.Id);
         
@@ -46,9 +34,6 @@ public class GetListingByIdQueryHandler : BaseHandler, IRequestHandler<GetListin
         result.LastAccess = DateTime.UtcNow;
         
         var listingDTO = _mapper.Map<ListingDTO>(result);
-        
-        await _distributedCache.SetStringAsync(cacheKey, listingDTO.ToBsonDocument().ToString());
-        await _distributedCache.SetStringAsync($"listing-{request.Id}-timestamp", JsonConvert.SerializeObject(listingDTO.LastAccess));
         
         return listingDTO;
     }

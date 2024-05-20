@@ -19,30 +19,15 @@ public class GetBookingByIdQueryHandler : BaseHandler, IRequestHandler<GetBookin
 {
     private readonly IBookingQueryRepository _bookingQueryRepository;
     private readonly IBookingCommandAccess _bookingCommandAccess;
-    private readonly IDistributedCache _distributedCache;
     
-    public GetBookingByIdQueryHandler(IMapper mapper, IBookingQueryRepository bookingQueryRepository, IDistributedCache distributedCache, IBookingCommandAccess bookingCommandAccess) : base(mapper)
+    public GetBookingByIdQueryHandler(IMapper mapper, IBookingQueryRepository bookingQueryRepository, IBookingCommandAccess bookingCommandAccess) : base(mapper)
     {
         _bookingQueryRepository = bookingQueryRepository;
-        _distributedCache = distributedCache;
         _bookingCommandAccess = bookingCommandAccess;
     }
 
     public async Task<BookingDTO> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
     {
-        string cacheKey = $"booking-{request.Id}";
-        string cacheKeyTimestamp = $"booking-{request.Id}-timestamp";
-        
-        var cachedBooking = await _distributedCache.GetStringAsync(cacheKey, cancellationToken);
-        
-        if (cachedBooking != null)
-        {
-            BookingDTO cachedBookingDTO = BsonSerializer.Deserialize<BookingDTO>(cachedBooking);
-            cachedBookingDTO.LastAccess = DateTime.UtcNow;
-            await _distributedCache.SetStringAsync($"booking-{request.Id}-timestamp", JsonConvert.SerializeObject(cachedBookingDTO.LastAccess), cancellationToken);
-            return cachedBookingDTO;
-        }
-        
         var result = await _bookingQueryRepository.GetBookingById(request.Id);
         
         if (result == null)
@@ -53,9 +38,6 @@ public class GetBookingByIdQueryHandler : BaseHandler, IRequestHandler<GetBookin
         result.LastAccess = DateTime.UtcNow;
         
         var mappedBooking = _mapper.Map<BookingDTO>(result);
-        
-        await _distributedCache.SetStringAsync(cacheKey, mappedBooking.ToBsonDocument().ToString(), cancellationToken);
-        await _distributedCache.SetStringAsync(cacheKeyTimestamp, JsonConvert.SerializeObject(mappedBooking.LastAccess), cancellationToken);
         
         return mappedBooking;
     }

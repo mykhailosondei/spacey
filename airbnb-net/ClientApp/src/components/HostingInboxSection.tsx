@@ -8,17 +8,20 @@ import {ConversationDetails} from "./ConversationDetails";
 import "../styles/HostingInboxSection.scss";
 import {HostConversationHolder} from "./HostConversationHolder";
 import {ConnectionService} from "../services/ConnectionService";
+import {Link, useParams, useSearchParams} from "react-router-dom";
 
 export const HostingInboxSection = () => {
 
     const connectionService = useMemo(() => {return ConnectionService.getInstance()}, []);
     const { host } = useHost();
+    const {bookingId} = useParams();
 
     const conversationService = useMemo(() => {return ConversationService.getInstance()}, []);
     const messageService = useMemo(() => {return MessageService.getInstance()}, []);
 
     const [conversations, setConversations] = React.useState<Conversation[]>([]);
     const [selectedConversationId, setSelectedConversationId] = React.useState<string>("");
+    const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
     
     
     useEffect(() => {
@@ -41,13 +44,23 @@ export const HostingInboxSection = () => {
             });
         });
     }, []);
-
-    useEffect(() => {
+    
+    const loadConversations = () => {
         if (!host) return;
+        if(bookingId) {
+            conversationService.getByBooking(bookingId).then((response) => {
+                setSelectedConversationId(response.data.id);
+            });
+        }
         conversationService.getHostConversations(host.id).then((response) => {
             setConversations(response.data);
-            setSelectedConversationId(response.data[0]?.id || "")
+            setSelectedConversationId(response.data[0]?.id || "");
+            setIsLoaded(true);
         });
+    }
+
+    useEffect(() => {
+        loadConversations();
     }, [host]);
 
     useEffect(() => {
@@ -66,7 +79,7 @@ export const HostingInboxSection = () => {
     }
     
     const getSelectedConversation = () => {
-        return conversations.find((c) => c.id === selectedConversationId)!;
+        return conversations.find((c) => c.id === selectedConversationId);
     }
     
     const sendMessage = async (messageText: string) => {
@@ -77,12 +90,21 @@ export const HostingInboxSection = () => {
             });
         }
     }
+    
+    if(!isLoaded) return <div className={"hosting-inbox-section"}></div>
 
-    return conversations.length !== 0 ? <div className={"hosting-inbox-section"}>
+    return (conversations.length !== 0) ? <div className={"hosting-inbox-section"}>
         <div className="messages-windows-holder">
-            <HostConversationHolder conversations={conversations} setSelectedConversationId={setSelectedConversationId} selectedConversationId={selectedConversationId} />
-            <ConversationHolder conversation={getSelectedConversation()} sendMessage={sendMessage}/>
+            <HostConversationHolder conversations={conversations} setConversations={setConversations} setSelectedConversationId={setSelectedConversationId} selectedConversationId={selectedConversationId} />
+            { getSelectedConversation() ? <ConversationHolder conversation={getSelectedConversation()!} sendMessage={sendMessage}/> : <div className={"conversation-holder messages-window"}></div>}
             <ConversationDetails isHostMode={true} conversation={getSelectedConversation()} />
         </div>
-    </div> : <div className={"hosting-inbox-section"}>No conversations</div>;
+    </div> : <div className={"hosting-inbox-section"}>
+        <div className="no-conversations-holder">
+            <div className="no-conversations">No conversations yet</div>
+            <div className="go-to-main-link">
+                <Link to={"/hosting"}>Go to the main page to start one!</Link>
+            </div>
+        </div>
+    </div>;
 }

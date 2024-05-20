@@ -9,7 +9,7 @@ import {ConversationHolder} from "../ConversationHolder";
 import {ConversationDetails} from "../ConversationDetails";
 import {Conversation} from "../../DTOs/Conversation/Conversation";
 import {useUser} from "../../Contexts/UserContext";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import {ConnectionService} from "../../services/ConnectionService";
 
 export const MessagesPage = () => {
@@ -27,9 +27,9 @@ export const MessagesPage = () => {
     
     const [conversations, setConversations] = React.useState<Conversation[]>([]);
     const [selectedConversationId, setSelectedConversationId] = React.useState<string>("");
+    const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
     
     const location = useLocation();
-
     
     useEffect(() => {
         connectionService.startConnection();
@@ -68,6 +68,7 @@ export const MessagesPage = () => {
         if (!user) return;
         conversationService.getUserConversations(user.id).then((response) => {
             setConversations(response.data);
+            setIsLoaded(true);
         });
         if (conversationId) {
             if(conversations.find((c) => c.id === conversationId)) {
@@ -98,7 +99,6 @@ export const MessagesPage = () => {
         loadConversations();
     }, [user, location.pathname]);
     
-    
     async function sendCustomMessage(messageText: string) {
         messageService.sendMessage(selectedConversationId, messageText).then((response) => {
             if(response.status === 200) {
@@ -114,9 +114,11 @@ export const MessagesPage = () => {
     }
     
     const selectConversation = (conversationId: string) => {
-        //setSelectedConversationId(conversationId);
-        navigate(`/messages/${conversationId}`)
+        setSelectedConversationId(conversationId);
+        navigate(`/messages/${conversationId}`, {replace: false});
     }
+    
+    if(!isLoaded) return <div className="messages-page"></div>;
 
     return conversations.length !== 0 ? <div className={"messages-page"}>
         <div className="up-nav-wrapper"><NavBar></NavBar></div>
@@ -125,8 +127,13 @@ export const MessagesPage = () => {
             <ConversationHolder conversation={getSelectedConversation()} sendMessage={sendCustomMessage} />
             <ConversationDetails conversation={getSelectedConversation()} />
         </div>
-    </div> : <h1>
-        You have no conversations!
-        <a href="/">Go home</a> 
-    </h1>;
+    </div> : <div className="messages-page">
+        <div className="up-nav-wrapper"><NavBar></NavBar></div>
+        <div className="no-conversations-holder">
+            <div className="no-conversations">No conversations yet</div>
+            <div className="go-to-main-link">
+                <Link to={"/trips"}>Go to the trips page to start one!</Link>
+            </div>
+        </div>
+    </div>;
 };

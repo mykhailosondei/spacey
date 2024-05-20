@@ -4,7 +4,6 @@ using System.Runtime.InteropServices.JavaScript;
 using Application.API.IntegrationTests.ServiceMocks;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DbHelper;
-using ApplicationLogic.BackgroundServices;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

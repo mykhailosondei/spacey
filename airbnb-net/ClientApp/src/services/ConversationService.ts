@@ -50,4 +50,8 @@ export default class ConversationService {
     async getByBooking(bookingId: string) {
         return await this.http.Get<Conversation>(`${this.baseUrl}/booking/${bookingId}`);
     }
+
+    async getByListing(listingId: string) {
+        return this.http.Get<Conversation[]>(`${this.baseUrl}/listing/${listingId}`);
+    }
 }
