@@ -1,7 +1,7 @@
 using ApplicationCommon.DTOs.Listing;
 using ApplicationLogic.Abstract;
 using ApplicationLogic.Filters.Abstract;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.ListingQueries;
 

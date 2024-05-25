@@ -6,7 +6,7 @@ using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Querying.Queries.ConversationQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.QueryHandlers.ConversationHandlers;
 

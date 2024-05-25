@@ -7,7 +7,7 @@ using ApplicationLogic.Abstract;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.BookingQueries;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;

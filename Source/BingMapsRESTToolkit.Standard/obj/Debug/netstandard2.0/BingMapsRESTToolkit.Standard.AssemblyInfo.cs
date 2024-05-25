@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Microsoft 2017")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("A toolkit that makes it easy to access the Bing Maps REST services from .NET")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.4.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.1.5+e82c28ad5655c4f6ae7920ccf8832f04217a1434")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.1.5+78c556e96d5c98a333bd33900e233546af9da3d8")]
 [assembly: System.Reflection.AssemblyProductAttribute("BingMapsRESTToolkit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BingMapsRESTToolkit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.1.5.0")]

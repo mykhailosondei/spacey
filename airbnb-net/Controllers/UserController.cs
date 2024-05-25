@@ -11,7 +11,7 @@ using ApplicationLogic.Commanding.Commands.UserCommands;
 using ApplicationLogic.Querying.Queries.UserQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +36,14 @@ namespace airbnb_net.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserDTO>> Get()
         {
-            return await _mediator.Send(new GetAllUsersQuery());
+            return await _mediator.SendAsync(new GetAllUsersQuery());
         }
 
         // GET: api/User/5
         [HttpGet("{id:guid}")]
         public async Task<UserDTO> Get(Guid id)
         {
-            return await _mediator.Send(new GetUserByIdQuery(id));
+            return await _mediator.SendAsync(new GetUserByIdQuery(id));
         }
         
         // GET: api/User/fromToken
@@ -51,7 +51,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User, Host")]
         public async Task<UserDTO> GetFromToken()
         {
-            return await _mediator.Send(new GetUserByIdQuery(_userIdGetter.UserId));
+            return await _mediator.SendAsync(new GetUserByIdQuery(_userIdGetter.UserId));
         }
         
         // PUT: api/User/5
@@ -59,7 +59,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Put(Guid id, [FromBody] UserUpdateDTO userUpdate)
         {
-            await _mediator.Send(new UpdateUserCommand(id, userUpdate));
+            await _mediator.SendAsync(new UpdateUserCommand(id, userUpdate));
         }
 
         // DELETE: api/User/5
@@ -67,7 +67,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Delete(Guid id)
         {
-            await _mediator.Send(new DeleteUserCommand(id));
+            await _mediator.SendAsync(new DeleteUserCommand(id));
         }
     }
 }

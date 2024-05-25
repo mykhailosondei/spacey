@@ -1,5 +1,5 @@
 using ApplicationCommon.DTOs.Review;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.Commands.ReviewCommands;
 

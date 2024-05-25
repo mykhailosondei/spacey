@@ -12,7 +12,7 @@ using ApplicationLogic.Commanding.Commands.ReviewCommands;
 using ApplicationLogic.Querying.Queries.ReviewQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,14 +37,14 @@ namespace airbnb_net.Controllers
         [HttpGet]
         public async Task<IEnumerable<ReviewDTO>> Get()
         {
-            return await _mediator.Send(new GetAllReviewsQuery());
+            return await _mediator.SendAsync(new GetAllReviewsQuery());
         }
 
         // GET: api/Review/5
         [HttpGet("{id:guid}", Name = "Get")]
         public async Task<ReviewDTO> Get(Guid id)
         {
-            return await _mediator.Send(new GetReviewByIdQuery(id));
+            return await _mediator.SendAsync(new GetReviewByIdQuery(id));
         }
 
         // POST: api/Review
@@ -53,7 +53,7 @@ namespace airbnb_net.Controllers
         public async Task<Guid> Post([FromBody] ReviewCreateDTO reviewCreate)
         { 
             reviewCreate.UserId = _userIdGetter.UserId;
-            return await _mediator.Send(new CreateReviewCommand(reviewCreate));
+            return await _mediator.SendAsync(new CreateReviewCommand(reviewCreate));
         }
 
         // PUT: api/Review/5
@@ -61,7 +61,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Put(Guid id, [FromBody] ReviewUpdateDTO reviewUpdate)
         {
-            await _mediator.Send(new UpdateReviewCommand(id, reviewUpdate));
+            await _mediator.SendAsync(new UpdateReviewCommand(id, reviewUpdate));
         }
 
         // DELETE: api/Review/5
@@ -69,7 +69,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Delete(Guid id)
         {
-            await _mediator.Send(new DeleteReviewCommand(id));
+            await _mediator.SendAsync(new DeleteReviewCommand(id));
         }
     }
 }

@@ -1,6 +1,4 @@
-using Amazon.Runtime.Internal;
-using MediatR;
-using IRequest = MediatR.IRequest;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.Commands.ReviewCommands;
 

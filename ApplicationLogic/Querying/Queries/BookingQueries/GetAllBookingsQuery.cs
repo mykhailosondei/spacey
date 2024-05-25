@@ -1,5 +1,5 @@
 using ApplicationCommon.DTOs.BookingDTOs;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.BookingQueries;
 

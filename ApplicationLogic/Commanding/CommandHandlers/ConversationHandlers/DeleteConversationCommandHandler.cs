@@ -6,7 +6,7 @@ using ApplicationLogic.Exceptions;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.ConversationHandlers;
 

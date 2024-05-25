@@ -6,7 +6,7 @@ using ApplicationLogic.Exceptions;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Notifications;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.MessageHandlers;

@@ -7,7 +7,7 @@ using ApplicationLogic.Commanding.Commands.ReviewCommands;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.ReviewHandlers;
 
@@ -18,15 +18,13 @@ public class DeleteReviewCommandHandler : BaseHandler,IRequestHandler<DeleteRevi
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IUserIdGetter _userIdGetter;
-    private readonly IPublisher _publisher;
     private readonly IBookingQueryRepository _bookingQueryRepository;
 
-    public DeleteReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IUserIdGetter userIdGetter, IReviewQueryRepository reviewQueryRepository, IPublisher publisher, IListingQueryRepository listingQueryRepository, IListingCommandAccess listingCommandAccess, IBookingQueryRepository bookingQueryRepository) : base(mapper)
+    public DeleteReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IUserIdGetter userIdGetter, IReviewQueryRepository reviewQueryRepository, IListingQueryRepository listingQueryRepository, IListingCommandAccess listingCommandAccess, IBookingQueryRepository bookingQueryRepository) : base(mapper)
     {
         _reviewCommandAccess = reviewCommandAccess;
         _userIdGetter = userIdGetter;
         _reviewQueryRepository = reviewQueryRepository;
-        _publisher = publisher;
         _listingQueryRepository = listingQueryRepository;
         _listingCommandAccess = listingCommandAccess;
         _bookingQueryRepository = bookingQueryRepository;
@@ -65,13 +63,5 @@ public class DeleteReviewCommandHandler : BaseHandler,IRequestHandler<DeleteRevi
         await _listingCommandAccess.UpdateListing(listing.Id, listing);
         
         await _reviewCommandAccess.DeleteReview(request.Id);
-        
-        await _publisher.Publish(new ReviewDeletedEvent()
-        {
-            ReviewId = review.Id,
-            UserId = review.UserId,
-            BookingId = review.BookingId,
-            DeletedAt = DateTime.UtcNow
-        });
     }
 }

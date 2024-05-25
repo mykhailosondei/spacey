@@ -24,14 +24,16 @@ namespace airbnb_net.Controllers
     public class AuthController : InternalControllerBase
     {
         private readonly AuthService _authService;
+        private readonly IRegistrar _registrar;
         private readonly IUserIdGetter _userIdGetter;
         private readonly IRoleGetter _roleGetter;
         
-        public AuthController(ILogger<InternalControllerBase> logger, IMapper mapper, JwtFactory jwtFactory, IUserCommandAccess userCommandAccess, IUserQueryRepository userQueryRepository, AuthService authService, IUserIdGetter userIdGetter, IRoleGetter roleGetter) : base(logger, mapper)
+        public AuthController(ILogger<InternalControllerBase> logger, IMapper mapper, JwtFactory jwtFactory, IUserCommandAccess userCommandAccess, IUserQueryRepository userQueryRepository, AuthService authService, IUserIdGetter userIdGetter, IRoleGetter roleGetter, IRegistrar registrar) : base(logger, mapper)
         {
             _authService = authService;
             _userIdGetter = userIdGetter;
             _roleGetter = roleGetter;
+            _registrar = registrar;
         }
         
         // POST: api/Auth/login
@@ -61,7 +63,7 @@ namespace airbnb_net.Controllers
         [AllowAnonymous]
         public async Task<AuthUser> Register([FromBody] RegisterUserDTO registerUserDTO)
         {
-            return await _authService.Register(registerUserDTO);
+            return await _registrar.Register(registerUserDTO);
         }
         
         //POST: api/Auth/isEmailTaken

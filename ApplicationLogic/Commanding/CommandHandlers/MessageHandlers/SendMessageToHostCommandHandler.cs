@@ -7,7 +7,7 @@ using ApplicationLogic.Exceptions;
 using ApplicationLogic.Notifications;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver.Core.Misc;
 

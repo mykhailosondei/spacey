@@ -1,6 +1,6 @@
 using ApplicationCommon.DTOs.Listing;
 using ApplicationCommon.GeospatialUtilities;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.ListingQueries;
 

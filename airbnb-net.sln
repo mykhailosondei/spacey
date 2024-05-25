@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.API.Integration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingMapsRESTToolkit.Standard", ".\Source\BingMapsRESTToolkit.Standard\BingMapsRESTToolkit.Standard.csproj", "{092BB819-137F-4A07-AAF9-04D0063F1E4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMediator", "CustomMediator\CustomMediator.csproj", "{A9F4797E-A163-489B-91D8-D66FF9C60421}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMapper", "CustomMapper\CustomMapper.csproj", "{97A40378-23AE-42C4-8AE0-358D50184EE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +62,13 @@ Global
 		{1500A613-A28D-4D37-845E-49CAB41D5FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1500A613-A28D-4D37-845E-49CAB41D5FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1500A613-A28D-4D37-845E-49CAB41D5FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F4797E-A163-489B-91D8-D66FF9C60421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F4797E-A163-489B-91D8-D66FF9C60421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F4797E-A163-489B-91D8-D66FF9C60421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F4797E-A163-489B-91D8-D66FF9C60421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A40378-23AE-42C4-8AE0-358D50184EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A40378-23AE-42C4-8AE0-358D50184EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A40378-23AE-42C4-8AE0-358D50184EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A40378-23AE-42C4-8AE0-358D50184EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

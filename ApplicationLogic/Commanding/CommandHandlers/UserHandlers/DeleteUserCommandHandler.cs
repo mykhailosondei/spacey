@@ -5,7 +5,7 @@ using ApplicationLogic.Commanding.Commands.UserCommands;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.UserHandlers;
 
@@ -14,14 +14,11 @@ public class DeleteUserCommandHandler : BaseHandler, IRequestHandler<DeleteUserC
     private readonly IUserCommandAccess _userCommandAccess;
     private readonly IUserQueryRepository _userQueryRepository;
     private readonly IUserIdGetter _userIdGetter;
-    private readonly IPublisher _publisher;
-    
-    public DeleteUserCommandHandler(IMapper mapper, IUserCommandAccess userCommandAccess, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository, IPublisher publisher) : base(mapper)
+    public DeleteUserCommandHandler(IMapper mapper, IUserCommandAccess userCommandAccess, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository) : base(mapper)
     {
         _userCommandAccess = userCommandAccess;
         _userIdGetter = userIdGetter;
         _userQueryRepository = userQueryRepository;
-        _publisher = publisher;
     }
 
     public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -39,14 +36,5 @@ public class DeleteUserCommandHandler : BaseHandler, IRequestHandler<DeleteUserC
         }
         
         await _userCommandAccess.DeleteUser(request.Id);
-        
-        await _publisher.Publish(new UserDeletedEvent()
-        {
-            UserId = user.Id,
-            BookingsIds = user.BookingsIds,
-            HostId = user.Host.Id,
-            ListingsIds = user.Host.ListingsIds,
-            DeletedAt = DateTime.Now
-        }, CancellationToken.None);
     }
 }

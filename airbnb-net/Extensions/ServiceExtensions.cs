@@ -1,9 +1,4 @@
-using System.Configuration;
-using System.Reflection;
 using System.Text;
-using airbnb_net.Middlewares;
-using Amazon.Runtime.Internal.Util;
-using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.DbHelper;
@@ -14,20 +9,19 @@ using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.CloudStorage;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Jwt;
-using ApplicationLogic.MappingProfiles;
+using ApplicationLogic.PipelineBehaviors;
 using ApplicationLogic.RoleLogic;
 using ApplicationLogic.Services;
 using ApplicationLogic.SignalRIdProviders;
 using ApplicationLogic.UserIdLogic;
+using CustomMediator;
+using CustomMediator.Pipelines;
+using CustomMediator.ServiceRegisterers;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson.Serialization;
-using Newtonsoft.Json;
-using StackExchange.Redis;
-using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 namespace airbnb_net.Extensions;
 
@@ -36,6 +30,7 @@ public static class ServiceExtensions
     public static void RegisterCustomServices(this IServiceCollection services)
     {
         services.AddScoped<AuthService>();
+        services.AddScoped<IRegistrar, RegistrarProxy>();
         services.AddScoped<IAutocompleteService, AutocompleteService>();
         
         services.AddScoped<IBookingCommandAccess, BookingCommandAccess>();
@@ -93,6 +88,18 @@ public static class ServiceExtensions
             conversation.AutoMap();
             conversation.GetMemberMap(c => c.IsRead).SetDefaultValue(true);
         });
+        
+        var mediatorDictionary = Mediator.InitializeHandlerDictionary(new[] { typeof(ApplicationLogic.AssemblyMarker) });
+        var flow = new PipelineFlow();
+        flow.AddPipeline(typeof(ValidationBehavior<,>));
+        
+        MediatorInitializer.InitializeHandlers(services, mediatorDictionary);
+        MediatorInitializer.InitializePipelines(services, mediatorDictionary, flow);
+        
+        var provider = services.BuildServiceProvider();
+        Mediator mediator = new(serviceFactory: provider.GetRequiredService, handlers: mediatorDictionary);
+        
+        services.AddSingleton<IMediator>(mediator);
         
         services.AddValidatorsFromAssembly(ApplicationLogic.AssemblyMarker.Assembly);
         

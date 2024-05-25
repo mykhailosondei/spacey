@@ -1,6 +1,6 @@
 using ApplicationCommon.DTOs.BookingDTOs;
 using ApplicationCommon.Enums;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.BookingQueries;
 

@@ -1,6 +1,6 @@
 using ApplicationLogic.Commanding.Commands;
 using FluentValidation;
-using MediatR;
+using CustomMediator.Pipelines;
 
 namespace ApplicationLogic.PipelineBehaviors;
 
@@ -8,6 +8,7 @@ public sealed class ValidationBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ICommand
 {
+    
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
@@ -20,6 +21,7 @@ public sealed class ValidationBehavior<TRequest, TResponse>
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        Console.WriteLine($"Validating request of type {request.GetType().Name} with response of type {typeof(TResponse).Name}");
         var context = new ValidationContext<TRequest>(request);
         
         var validationFailures = await Task.WhenAll(

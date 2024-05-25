@@ -1,5 +1,5 @@
 using ApplicationCommon.DTOs.User;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.Commands.UserCommands;
 

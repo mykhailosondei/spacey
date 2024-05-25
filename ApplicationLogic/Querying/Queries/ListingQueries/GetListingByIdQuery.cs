@@ -1,5 +1,5 @@
 using ApplicationCommon.DTOs.Listing;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.ListingQueries;
 

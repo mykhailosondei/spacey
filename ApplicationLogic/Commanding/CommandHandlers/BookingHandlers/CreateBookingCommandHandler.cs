@@ -11,7 +11,7 @@ using ApplicationLogic.UserIdLogic;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
-using MediatR;
+using CustomMediator;
 using MongoDB.Driver.Linq;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.BookingHandlers;
@@ -23,16 +23,14 @@ public class CreateBookingCommandHandler : BaseHandler, IRequestHandler<CreateBo
     private readonly IBookingQueryRepository _bookingQueryRepository;
     private readonly IUserQueryRepository _userQueryRepository;
     private readonly IUserIdGetter _userIdGetter;
-    private readonly IPublisher _publisher;
 
-    public CreateBookingCommandHandler(IMapper mapper, IBookingCommandAccess bookingCommandAccess, IListingQueryRepository listingQueryRepository, IBookingQueryRepository bookingQueryRepository, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository, IPublisher publisher) : base(mapper)
+    public CreateBookingCommandHandler(IMapper mapper, IBookingCommandAccess bookingCommandAccess, IListingQueryRepository listingQueryRepository, IBookingQueryRepository bookingQueryRepository, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository) : base(mapper)
     {
         _bookingCommandAccess = bookingCommandAccess;
         _listingQueryRepository = listingQueryRepository;
         _bookingQueryRepository = bookingQueryRepository;
         _userIdGetter = userIdGetter;
         _userQueryRepository = userQueryRepository;
-        _publisher = publisher;
     }
 
     public async Task<Guid> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
@@ -58,13 +56,6 @@ public class CreateBookingCommandHandler : BaseHandler, IRequestHandler<CreateBo
         }
         
         booking.TotalPrice = BookingHelper.CalculateTotalPrice(booking.CheckIn, booking.CheckOut, listingEntity.PricePerNight);
-        
-        await _publisher.Publish(new BookingCreatedEvent()
-        {
-            ListingId = booking.ListingId,
-            UserId = booking.UserId,
-            CreatedAt = DateTime.UtcNow
-        }, CancellationToken.None);
         
         return await _bookingCommandAccess.AddBooking(booking);
     }

@@ -1,6 +1,6 @@
 using ApplicationCommon.Structs;
 using ApplicationDAL.Entities;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.ConversationQueries;
 

@@ -1,4 +1,4 @@
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 

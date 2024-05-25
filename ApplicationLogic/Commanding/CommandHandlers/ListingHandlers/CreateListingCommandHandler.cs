@@ -9,7 +9,7 @@ using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Options;
 using AutoMapper;
 using BingMapsRESTToolkit;
-using MediatR;
+using CustomMediator;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver.GeoJsonObjectModel;
 
@@ -19,14 +19,12 @@ public class CreateListingCommandHandler : BaseHandler, IRequestHandler<CreateLi
 {
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IHostQueryRepository _hostQueryRepository;
-    private readonly IPublisher _publisher;
     private readonly BingMapsConnectionOptions _bingMapsConnectionOptions;
     
-    public CreateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IHostQueryRepository hostQueryRepository, IPublisher publisher, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
+    public CreateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IHostQueryRepository hostQueryRepository, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
     {
         _listingCommandAccess = listingCommandAccess;
         _hostQueryRepository = hostQueryRepository;
-        _publisher = publisher;
         _bingMapsConnectionOptions = bingMapsConnectionOptions.Value;
     }
 
@@ -64,13 +62,6 @@ public class CreateListingCommandHandler : BaseHandler, IRequestHandler<CreateLi
         listing.Location = new GeoJsonPoint<GeoJson2DCoordinates>(new GeoJson2DCoordinates(xCoordinate, yCoordinate));
         Console.WriteLine(listing.Location.Coordinates.Y);
         Console.WriteLine(listing.Location.Coordinates.X);
-        
-        await _publisher.Publish(new ListingCreatedEvent()
-        {
-            ListingId = listing.Id,
-            HostId = listing.Host.Id,
-            CreatedAt = DateTime.UtcNow
-        });
         
         return await _listingCommandAccess.AddListing(listing);
     }

@@ -5,7 +5,7 @@ using ApplicationLogic.Commanding.Commands.ListingCommands;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.ListingHandlers;
 
@@ -17,16 +17,14 @@ public class UnlikeListingCommandHandler : BaseHandler, IRequestHandler<UnlikeLi
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IUserQueryRepository _userQueryRepository;
     private readonly IUserCommandAccess _userCommandAccess;
-    private readonly IPublisher _publisher;
 
-    public UnlikeListingCommandHandler(IMapper mapper, IListingQueryRepository listingQueryRepository, IUserIdGetter userIdGetter, IListingCommandAccess listingCommandAccess, IUserQueryRepository userQueryRepository, IUserCommandAccess userCommandAccess, IPublisher publisher) : base(mapper)
+    public UnlikeListingCommandHandler(IMapper mapper, IListingQueryRepository listingQueryRepository, IUserIdGetter userIdGetter, IListingCommandAccess listingCommandAccess, IUserQueryRepository userQueryRepository, IUserCommandAccess userCommandAccess) : base(mapper)
     {
         _listingQueryRepository = listingQueryRepository;
         _userIdGetter = userIdGetter;
         _listingCommandAccess = listingCommandAccess;
         _userQueryRepository = userQueryRepository;
         _userCommandAccess = userCommandAccess;
-        _publisher = publisher;
     }
 
     public async Task Handle(UnlikeListingCommand request, CancellationToken cancellationToken)
@@ -50,12 +48,5 @@ public class UnlikeListingCommandHandler : BaseHandler, IRequestHandler<UnlikeLi
         
         await _listingCommandAccess.UpdateListing(listing.Id ,listing);
         await _userCommandAccess.UpdateUser(user.Id, user);
-        
-        await _publisher.Publish(new ListingUpdatedEvent()
-        {
-            ListingId = listing.Id,
-            HostId = listing.Host.Id,
-            UpdatedAt = DateTime.UtcNow
-        });
     }
 }

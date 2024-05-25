@@ -9,7 +9,7 @@ using ApplicationLogic.Exceptions;
 using ApplicationLogic.Helpers;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.BookingHandlers;
 
@@ -19,15 +19,13 @@ public class UpdateBookingCommandHandler : BaseHandler, IRequestHandler<UpdateBo
     private readonly IBookingQueryRepository _bookingQueryRepository;
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IUserIdGetter _userIdGetter;
-    private readonly IPublisher _publisher;
     
-    public UpdateBookingCommandHandler(IMapper mapper, IBookingCommandAccess bookingCommandAccess, IBookingQueryRepository bookingQueryRepository, IUserIdGetter userIdGetter, IListingQueryRepository listingQueryRepository, IPublisher publisher) : base(mapper)
+    public UpdateBookingCommandHandler(IMapper mapper, IBookingCommandAccess bookingCommandAccess, IBookingQueryRepository bookingQueryRepository, IUserIdGetter userIdGetter, IListingQueryRepository listingQueryRepository) : base(mapper)
     {
         _bookingCommandAccess = bookingCommandAccess;
         _bookingQueryRepository = bookingQueryRepository;
         _userIdGetter = userIdGetter;
         _listingQueryRepository = listingQueryRepository;
-        _publisher = publisher;
     }
 
     public async Task Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
@@ -73,14 +71,6 @@ public class UpdateBookingCommandHandler : BaseHandler, IRequestHandler<UpdateBo
                 throw new InvalidOperationException("Listing is already booked for this period or a part of it.");
             }
         }
-        
-        await _publisher.Publish(new BookingUpdatedEvent()
-        {
-            BookingId = booking.Id,
-            ListingId = booking.ListingId,
-            UserId = booking.UserId,
-            UpdatedAt = DateTime.UtcNow
-        }, CancellationToken.None);
         
         await _bookingCommandAccess.UpdateBooking(request.Id ,booking);
     }

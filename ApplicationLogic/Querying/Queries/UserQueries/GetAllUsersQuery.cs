@@ -1,7 +1,7 @@
 using Amazon.Runtime.Internal;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.Entities;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.UserQueries;
 

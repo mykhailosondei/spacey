@@ -1,19 +1,12 @@
 using airbnb_net.Extensions;
 using airbnb_net.Middlewares;
-using ApplicationLogic;
 using ApplicationLogic.CloudStorage;
 using ApplicationLogic.Notifications;
 using ApplicationLogic.Options;
-using ApplicationLogic.PipelineBehaviors;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-using Newtonsoft.Json;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var config = builder.Configuration;
 
 builder.Services.AddControllers();
@@ -30,13 +23,6 @@ builder.Services.Configure<AzureCloudStorageOptions>(
 
 builder.Services.ConfigureJwt(config);
 builder.Services.AddSignalR();
-builder.Services.AddMediatR(x =>
-{
-    x.Lifetime = ServiceLifetime.Scoped;
-    // ReSharper disable once RedundantNameQualifier
-    x.RegisterServicesFromAssemblyContaining<ApplicationLogic.AssemblyMarker>();
-    x.AddOpenBehavior(typeof(ValidationBehavior<,>));
-});
 
 builder.Services.AddCors(options =>
 {
@@ -49,6 +35,7 @@ builder.Services.AddCors(options =>
             .WithExposedHeaders("Content-Disposition");
     });
 });
+
 
 
 var app = builder.Build();

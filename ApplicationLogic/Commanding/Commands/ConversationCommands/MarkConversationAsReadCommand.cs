@@ -1,5 +1,5 @@
 using ApplicationLogic.Commanding.Commands;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.Commands.ConversationCommands;
 

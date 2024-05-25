@@ -3,7 +3,7 @@ using ApplicationCommon.GeospatialUtilities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.ListingQueries;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 

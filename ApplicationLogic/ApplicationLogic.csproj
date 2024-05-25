@@ -27,6 +27,7 @@
       <ProjectReference Include="..\..\..\Downloads\BingMapsRESTToolkit-1.1.5\Source\BingMapsRESTToolkit.Standard\BingMapsRESTToolkit.Standard.csproj" />
       <ProjectReference Include="..\ApplicationCommon\ApplicationCommon.csproj" />
       <ProjectReference Include="..\ApplicationDAL\ApplicationDAL.csproj" />
+      <ProjectReference Include="..\CustomMediator\CustomMediator.csproj" />
     </ItemGroup>
 
 

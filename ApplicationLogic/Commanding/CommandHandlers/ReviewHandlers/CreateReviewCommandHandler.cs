@@ -9,7 +9,7 @@ using ApplicationLogic.Exceptions;
 using ApplicationLogic.Helpers;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.ReviewHandlers;
 
@@ -20,17 +20,15 @@ public class CreateReviewCommandHandler :BaseHandler, IRequestHandler<CreateRevi
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IUserIdGetter _userIdGetter;
-    private readonly IPublisher _publisher;
     
     
-    public CreateReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IBookingQueryRepository bookingQueryRepository, IUserIdGetter userIdGetter, IListingQueryRepository listingQueryRepository, IListingCommandAccess listingCommandAccess, IPublisher publisher) : base(mapper)
+    public CreateReviewCommandHandler(IMapper mapper, IReviewCommandAccess reviewCommandAccess, IBookingQueryRepository bookingQueryRepository, IUserIdGetter userIdGetter, IListingQueryRepository listingQueryRepository, IListingCommandAccess listingCommandAccess) : base(mapper)
     {
         _reviewCommandAccess = reviewCommandAccess;
         _bookingQueryRepository = bookingQueryRepository;
         _userIdGetter = userIdGetter;
         _listingQueryRepository = listingQueryRepository;
         _listingCommandAccess = listingCommandAccess;
-        _publisher = publisher;
     }
 
     public async Task<Guid> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
@@ -62,14 +60,6 @@ public class CreateReviewCommandHandler :BaseHandler, IRequestHandler<CreateRevi
         listing.Ratings.Add(request.Review.Ratings);
         
         await _listingCommandAccess.UpdateListing(listing.Id, listing);
-        
-        await _publisher.Publish(new ReviewCreatedEvent()
-        {
-            ReviewId = review.Id,
-            UserId = review.UserId,
-            BookingId = booking.Id,
-            CreatedAt = DateTime.UtcNow
-        });
         
         return await _reviewCommandAccess.AddReview(review);
     }

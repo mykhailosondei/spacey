@@ -4,7 +4,7 @@ using ApplicationLogic.Abstract;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.Querying.Queries.HostQueries;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;

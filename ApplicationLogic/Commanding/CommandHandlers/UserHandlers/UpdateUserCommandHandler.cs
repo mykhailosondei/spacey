@@ -8,7 +8,7 @@ using ApplicationLogic.Options;
 using ApplicationLogic.UserIdLogic;
 using User = ApplicationDAL.Entities.User;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.Extensions.Options;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.UserHandlers;
@@ -19,14 +19,12 @@ public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserC
     private readonly IUserQueryRepository _userQueryRepository;
     private readonly BingMapsConnectionOptions _bingMapsConnectionOptions;
     private readonly IUserIdGetter _userIdGetter;
-    private readonly IPublisher _publisher;
     
-    public UpdateUserCommandHandler(IMapper mapper, IUserCommandAccess userCommandAccess, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository, IPublisher publisher, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
+    public UpdateUserCommandHandler(IMapper mapper, IUserCommandAccess userCommandAccess, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
     {
         _userCommandAccess = userCommandAccess;
         _userIdGetter = userIdGetter;
         _userQueryRepository = userQueryRepository;
-        _publisher = publisher;
         _bingMapsConnectionOptions = bingMapsConnectionOptions.Value;
     }
 
@@ -53,11 +51,5 @@ public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserC
         user.LikedListingsIds = existingUser.LikedListingsIds;
         
         await _userCommandAccess.UpdateUser(request.Id, user);
-        
-        await _publisher.Publish(new UserUpdatedEvent()
-        {
-            UserId = existingUser.Id,
-            UpdatedAt = DateTime.Now
-        }, CancellationToken.None);
     }
 }

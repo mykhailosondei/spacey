@@ -7,7 +7,7 @@ using ApplicationDAL.Entities;
 using ApplicationLogic.Commanding.CommandHandlers.ConversationHandlers;
 using ApplicationLogic.Commanding.Commands.ConversationCommands;
 using ApplicationLogic.Querying.Queries.ConversationQueries;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,38 +30,38 @@ namespace airbnb_net.Controllers
         [HttpPost("{bookingId:guid}")]
         public async Task<Guid> CreateConversation(Guid bookingId)
         {
-            return await _mediator.Send(new CreateConversationCommand(bookingId));
+            return await _mediator.SendAsync(new CreateConversationCommand(bookingId));
         }
         
         [HttpGet("request")]
         public async Task<IEnumerable<Conversation>> GetConversations([FromQuery] Guid? userId, [FromQuery] Guid? hostId)
         {
             var request = new ConversationsRequest(userId, hostId);
-            return await _mediator.Send(new GetConversationsQuery(request));
+            return await _mediator.SendAsync(new GetConversationsQuery(request));
         }
         
         [HttpGet("{conversationId:guid}")]
         public async Task<Conversation> GetConversation(Guid conversationId)
         {
-            return await _mediator.Send(new GetConversationByIdQuery(conversationId));
+            return await _mediator.SendAsync(new GetConversationByIdQuery(conversationId));
         }
         
         [HttpPost("{conversationId:guid}/read")]
         public async Task MarkConversationAsRead(Guid conversationId)
         {
-            await _mediator.Send(new MarkConversationAsReadCommand(conversationId));
+            await _mediator.SendAsync(new MarkConversationAsReadCommand(conversationId));
         }
         
         [HttpGet("booking/{bookingId:guid}")]
         public async Task<Conversation> GetConversationByBookingId(Guid bookingId)
         {
-            return await _mediator.Send(new GetConversationByBookingIdQuery(bookingId));
+            return await _mediator.SendAsync(new GetConversationByBookingIdQuery(bookingId));
         }
         
         [HttpGet("listing/{listingId:guid}")]
         public async Task<IEnumerable<Conversation>> GetConversationsByListingId(Guid listingId)
         {
-            return await _mediator.Send(new GetConversationsByListingIdQuery(listingId));
+            return await _mediator.SendAsync(new GetConversationsByListingIdQuery(listingId));
         }
         
         
@@ -75,7 +75,7 @@ namespace airbnb_net.Controllers
         [HttpDelete("{conversationId:guid}")]
         public async Task DeleteConversation(Guid conversationId)
         {
-            await _mediator.Send(new DeleteConversationCommand(conversationId));
+            await _mediator.SendAsync(new DeleteConversationCommand(conversationId));
         }
     }
 }

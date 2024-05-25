@@ -5,7 +5,7 @@ using ApplicationLogic.Abstract;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Querying.Queries.ListingQueries;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 

@@ -7,7 +7,7 @@ using ApplicationLogic.Commanding.Commands.HostCommands;
 using ApplicationLogic.Exceptions;
 using ApplicationLogic.HostIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.HostHandlers;
 
@@ -16,14 +16,12 @@ public class UpdateHostCommandHandler : BaseHandler, IRequestHandler<UpdateHostC
     private readonly IHostCommandAccess _hostCommandAccess;
     private readonly IHostQueryRepository _hostQueryRepository;
     private readonly IHostIdGetter _hostIdGetter;
-    private readonly IPublisher _publisher;
     
-    public UpdateHostCommandHandler(IMapper mapper, IHostCommandAccess hostCommandAccess, IHostQueryRepository hostQueryRepository, IHostIdGetter hostIdGetter, IPublisher publisher) : base(mapper)
+    public UpdateHostCommandHandler(IMapper mapper, IHostCommandAccess hostCommandAccess, IHostQueryRepository hostQueryRepository, IHostIdGetter hostIdGetter) : base(mapper)
     {
         _hostCommandAccess = hostCommandAccess;
         _hostQueryRepository = hostQueryRepository;
         _hostIdGetter = hostIdGetter;
-        _publisher = publisher;
     }
 
     public async Task Handle(UpdateHostCommand request, CancellationToken cancellationToken)
@@ -42,13 +40,6 @@ public class UpdateHostCommandHandler : BaseHandler, IRequestHandler<UpdateHostC
         {
             throw new UnauthorizedAccessException("You are not authorized to update this host.");
         }
-        
-        await _publisher.Publish(new HostUpdatedEvent()
-        {
-            HostId = host.Id,
-            UserId = host.UserId,
-            UpdatedAt = DateTime.UtcNow
-        });
         
         await _hostCommandAccess.UpdateHost(request.Id, host);
     }

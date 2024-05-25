@@ -1,5 +1,5 @@
 using ApplicationCommon.DTOs.Host;
-using MediatR;
+using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.HostQueries;
 

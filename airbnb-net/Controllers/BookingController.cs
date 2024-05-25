@@ -14,7 +14,7 @@ using ApplicationLogic.Commanding.Commands.BookingCommands;
 using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,21 +38,21 @@ namespace airbnb_net.Controllers
         [HttpGet]
         public async Task<IEnumerable<BookingDTO>> Get()
         {
-            return await _mediator.Send(new GetAllBookingsQuery());
+            return await _mediator.SendAsync(new GetAllBookingsQuery());
         }
         
         // GET: api/Booking/5
         [HttpGet("{id:guid}")]
         public async Task<BookingDTO> Get(Guid id)
         {
-            return await _mediator.Send(new GetBookingByIdQuery(id));
+            return await _mediator.SendAsync(new GetBookingByIdQuery(id));
         }
         
         [HttpGet("fromTokenByStatus")]
         [Authorize (Roles = "Host")]
         public async Task<IEnumerable<BookingDTO>> GetByStatus([FromQuery] BookingStatus status)
         {
-            return await _mediator.Send(new GetBookingsByStatusQuery(status));
+            return await _mediator.SendAsync(new GetBookingsByStatusQuery(status));
         }
         
         // POST: api/Booking
@@ -61,7 +61,7 @@ namespace airbnb_net.Controllers
         public async Task<Guid> Post([FromBody] BookingCreateDTO bookingCreate)
         {
             bookingCreate.UserId = _userIdGetter.UserId;
-            return await _mediator.Send(new CreateBookingCommand(bookingCreate));
+            return await _mediator.SendAsync(new CreateBookingCommand(bookingCreate));
         }
         
         // PUT: api/Booking/5
@@ -69,7 +69,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Put(Guid id, [FromBody] BookingUpdateDTO bookingUpdate)
         {
-            await _mediator.Send(new UpdateBookingCommand(id, bookingUpdate));
+            await _mediator.SendAsync(new UpdateBookingCommand(id, bookingUpdate));
         }
         
         // DELETE: api/Booking/5
@@ -77,7 +77,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Delete(Guid id)
         {
-            await _mediator.Send(new DeleteBookingCommand(id));
+            await _mediator.SendAsync(new DeleteBookingCommand(id));
         }
         
         // GET: api/Booking/5/cancel
@@ -85,7 +85,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Cancel(Guid id)
         {
-            await _mediator.Send(new CancelBookingCommand(id));
+            await _mediator.SendAsync(new CancelBookingCommand(id));
         }
     }
 }

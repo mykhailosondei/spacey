@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ApplicationCommon.DTOs.Message;
 using ApplicationLogic.Commanding.Commands.MessageCommands;
 using ApplicationLogic.RoleLogic;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,8 +33,8 @@ namespace airbnb_net.Controllers
             Console.WriteLine(string.Join(", ", _roleGetter.Roles));
             var isHost = _roleGetter.IsInRole("Host");
             var task = isHost switch {
-                true =>  _mediator.Send(new SendMessageToUserCommand(conversationId, messageCreate.MessageContent)),
-                false => _mediator.Send(new SendMessageToHostCommand(conversationId, messageCreate.MessageContent))
+                true =>  _mediator.SendAsync(new SendMessageToUserCommand(conversationId, messageCreate.MessageContent)),
+                false => _mediator.SendAsync(new SendMessageToHostCommand(conversationId, messageCreate.MessageContent))
             };
             await task;
         }

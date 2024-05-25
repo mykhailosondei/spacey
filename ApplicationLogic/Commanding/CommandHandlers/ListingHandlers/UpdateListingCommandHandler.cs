@@ -8,7 +8,7 @@ using ApplicationLogic.Exceptions;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Options;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.Extensions.Options;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.ListingHandlers;
@@ -18,15 +18,13 @@ public class UpdateListingCommandHandler : BaseHandler, IRequestHandler<UpdateLi
     private readonly IListingCommandAccess _listingCommandAccess;
     private readonly IListingQueryRepository _listingQueryRepository;
     private readonly IHostIdGetter _hostIdGetter;
-    private readonly IPublisher _publisher;
     private readonly BingMapsConnectionOptions _bingMapsConnectionOptions;
     
-    public UpdateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter, IPublisher publisher, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
+    public UpdateListingCommandHandler(IMapper mapper, IListingCommandAccess listingCommandAccess, IListingQueryRepository listingQueryRepository, IHostIdGetter hostIdGetter, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
     {
         _listingCommandAccess = listingCommandAccess;
         _listingQueryRepository = listingQueryRepository;
         _hostIdGetter = hostIdGetter;
-        _publisher = publisher;
         _bingMapsConnectionOptions = bingMapsConnectionOptions.Value;
     }
 
@@ -48,12 +46,5 @@ public class UpdateListingCommandHandler : BaseHandler, IRequestHandler<UpdateLi
         }
         
         await _listingCommandAccess.UpdateListing(request.Id ,listing);
-        
-        await _publisher.Publish(new ListingUpdatedEvent()
-        {
-            ListingId = listing.Id,
-            HostId = listing.Host.Id,
-            UpdatedAt = DateTime.UtcNow
-        });
     }
 }

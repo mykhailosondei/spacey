@@ -11,7 +11,7 @@ using MongoDB.Bson;
 
 namespace ApplicationLogic.Services;
 
-public class AuthService
+public class AuthService : IRegistrar
 {
 
     private readonly IMapper _mapper;

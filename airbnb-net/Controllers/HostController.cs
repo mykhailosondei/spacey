@@ -13,7 +13,7 @@ using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Querying.Queries.HostQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +44,7 @@ namespace airbnb_net.Controllers
         [HttpGet("{id:guid}")]
         public async Task<HostDTO> Get(Guid id)
         {
-            return await _mediator.Send(new GetHostByIdQuery(id));
+            return await _mediator.SendAsync(new GetHostByIdQuery(id));
         }
         
         // PUT: api/Host/5
@@ -54,7 +54,7 @@ namespace airbnb_net.Controllers
         {
             hostUpdate.UserId = _userIdGetter.UserId;
             hostUpdate.Id = _hostIdGetter.HostId;
-            await _mediator.Send(new UpdateHostCommand(id, hostUpdate));
+            await _mediator.SendAsync(new UpdateHostCommand(id, hostUpdate));
         }
         
         // GET: api/Host
@@ -62,7 +62,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "Host, User")]
         public async Task<HostDTO> Get()
         {
-            return await _mediator.Send(new GetHostByIdQuery(_hostIdGetter.HostId));
+            return await _mediator.SendAsync(new GetHostByIdQuery(_hostIdGetter.HostId));
         }
         
         

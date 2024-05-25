@@ -13,6 +13,7 @@ using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
+using ApplicationLogic.Builders;
 using ApplicationLogic.Commanding.Commands.ListingCommands;
 using ApplicationLogic.Filters;
 using ApplicationLogic.Filters.Abstract;
@@ -22,7 +23,7 @@ using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.Querying.Queries.ListingQueries;
 using ApplicationLogic.UserIdLogic;
 using AutoMapper;
-using MediatR;
+using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,7 @@ namespace airbnb_net.Controllers
         [HttpGet]
         public async Task<IEnumerable<ListingDTO>> Get(uint from = 0, uint to = int.MaxValue)
         {
-            var result = await _mediator.Send(new GetAllListingsQuery(from, to));
+            var result = await _mediator.SendAsync(new GetAllListingsQuery(from, to));
             return result;
         }
         
@@ -58,7 +59,7 @@ namespace airbnb_net.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ListingDTO> Get(Guid id)
         {
-            return await _mediator.Send(new GetListingByIdQuery(id));
+            return await _mediator.SendAsync(new GetListingByIdQuery(id));
         }
         
         [HttpGet("{id:guid}/distance")]
@@ -66,7 +67,7 @@ namespace airbnb_net.Controllers
         {
             var coordinates = new Coordinates(longitude, latitude);
             Console.WriteLine("Coordinates: " + coordinates.Latitude + " " + coordinates.Longitude);
-            return await _mediator.Send(new GetDistanceToListingQuery(id, coordinates));
+            return await _mediator.SendAsync(new GetDistanceToListingQuery(id, coordinates));
         }
         
         // GET: api/Listing/5/unavailableDates
@@ -74,10 +75,10 @@ namespace airbnb_net.Controllers
         public async Task<IEnumerable<DateTime>> GetUnavailableDates(Guid id)
         {
             var unavailableDates = new List<DateTime>();
-            var listing = await _mediator.Send(new GetListingByIdQuery(id));
+            var listing = await _mediator.SendAsync(new GetListingByIdQuery(id));
             foreach (var bookingId in listing.BookingsIds)
             {
-                var booking = await _mediator.Send(new GetBookingByIdQuery(bookingId));
+                var booking = await _mediator.SendAsync(new GetBookingByIdQuery(bookingId));
                 if(booking.Status != BookingStatus.Active) continue;
                 for (DateTime i = booking.CheckIn; i <= booking.CheckOut; i = i.AddDays(1))
                 {
@@ -90,21 +91,21 @@ namespace airbnb_net.Controllers
         [HttpGet("propertyType/{propertyType}")]
         public async Task<IEnumerable<ListingDTO>> Get(string propertyType)
         {
-            return await _mediator.Send(new GetListingsByPropertyTypeQuery(propertyType));
+            return await _mediator.SendAsync(new GetListingsByPropertyTypeQuery(propertyType));
         }
         
         [HttpGet("ofHost/filter")]
         [Authorize (Roles = "Host")]
         public async Task<IEnumerable<ListingDTO>> GetByFilter(int? bedrooms, int? beds, int? guests, [FromQuery(Name = "amenities[]")] string[]? amenities, string? search)
         {
-            return await _mediator.Send(new GetListingsByHostFilterQuery(bedrooms, beds, guests, amenities, search));
+            return await _mediator.SendAsync(new GetListingsByHostFilterQuery(bedrooms, beds, guests, amenities, search));
         }
         
         [HttpGet("boundingBox")]
         public async Task<IEnumerable<ListingDTO>> Get(double x1, double y1, double x2, double y2)
         {
             var boundingBox = new BoundingBox(new Coordinates(x1, y1), new Coordinates(x2, y2));
-            return await _mediator.Send(new GetListingsByBoundingBoxQuery(boundingBox));
+            return await _mediator.SendAsync(new GetListingsByBoundingBoxQuery(boundingBox));
         }
         
         [HttpGet("address")]
@@ -116,7 +117,7 @@ namespace airbnb_net.Controllers
                 Country = country,
                 Street = street
             };
-            return await _mediator.Send(new GetListingsByAddressQuery(address));
+            return await _mediator.SendAsync(new GetListingsByAddressQuery(address));
         }
         
         [HttpGet("search")]
@@ -130,18 +131,15 @@ namespace airbnb_net.Controllers
             _logger.LogInformation("From: " + from);
             _logger.LogInformation("To: " + to);
             
-            return await _mediator.Send(new GetListingsBySearchQuery()
-            {
-                Filters = new List<AbstractFilter>
-                {
-                    new PlaceFilter(place, _bingMapsConnectionOptions),
-                    new DateFilter(checkIn, checkOut),
-                    new GuestsFilter(guests),
-                    new PropertyTypeFilter(propertyType)
-                },
-                From = from,
-                To = to
-            });
+            var query = new GetListingsBySearchQueryBuilder()
+                .WithPlace(place, _bingMapsConnectionOptions)
+                .WithDate(checkIn, checkOut)
+                .WithGuests(guests)
+                .WithPropertyType(propertyType)
+                .WithPagination(from, to)
+                .Build();
+            
+            return await _mediator.SendAsync(query);
         }
         
         // POST: api/Listing
@@ -151,7 +149,7 @@ namespace airbnb_net.Controllers
         {
             listingCreate.HostId = _hostIdGetter.HostId;
             _logger.LogInformation("HostId:" + listingCreate.HostId.ToString());
-            return await _mediator.Send(new CreateListingCommand(listingCreate));
+            return await _mediator.SendAsync(new CreateListingCommand(listingCreate));
         }
         
         // PUT: api/Listing/5
@@ -159,7 +157,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "Host")]
         public async Task Put(Guid id, [FromBody] ListingUpdateDTO listingUpdate)
         {
-            await _mediator.Send(new UpdateListingCommand(id, listingUpdate));
+            await _mediator.SendAsync(new UpdateListingCommand(id, listingUpdate));
         }
         
         // DELETE: api/Listing/5
@@ -167,7 +165,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "Host")]
         public async Task Delete(Guid id)
         {
-            await _mediator.Send(new DeleteListingCommand(id));
+            await _mediator.SendAsync(new DeleteListingCommand(id));
         }
         
         // POST: api/Listing/123/like
@@ -175,7 +173,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Like(Guid id)
         {
-            await _mediator.Send(new LikeListingCommand(id));
+            await _mediator.SendAsync(new LikeListingCommand(id));
         }
         
         // POST: api/Listing/123/unlike
@@ -183,7 +181,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task Unlike(Guid id)
         {
-            await _mediator.Send(new UnlikeListingCommand(id));
+            await _mediator.SendAsync(new UnlikeListingCommand(id));
         }
     }
 }
