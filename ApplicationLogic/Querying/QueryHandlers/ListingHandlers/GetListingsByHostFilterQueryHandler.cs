@@ -11,9 +11,8 @@ namespace ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 
 public class GetListingsByHostFilterQueryHandler : BaseHandler, IRequestHandler<GetListingsByHostFilterQuery, IEnumerable<ListingDTO>>
 {
-
     private readonly IHostIdGetter _hostIdGetter;
-    private readonly IListingQueryRepository _listingQueryRepository; 
+    private readonly IListingQueryRepository _listingQueryRepository;
     
     public GetListingsByHostFilterQueryHandler(IMapper mapper, IHostIdGetter hostIdGetter, IListingQueryRepository listingQueryRepository) : base(mapper)
     {
@@ -23,6 +22,7 @@ public class GetListingsByHostFilterQueryHandler : BaseHandler, IRequestHandler<
 
     public async Task<IEnumerable<ListingDTO>> Handle(GetListingsByHostFilterQuery request, CancellationToken cancellationToken)
     {
+        Console.WriteLine("Handler instance that handles: " + GetHashCode());
         var hostId = _hostIdGetter.HostId;
         long? amenities = null;
         if (request.Amenities != null)

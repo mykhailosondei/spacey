@@ -5,16 +5,13 @@ using System.Threading.Tasks;
 using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.DataCommandAccess;
-using ApplicationDAL.DataQueryAccess;
-using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Jwt;
 using ApplicationLogic.RoleLogic;
 using ApplicationLogic.Services;
 using ApplicationLogic.UserIdLogic;
-using AutoMapper;
+using CustomMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace airbnb_net.Controllers

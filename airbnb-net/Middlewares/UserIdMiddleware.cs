@@ -17,8 +17,9 @@ public class UserIdMiddleware
         var claims = context.User.Claims;
         var userId = claims.FirstOrDefault(c => c.Type == "id")?.Value;
         var hostId = claims.FirstOrDefault(c => c.Type == "hostId")?.Value;
-        Console.WriteLine(userId);
-        Console.WriteLine(hostId);
+        Console.WriteLine($"User ID of the request: {userId}");
+        Console.WriteLine(context.Request.Path.ToString());
+        Console.WriteLine($"Host ID of the request: {hostId}");
         if (userId != null)
         {
             userIdSetter.UserId = Guid.Parse(userId);
@@ -27,6 +28,7 @@ public class UserIdMiddleware
         if (hostId != null)
         {
             hostIdSetter.HostId = Guid.Parse(hostId);
+            Console.WriteLine($"Host ID of the request: {Guid.Parse(hostId)}");
         }
         
         await _next(context);

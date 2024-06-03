@@ -13,7 +13,7 @@ using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Commanding.Commands.BookingCommands;
 using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.UserIdLogic;
-using AutoMapper;
+using CustomMapper;
 using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

@@ -3,7 +3,6 @@ using ApplicationCommon.DTOs.Image;
 using ApplicationCommon.DTOs.User;
 using ApplicationDAL.Entities;
 using AutoMapper;
-using AutoMapper.Execution;
 using BingMapsRESTToolkit;
 using Address = ApplicationCommon.Structs.Address;
 

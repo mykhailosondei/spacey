@@ -1,4 +1,5 @@
 using ApplicationCommon.DTOs.Listing;
+using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Abstract;
 using ApplicationLogic.Exceptions;
@@ -33,7 +34,7 @@ public class GetListingByIdQueryHandler : BaseHandler, IRequestHandler<GetListin
         
         result.LastAccess = DateTime.UtcNow;
         
-        var listingDTO = _mapper.Map<ListingDTO>(result);
+        var listingDTO = _mapper.Map<Listing,ListingDTO>(result);
         
         return listingDTO;
     }

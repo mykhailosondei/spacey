@@ -15,6 +15,7 @@
           "Azure.Storage.Blobs": "12.19.1",
           "BCrypt.Net-Next": "4.0.3",
           "BingMapsRESTToolkit": "1.1.5",
+          "CustomMapper": "1.0.0",
           "CustomMediator": "1.0.0",
           "FluentValidation": "11.8.0",
           "MediatR": "12.1.1",
@@ -818,6 +819,11 @@
           "BingMapsRESTToolkit.dll": {}
         }
       },
+      "CustomMapper/1.0.0": {
+        "runtime": {
+          "CustomMapper.dll": {}
+        }
+      },
       "CustomMediator/1.0.0": {
         "runtime": {
           "CustomMediator.dll": {}
@@ -1467,6 +1473,11 @@
       "sha512": ""
     },
     "BingMapsRESTToolkit/1.1.5": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CustomMapper/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

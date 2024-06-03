@@ -22,7 +22,7 @@ using ApplicationLogic.Options;
 using ApplicationLogic.Querying.Queries.BookingQueries;
 using ApplicationLogic.Querying.Queries.ListingQueries;
 using ApplicationLogic.UserIdLogic;
-using AutoMapper;
+using CustomMapper;
 using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -36,14 +36,14 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class ListingController : InternalControllerBase
     {
-        private readonly IHostIdGetter _hostIdGetter;
+        //private readonly IHostIdGetter _hostIdGetter;
         private readonly IMediator _mediator;
         private readonly IOptions<BingMapsConnectionOptions> _bingMapsConnectionOptions;
 
-        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IUserIdGetter userIdGetter, IMediator mediator, IHostIdGetter hostIdGetter, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(logger,mapper)
+        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator/*, IHostIdGetter hostIdGetter*/, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(logger,mapper)
         {
             _mediator = mediator;
-            _hostIdGetter = hostIdGetter;
+            //_hostIdGetter = hostIdGetter;
             _bingMapsConnectionOptions = bingMapsConnectionOptions;
         }
         
@@ -98,6 +98,7 @@ namespace airbnb_net.Controllers
         [Authorize (Roles = "Host")]
         public async Task<IEnumerable<ListingDTO>> GetByFilter(int? bedrooms, int? beds, int? guests, [FromQuery(Name = "amenities[]")] string[]? amenities, string? search)
         {
+            //Console.WriteLine($"inside the request {_hostIdGetter.HostId} instance: {_hostIdGetter.GetHashCode()})");
             return await _mediator.SendAsync(new GetListingsByHostFilterQuery(bedrooms, beds, guests, amenities, search));
         }
         
@@ -147,7 +148,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "Host")]
         public async Task<Guid> Post([FromBody] ListingCreateDTO listingCreate)
         {
-            listingCreate.HostId = _hostIdGetter.HostId;
+            //listingCreate.HostId = _hostIdGetter.HostId;
             _logger.LogInformation("HostId:" + listingCreate.HostId.ToString());
             return await _mediator.SendAsync(new CreateListingCommand(listingCreate));
         }

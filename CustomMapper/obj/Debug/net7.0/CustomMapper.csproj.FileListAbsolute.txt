@@ -1,0 +1,16 @@
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/bin/Debug/net7.0/CustomMapper.deps.json
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/bin/Debug/net7.0/CustomMapper.dll
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/bin/Debug/net7.0/CustomMapper.pdb
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/bin/Debug/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/bin/Debug/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.csproj.AssemblyReference.cache
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.GeneratedMSBuildEditorConfig.editorconfig
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.AssemblyInfoInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.AssemblyInfo.cs
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.csproj.CoreCompileInputs.cache
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.sourcelink.json
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMa.D2D0262C.Up2Date
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.dll
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/refint/CustomMapper.dll
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/CustomMapper.pdb
+/home/mykhailo/RiderProjects/airbnb-net/CustomMapper/obj/Debug/net7.0/ref/CustomMapper.dll

@@ -11,7 +11,7 @@ using ApplicationDAL.Interfaces.QueryRepositories;
 using ApplicationLogic.Commanding.Commands.ReviewCommands;
 using ApplicationLogic.Querying.Queries.ReviewQueries;
 using ApplicationLogic.UserIdLogic;
-using AutoMapper;
+using CustomMapper;
 using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

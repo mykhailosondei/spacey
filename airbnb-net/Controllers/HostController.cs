@@ -12,7 +12,7 @@ using ApplicationLogic.Commanding.Commands.HostCommands;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Querying.Queries.HostQueries;
 using ApplicationLogic.UserIdLogic;
-using AutoMapper;
+using CustomMapper;
 using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

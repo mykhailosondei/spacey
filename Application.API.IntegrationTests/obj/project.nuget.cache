@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5nX6cHsb1bQW2IXWjq8vhJKn/06pk9LCjI2SkBaaiEesvGhB5EnGNre5gamxuPWF35B76zyDTKSbtYkryP6D3Q==",
+  "dgSpecHash": "H3r8L7ZuaP38rYR42F6pxOXb8zfnFk+38P+yunjr3PG3B+usAeJhUmKfDDMztIcZnM8Pjek2s8yNWSRcfFX0kw==",
   "success": true,
   "projectFilePath": "/home/mykhailo/RiderProjects/airbnb-net/Application.API.IntegrationTests/Application.API.IntegrationTests.csproj",
   "expectedPackageFiles": [

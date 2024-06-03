@@ -7,47 +7,43 @@ using Microsoft.Extensions.Options;
 
 namespace ApplicationLogic.Builders;
 
-public class GetListingsBySearchQueryBuilder
+public class GetListingsBySearchQueryBuilder : IGetListingsBySearchQueryBuilder
 {
-    private List<AbstractFilter> _filters;
-    private uint _from;
-    private uint _to;
+    private GetListingsBySearchQuery _query;
 
     public GetListingsBySearchQueryBuilder()
     {
-        _filters = new List<AbstractFilter>();
-        _from = 0;
-        _to = uint.MaxValue;
+        _query = new GetListingsBySearchQuery();
     }
 
-    public GetListingsBySearchQueryBuilder WithPlace(string? place, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions)
+    public IGetListingsBySearchQueryBuilder WithPlace(string? place, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions)
     {
-        _filters.Add(new PlaceFilter(place, bingMapsConnectionOptions));
+        _query.Filters.Add(new PlaceFilter(place, bingMapsConnectionOptions));
         return this;
     }
 
-    public GetListingsBySearchQueryBuilder WithDate(DateTime? checkIn, DateTime? checkOut)
+    public IGetListingsBySearchQueryBuilder WithDate(DateTime? checkIn, DateTime? checkOut)
     {
-        _filters.Add(new DateFilter(checkIn, checkOut));
+        _query.Filters.Add(new DateFilter(checkIn, checkOut));
         return this;
     }
 
-    public GetListingsBySearchQueryBuilder WithGuests(int? guests)
+    public IGetListingsBySearchQueryBuilder WithGuests(int? guests)
     {
-        _filters.Add(new GuestsFilter(guests));
+        _query.Filters.Add(new GuestsFilter(guests));
         return this;
     }
 
-    public GetListingsBySearchQueryBuilder WithPropertyType(PropertyType? propertyType)
+    public IGetListingsBySearchQueryBuilder WithPropertyType(PropertyType? propertyType)
     {
-        _filters.Add(new PropertyTypeFilter(propertyType));
+        _query.Filters.Add(new PropertyTypeFilter(propertyType));
         return this;
     }
 
-    public GetListingsBySearchQueryBuilder WithPagination(uint from, uint to)
+    public IGetListingsBySearchQueryBuilder WithPagination(uint from, uint to)
     {
-        _from = from;
-        _to = to;
+        _query.From = from;
+        _query.To = to;
         return this;
     }
 
@@ -55,9 +51,9 @@ public class GetListingsBySearchQueryBuilder
     {
         return new GetListingsBySearchQuery
         {
-            Filters = _filters,
-            From = _from,
-            To = _to
+            Filters = _query.Filters,
+            From = _query.From,
+            To = _query.To
         };
     }
 }

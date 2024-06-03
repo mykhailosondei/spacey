@@ -53,7 +53,7 @@ public static class MediatorInitializer
                 foreach (var behavior in requestTypeBehaviors)
                 {
                     if(TryMakeBehaviorGenericType(behavior, requestType, responseType, out var behaviorType))
-                        services.AddTransient(pipelineType, behaviorType);
+                        services.AddScoped(pipelineType, behaviorType);
                 }
             }
             else
@@ -63,7 +63,7 @@ public static class MediatorInitializer
                 foreach (var behavior in unitTypeBehaviors)
                 {
                     if(TryMakeBehaviorGenericType(behavior, requestType, out var behaviorType))
-                        services.AddTransient(pipelineType, behaviorType);
+                        services.AddScoped(pipelineType, behaviorType);
                 }
             }
         }

@@ -5,10 +5,13 @@ using CustomMediator;
 
 namespace ApplicationLogic.Querying.Queries.ListingQueries;
 
-public record GetListingsBySearchQuery(List<AbstractFilter> Filters, uint From, uint To) : IRequest<IEnumerable<ListingDTO>>
+public record GetListingsBySearchQuery(List<AbstractFilter> Filters) : IRequest<IEnumerable<ListingDTO>>
 {
-    public GetListingsBySearchQuery() : this(new List<AbstractFilter>(), 0, int.MaxValue)
+    public uint From { get; set; }
+    public uint To { get; set; }
+    public GetListingsBySearchQuery() : this(new List<AbstractFilter>())
     {
-        
+        From = 0;
+        To = int.MaxValue;
     }
 }

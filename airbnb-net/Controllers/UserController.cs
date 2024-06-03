@@ -1,19 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using airbnb_net.Controllers.Abstract;
 using ApplicationCommon.DTOs.User;
-using ApplicationDAL.DataCommandAccess;
-using ApplicationDAL.DataQueryAccess;
-using ApplicationDAL.Entities;
 using ApplicationLogic.Commanding.Commands.UserCommands;
 using ApplicationLogic.Querying.Queries.UserQueries;
 using ApplicationLogic.UserIdLogic;
-using AutoMapper;
+using CustomMapper;
 using CustomMediator;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace airbnb_net.Controllers

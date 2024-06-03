@@ -5058,6 +5058,7 @@
           "ApplicationDAL": "1.0.0",
           "ApplicationLogic": "1.0.0",
           "Azure.Storage.Blobs": "12.19.1",
+          "CustomMapper": "1.0.0",
           "CustomMediator": "1.0.0",
           "FluentValidation.DependencyInjectionExtensions": "11.8.0",
           "MediatR": "12.1.1",
@@ -5124,6 +5125,7 @@
           "Azure.Storage.Blobs": "12.19.1",
           "BCrypt.Net-Next": "4.0.3",
           "BingMapsRESTToolkit": "1.1.5",
+          "CustomMapper": "1.0.0",
           "CustomMediator": "1.0.0",
           "FluentValidation": "11.8.0",
           "MediatR": "12.1.1",
@@ -5151,6 +5153,16 @@
         },
         "runtime": {
           "bin/placeholder/BingMapsRESTToolkit.dll": {}
+        }
+      },
+      "CustomMapper/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/CustomMapper.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CustomMapper.dll": {}
         }
       },
       "CustomMediator/1.0.0": {
@@ -14513,6 +14525,11 @@
       "type": "project",
       "path": "../../../Downloads/BingMapsRESTToolkit-1.1.5/Source/BingMapsRESTToolkit.Standard/BingMapsRESTToolkit.Standard.csproj",
       "msbuildProject": "../../../Downloads/BingMapsRESTToolkit-1.1.5/Source/BingMapsRESTToolkit.Standard/BingMapsRESTToolkit.Standard.csproj"
+    },
+    "CustomMapper/1.0.0": {
+      "type": "project",
+      "path": "../CustomMapper/CustomMapper.csproj",
+      "msbuildProject": "../CustomMapper/CustomMapper.csproj"
     },
     "CustomMediator/1.0.0": {
       "type": "project",

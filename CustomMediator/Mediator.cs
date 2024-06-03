@@ -23,6 +23,11 @@ public class Mediator : IMediator
             throw new InvalidOperationException($"Handler not found for request type {requestType}");
         }
         var handler = _serviceFactory(handlerType);
+        if (handler.GetType().GetProperty("_hostIdGetter") != null)
+        {
+            Console.WriteLine($"HashCode of the id getter inside the handler: {handler.GetType().GetProperty("_hostIdGetter")!.GetValue(handler).GetHashCode()}");
+        }
+        Console.WriteLine($"HashCode of the handler: {handler.GetHashCode()}");
         var handlerWrapperType = typeof(RequestHandlerWrapper<,>).MakeGenericType(requestType, typeof(TResponse));
         var handlerWrapper = Activator.CreateInstance(handlerWrapperType)!;
         var handlerWrapperMethod = handlerWrapperType.GetMethod("Handle")!;

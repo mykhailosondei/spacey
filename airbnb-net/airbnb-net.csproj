@@ -42,6 +42,7 @@
     <ItemGroup>
       <ProjectReference Include="..\ApplicationDAL\ApplicationDAL.csproj" />
       <ProjectReference Include="..\ApplicationLogic\ApplicationLogic.csproj" />
+      <ProjectReference Include="..\CustomMapper\CustomMapper.csproj" />
       <ProjectReference Include="..\CustomMediator\CustomMediator.csproj" />
     </ItemGroup>
 

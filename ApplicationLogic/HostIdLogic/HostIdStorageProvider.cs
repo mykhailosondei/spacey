@@ -14,6 +14,7 @@ public class HostIdStorageProvider : IHostIdSetter, IHostIdGetter
     
     private Guid GetHostIdValidation(Guid hostId)
     {
+        Console.WriteLine($"Getter: {hostId}, instance: {GetHashCode()}");
         if (hostId == Guid.Empty)
         {
             throw new InvalidIdentityTokenException(hostId.ToString());
@@ -28,6 +29,8 @@ public class HostIdStorageProvider : IHostIdSetter, IHostIdGetter
         {
             throw new InvalidIdentityTokenException(hostId.ToString());
         }
+
+        Console.WriteLine($"Setter: {hostId}, instance: {GetHashCode()}");
 
         _hostId = hostId;
     }

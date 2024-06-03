@@ -1,4 +1,12 @@
 using System.Text;
+using ApplicationCommon.DTOs.BookingDTOs;
+using ApplicationCommon.DTOs.Host;
+using ApplicationCommon.DTOs.Image;
+using ApplicationCommon.DTOs.Listing;
+using ApplicationCommon.DTOs.Review;
+using ApplicationCommon.DTOs.User;
+using ApplicationCommon.Structs;
+using ApplicationCommon.Utilities;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.DataQueryAccess;
 using ApplicationDAL.DbHelper;
@@ -6,14 +14,18 @@ using ApplicationDAL.Entities;
 using ApplicationDAL.Interfaces;
 using ApplicationDAL.Interfaces.CommandAccess;
 using ApplicationDAL.Interfaces.QueryRepositories;
+using ApplicationLogic.Builders;
 using ApplicationLogic.CloudStorage;
 using ApplicationLogic.HostIdLogic;
 using ApplicationLogic.Jwt;
+using ApplicationLogic.MappingProfiles;
 using ApplicationLogic.PipelineBehaviors;
+using ApplicationLogic.Querying.QueryHandlers.ListingHandlers;
 using ApplicationLogic.RoleLogic;
 using ApplicationLogic.Services;
 using ApplicationLogic.SignalRIdProviders;
 using ApplicationLogic.UserIdLogic;
+using CustomMapper;
 using CustomMediator;
 using CustomMediator.Pipelines;
 using CustomMediator.ServiceRegisterers;
@@ -22,11 +34,121 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson.Serialization;
+using MongoDB.Driver.GeoJsonObjectModel;
+using Host = ApplicationDAL.Entities.Host;
 
 namespace airbnb_net.Extensions;
 
 public static class ServiceExtensions
 {
+    
+    public static IServiceCollection AddCustomMapper(this IServiceCollection services)
+    {
+        var config = MapConfig.Instance;
+
+        #region UserInit
+        config.CreateMap<User, UserDTO>().ReverseMap();
+        config.CreateMap<RegisterUserDTO, UserDTO>();
+        config.CreateMap<UserUpdateDTO, UserDTO>().ForMember(dest => dest.Address, (src, context) => UserProfile.AddressFromString(src.Address, context.Items["BingMapsKey"].ToString()!).Result).Register();
+        #endregion
+
+        #region ReviewInit
+        config.CreateMap<ReviewCreateDTO, ReviewDTO>();
+        config.CreateMap<ReviewUpdateDTO, ReviewDTO>();
+        config.CreateMap<ReviewDTO, Review>().ForMember(dest => dest.Ratings, (src, context) => src.Ratings.getRatingsArray()).Register();
+        config.CreateMap<Review, ReviewDTO>().ForMember(dest => dest.Ratings, (src, context) => new Ratings(src.Ratings)).Register();
+        #endregion
+
+        #region ListingInit
+        config.CreateMap<ListingCreateDTO, ListingDTO>()
+            .ForMember(dest => dest.Host,
+                (src,context) => new HostDTO
+                {
+                    Id = src.HostId,
+                    ListingsIds = new List<Guid>()
+                })
+            .ForMember(dest => dest.Address, 
+                (src, context) => UserProfile.AddressFromString(src.Address, context.Items["BingMapsKey"].ToString()!).Result).Register();
+        config.CreateMap<ListingUpdateDTO, ListingDTO>()
+            .ForMember(dest => dest.Host,
+                (src, context) => new HostDTO { Id = src.HostId })
+            .ForMember(dest => dest.Address,
+                (src, context) => UserProfile.AddressFromString(src.Address, context.Items["BingMapsKey"].ToString()!).Result).Register();
+        config.CreateMap<ListingDTO, Listing>()
+            .ForMember(dest => dest.Amenities,
+                (src, context) => MapperUtilities.ConstructAmenitiesFromStringArray(src.Amenities))
+            .ForMember(dest => dest.Location,
+                (src, context) =>
+                    new GeoJsonPoint<GeoJson2DCoordinates>(new GeoJson2DCoordinates(src.Longitude, src.Latitude))).Register();
+        config.CreateMap<Listing, ListingDTO>()
+            .ForMember(dest => dest.Amenities,
+                (src, context) => MapperUtilities.ConstructStringArrayFromAmenities(src.Amenities))
+            .ForMember(dest => dest.Latitude, (src, context) => src.Location.Coordinates.Y)
+            .ForMember(dest => dest.Longitude, (src, context) => src.Location.Coordinates.X).Register();
+        #endregion
+
+        #region ImageInit
+        config.CreateMap<Image, ImageDTO>().ReverseMap();
+        #endregion
+
+        #region HostInit
+        config.CreateMap<HostDTO, Host>().ReverseMap();
+        config.CreateMap<HostCreateDTO, HostDTO>();
+        config.CreateMap<HostUpdateDTO, HostDTO>();
+        #endregion
+
+        #region BookingInit
+        config.CreateMap<BookingCreateDTO, BookingDTO>();
+        config.CreateMap<BookingUpdateDTO, BookingDTO>();
+        config.CreateMap<BookingDTO, Booking>();
+        #endregion
+
+        #region UserExpressions
+        config.BuildMapExpression<User, UserDTO>();
+        config.BuildMapExpression<UserDTO, User>();
+        config.BuildMapExpression<RegisterUserDTO, UserDTO>();
+        config.BuildMapExpression<UserUpdateDTO, UserDTO>();
+        #endregion
+        
+        #region ReviewExpressions
+        config.BuildMapExpression<ReviewCreateDTO, ReviewDTO>();
+        config.BuildMapExpression<ReviewUpdateDTO, ReviewDTO>();
+        config.BuildMapExpression<ReviewDTO, Review>();
+        config.BuildMapExpression<Review, ReviewDTO>();
+        #endregion
+        
+        #region ListingExpressions
+        config.BuildMapExpression<ListingCreateDTO, ListingDTO>();
+        config.BuildMapExpression<ListingUpdateDTO, ListingDTO>();
+        config.BuildMapExpression<ListingDTO, Listing>();
+        config.BuildMapExpression<Listing, ListingDTO>();
+        #endregion
+        
+        #region ImageExpressions
+        config.BuildMapExpression<Image, ImageDTO>();
+        config.BuildMapExpression<ImageDTO, Image>();
+        #endregion
+        
+        #region HostExpressions
+        config.BuildMapExpression<HostDTO, Host>();
+        config.BuildMapExpression<Host, HostDTO>();
+        config.BuildMapExpression<HostCreateDTO, HostDTO>();
+        config.BuildMapExpression<HostUpdateDTO, HostDTO>();
+        #endregion
+        
+        #region BookingExpressions
+        config.BuildMapExpression<BookingCreateDTO, BookingDTO>();
+        config.BuildMapExpression<BookingUpdateDTO, BookingDTO>();
+        config.BuildMapExpression<BookingDTO, Booking>();
+        #endregion
+
+        Mapper mapper = new(config);
+        
+        services.AddSingleton<IMapper>(mapper);
+        
+        return services;
+    }
+    
     public static void RegisterCustomServices(this IServiceCollection services)
     {
         services.AddScoped<AuthService>();
@@ -74,7 +196,10 @@ public static class ServiceExtensions
         
         services.AddSingleton<IUserIdProvider, HostUserIdProvider>();
         
+        
         services.AddAutoMapper(ApplicationLogic.AssemblyMarker.Assembly);
+
+        services.AddCustomMapper();
         
         services.AddSingleton<IMongoDbContext>(_ =>
         {
@@ -92,12 +217,16 @@ public static class ServiceExtensions
         var mediatorDictionary = Mediator.InitializeHandlerDictionary(new[] { typeof(ApplicationLogic.AssemblyMarker) });
         var flow = new PipelineFlow();
         flow.AddPipeline(typeof(ValidationBehavior<,>));
+        flow.AddPipeline(typeof(LoggingBehavior<,>));
         
         MediatorInitializer.InitializeHandlers(services, mediatorDictionary);
         MediatorInitializer.InitializePipelines(services, mediatorDictionary, flow);
+
         
         var provider = services.BuildServiceProvider();
         Mediator mediator = new(serviceFactory: provider.GetRequiredService, handlers: mediatorDictionary);
+        
+        
         
         services.AddSingleton<IMediator>(mediator);
         

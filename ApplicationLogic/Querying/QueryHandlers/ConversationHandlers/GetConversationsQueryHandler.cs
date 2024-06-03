@@ -27,7 +27,6 @@ public class GetConversationsQueryHandler : BaseHandler, IRequestHandler<GetConv
         var isByUserId = query.Request.UserId is not null;
         var isByHostId = query.Request.HostId is not null;
         
-        
         Guid userId;
         Guid hostId;
 

@@ -22,3 +22,5 @@
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/obj/Debug/net7.0/Applicat.EC504AD8.Up2Date
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/CustomMediator.dll
 /home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/CustomMediator.pdb
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/CustomMapper.dll
+/home/mykhailo/RiderProjects/airbnb-net/ApplicationLogic/bin/Debug/net7.0/CustomMapper.pdb
