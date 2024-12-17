@@ -13,7 +13,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-builder.Services.RegisterCustomServices();
 
 builder.Services.Configure<BingMapsConnectionOptions>(
     builder.Configuration.GetSection(key: nameof(BingMapsConnectionOptions)));
@@ -21,6 +20,7 @@ builder.Services.Configure<BingMapsConnectionOptions>(
 builder.Services.Configure<AzureCloudStorageOptions>(
     builder.Configuration.GetSection(key: nameof(AzureCloudStorageOptions)));
 
+builder.Services.RegisterCustomServices();
 builder.Services.ConfigureJwt(config);
 builder.Services.AddSignalR();
 

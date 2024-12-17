@@ -9,6 +9,8 @@ using ApplicationLogic.UserIdLogic;
 using User = ApplicationDAL.Entities.User;
 using AutoMapper;
 using CustomMediator;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace ApplicationLogic.Commanding.CommandHandlers.UserHandlers;
@@ -19,12 +21,16 @@ public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserC
     private readonly IUserQueryRepository _userQueryRepository;
     private readonly BingMapsConnectionOptions _bingMapsConnectionOptions;
     private readonly IUserIdGetter _userIdGetter;
-    
-    public UpdateUserCommandHandler(IMapper mapper, IUserCommandAccess userCommandAccess, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(mapper)
+    private readonly IMemoryCache _memoryCache;
+    private readonly ILogger<UpdateUserCommandHandler> _logger;
+
+    public UpdateUserCommandHandler(IMapper mapper, IUserCommandAccess userCommandAccess, IUserIdGetter userIdGetter, IUserQueryRepository userQueryRepository, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions, IMemoryCache memoryCache, ILogger<UpdateUserCommandHandler> logger) : base(mapper)
     {
         _userCommandAccess = userCommandAccess;
         _userIdGetter = userIdGetter;
         _userQueryRepository = userQueryRepository;
+        _memoryCache = memoryCache;
+        _logger = logger;
         _bingMapsConnectionOptions = bingMapsConnectionOptions.Value;
     }
 
@@ -51,5 +57,9 @@ public class UpdateUserCommandHandler : BaseHandler, IRequestHandler<UpdateUserC
         user.LikedListingsIds = existingUser.LikedListingsIds;
         
         await _userCommandAccess.UpdateUser(request.Id, user);
+        
+        var cacheKey = $"User_{request.Id.ToString()}";
+        _memoryCache.Remove(cacheKey);
+        _logger.LogInformation("User: Cache removed");
     }
 }

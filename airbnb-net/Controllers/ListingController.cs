@@ -36,14 +36,14 @@ namespace airbnb_net.Controllers
     [ApiController]
     public class ListingController : InternalControllerBase
     {
-        //private readonly IHostIdGetter _hostIdGetter;
+        private readonly IHostIdGetter _hostIdGetter;
         private readonly IMediator _mediator;
         private readonly IOptions<BingMapsConnectionOptions> _bingMapsConnectionOptions;
 
-        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator/*, IHostIdGetter hostIdGetter*/, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(logger,mapper)
+        public ListingController(ILogger<InternalControllerBase> logger, IMapper mapper, IMediator mediator, IHostIdGetter hostIdGetter, IOptions<BingMapsConnectionOptions> bingMapsConnectionOptions) : base(logger,mapper)
         {
             _mediator = mediator;
-            //_hostIdGetter = hostIdGetter;
+            _hostIdGetter = hostIdGetter;
             _bingMapsConnectionOptions = bingMapsConnectionOptions;
         }
         
@@ -148,7 +148,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "Host")]
         public async Task<Guid> Post([FromBody] ListingCreateDTO listingCreate)
         {
-            //listingCreate.HostId = _hostIdGetter.HostId;
+            listingCreate.HostId = _hostIdGetter.HostId;
             _logger.LogInformation("HostId:" + listingCreate.HostId.ToString());
             return await _mediator.SendAsync(new CreateListingCommand(listingCreate));
         }

@@ -45,7 +45,7 @@ public class CreateReviewCommandHandler :BaseHandler, IRequestHandler<CreateRevi
             throw new NotFoundException("Booking");
         }
         
-        if (booking.UserId != _userIdGetter.UserId)
+        if (booking.UserId != review.UserId)
         {
             throw new UnauthorizedAccessException("You are not authorized to create a review for this booking.");
         }

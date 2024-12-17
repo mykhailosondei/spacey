@@ -151,6 +151,8 @@ public static class ServiceExtensions
     
     public static void RegisterCustomServices(this IServiceCollection services)
     {
+        services.AddMemoryCache();
+        
         services.AddScoped<AuthService>();
         services.AddScoped<IRegistrar, RegistrarProxy>();
         services.AddScoped<IAutocompleteService, AutocompleteService>();
@@ -196,6 +198,7 @@ public static class ServiceExtensions
         
         services.AddSingleton<IUserIdProvider, HostUserIdProvider>();
         
+        services.AddValidatorsFromAssembly(ApplicationLogic.AssemblyMarker.Assembly);
         
         services.AddAutoMapper(ApplicationLogic.AssemblyMarker.Assembly);
 
@@ -230,9 +233,10 @@ public static class ServiceExtensions
         
         services.AddSingleton<IMediator>(mediator);
         
-        services.AddValidatorsFromAssembly(ApplicationLogic.AssemblyMarker.Assembly);
         
         CollectionGetter.Initialize(services.BuildServiceProvider().GetService<IMongoDbContext>()!);
+        
+        services.AddLogging();
     }
 
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration config)

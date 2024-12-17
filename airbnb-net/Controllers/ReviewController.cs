@@ -52,6 +52,7 @@ namespace airbnb_net.Controllers
         [Authorize(Roles = "User")]
         public async Task<Guid> Post([FromBody] ReviewCreateDTO reviewCreate)
         { 
+            Console.WriteLine("User ID: " + _userIdGetter.UserId);
             reviewCreate.UserId = _userIdGetter.UserId;
             return await _mediator.SendAsync(new CreateReviewCommand(reviewCreate));
         }

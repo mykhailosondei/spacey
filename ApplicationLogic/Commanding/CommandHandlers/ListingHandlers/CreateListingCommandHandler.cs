@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using ApplicationCommon.DTOs.Listing;
 using ApplicationDAL.DataCommandAccess;
 using ApplicationDAL.Entities;
@@ -30,6 +31,7 @@ public class CreateListingCommandHandler : BaseHandler, IRequestHandler<CreateLi
 
     public async Task<Guid> Handle(CreateListingCommand request, CancellationToken cancellationToken)
     {
+        Console.WriteLine("Key: " + _bingMapsConnectionOptions.BingMapsKey);
         var listingDTO = _mapper.Map<ListingDTO>(request.Listing, options => options.Items["BingMapsKey"] = _bingMapsConnectionOptions.BingMapsKey);
         
         var listing = _mapper.Map<Listing>(listingDTO);
