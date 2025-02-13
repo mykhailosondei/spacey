@@ -60,10 +60,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting(); 
-app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserIdMiddleware>();

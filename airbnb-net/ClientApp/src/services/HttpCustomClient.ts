@@ -16,7 +16,7 @@ export class HttpCustomClient{
         this.headers["Accept"] = "application/json";
         this.headers["Access-Control-Allow-Origin"] = "*";
         this.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-        this.baseUrl = "https://localhost:7171/api";
+        this.baseUrl = "http://localhost:5241/api";
     }
     
     static instance: HttpCustomClient;
