@@ -9,6 +9,7 @@ import {useAuthState} from "../Contexts/AuthStateProvider";
 import {UserService} from "../services/UserService";
 import {ListingService} from "../services/ListingService";
 import {Ratings} from "../values/Ratings";
+import { PopupType, usePopup } from "../Contexts/PopupContext";
 
 interface ListingBoxProps {
     listing: ListingDTO;
@@ -26,7 +27,7 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     const { authenticationState, setAuthenticationState } = useAuthState();
     const userService = useMemo(() => {return UserService.getInstance()}, []);
     const listingService = useMemo(() => {return ListingService.getInstance()}, []);
-    
+    const { setPopupType } = usePopup();
     
     const [bulletsArrayState, setBulletsArrayState] = useState<{id:number, scale:number, opacity:0.6|1}[]>(bulletsArrayInitialState);
     const [htmlBulletsArrayState, setHtmlBulletsArrayState] = useState<JSX.Element[]>(()=>{
@@ -250,19 +251,19 @@ const ListingBox: React.FC<ListingBoxProps> = (props) => {
     
     
     function changeLikeStatus(){
-        if(authenticationState === 0){
+        if (authenticationState === 0) {
+            setPopupType(PopupType.LOGIN);
             return;
         }
         setLiked(!liked);
-        if(liked){
-            listingService.unlike(props.listing.id).then((response)=>{
-                if(response.status === 200) return;
+        if (liked) {
+            listingService.unlike(props.listing.id).then((response) => {
+                if (response.status === 200) return;
                 setLiked(!liked);
             });
-        }
-        else{
-            listingService.like(props.listing.id).then((response)=>{
-                if(response.status === 200) return;
+        } else {
+            listingService.like(props.listing.id).then((response) => {
+                if (response.status === 200) return;
                 setLiked(!liked);
             });
         }
