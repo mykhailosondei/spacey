@@ -38,7 +38,7 @@ public class IntegrationTest
                     
                     services.AddSingleton<IMongoDbContext>(_ =>
                     {
-                        var connectionString = "mongodb+srv://compassuser:wBzZ4kD5ejcI1FWf@democluster.4nn3xhe.mongodb.net/";
+                        var connectionString = "mongodb+srv://da_sample_user:3wcEB7leezJsVXBg@democluster.4nn3xhe.mongodb.net/";
                         var databaseName = "test";
                         return new MongoDbContext(connectionString, databaseName);
                     });
