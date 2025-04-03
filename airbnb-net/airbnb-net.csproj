@@ -50,10 +50,6 @@
         <InternalsVisibleTo Include="Application.API.IntegrationTests" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ClientApp\src\Helpers\" />
-    </ItemGroup>
-
 
 
 
